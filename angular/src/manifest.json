@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Angular Chrome Extension",
-  "short_name": "Angular Chrome Extension",
+  "name": "Luxe start",
+  "short_name": "Luxe start",
   "version": "1.0.0",
-  "description": "Angular Chrome Extension scaffold project",
+  "description": "Luxe start scaffold project",
   "permissions": ["tabs", "sidePanel"],
   "action": {
     "default_popup": "index.html?#/popup",
-    "default_title": "Angular Chrome Extension"
+    "default_title": "Luxe start"
   },
   "options_page": "index.html?#/options",
   "side_panel": {
