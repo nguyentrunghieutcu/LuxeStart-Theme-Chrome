@@ -16,14 +16,10 @@
   "chrome_url_overrides": {
     "newtab": "index.html?#/tab"
   },
-  "content_scripts": [
-    {
-      "js": ["contentPage.js"],
-      "matches": ["<all_urls>"]
-    }
-  ],
-  "background": {
-    "service_worker": "serviceWorker.js"
+  "icons": {
+    "16": "assets/logo.png",
+    "48": "assets/logo.png",
+    "128": "assets/logo.png"
   },
   "content_security_policy": { "extension_pages": "script-src 'self'; object-src 'self'" }
 }

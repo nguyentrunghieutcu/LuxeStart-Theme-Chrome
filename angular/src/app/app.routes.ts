@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router'
+import { NotFoundComponent } from './modules/pages/404/404.component'
 
 export const routes: Routes = [
   {
@@ -16,5 +17,7 @@ export const routes: Routes = [
   {
     path: 'side-panel',
     loadChildren: () => import('./modules/side-panel/side-panel.routes').then((c) => c.routes)
-  }
+  },
+  { path: '**', redirectTo: 'tab', pathMatch: 'full' },
+
 ]

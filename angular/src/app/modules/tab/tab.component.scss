@@ -1,0 +1,68 @@
+.greeting .content {
+    display: inline;
+}
+
+.name-punctuation-no-wrap {
+    white-space: nowrap;
+}
+
+.greeting .name-wrapper {
+    position: relative;
+    white-space: nowrap;
+}
+
+.hidden-span {
+    visibility: hidden;
+}
+
+.greeting .name {
+    border-radius: 3px;
+    outline: none;
+    overflow: hidden;
+    vertical-align: top;
+    white-space: nowrap;
+}
+.input-wrapper{
+    margin: -5px -2px -8px;
+    padding: 5px 2px 8px;
+}
+input {
+    background: none;
+    color: #fff;
+    font-size: 100%;
+}
+input.name {
+    padding: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.input-wrapper {
+    margin: -5px -2px -8px;
+    padding: 5px 2px 8px;
+    position: relative;
+}
+
+.greeting .name.editing,
+.greeting .hidden-span {
+    min-width: 1.5em;
+}
+
+.greeting .name.editing {
+    border: none;
+    font-weight: 500;
+    text-align: center;
+    border-bottom: 3px solid white;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    cursor: auto;
+}
+
+.greeting .name,
+.greeting .hidden-span {
+     max-width:min(100%,12em); 
+     display:inline-block;  
+}

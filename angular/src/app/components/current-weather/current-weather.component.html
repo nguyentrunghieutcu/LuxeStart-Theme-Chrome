@@ -1,0 +1,13 @@
+@if ( current$ | async; as current) {
+<div class="flex flex-row justify-start items-center transition duration-300 ease-in-out transform hover:scale-105  hover:shadow-lg">
+  <img data-testid="weather-icon" [src]="current.image" [alt]="current.description" />
+  <div class="flex flex-col">
+    <p class=" font-sans text-2xl text-white font-medium">
+      {{ current.temperature | number: '1.0-0' }}
+      <span>°C</span>
+    </p>
+    <span class="text-base text-white opacity-85 font-medium">{{currentCity}}</span>
+  </div>
+
+</div>
+}

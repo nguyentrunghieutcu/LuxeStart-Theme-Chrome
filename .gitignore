@@ -3,6 +3,7 @@
 # compiled output
 .firebase/
 .angular/
+angular/src/environments
 dist
 # dependencies
 node_modules
@@ -28,6 +29,7 @@ node_modules
 Thumbs.db
 
 # Logs
+.history/
 logs
 *.log
 npm-debug.log*
@@ -71,7 +73,6 @@ bower_components
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
-
 # Dependency directories
 node_modules/
 

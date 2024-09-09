@@ -1,7 +1,7 @@
 {
   "name": "angular-chrome-extension",
   "version": "1.0.0",
-  "author": "Lars Kniep",
+  "author": "Hieu hoc code",
   "description": "Angular Chrome Extension Template",
   "scripts": {
     "ng": "ng",
@@ -9,10 +9,12 @@
     "build:angular": "ng build --configuration development",
     "build:angular-production": "ng build --configuration production",
     "watch:angular": "ng build --watch --configuration development --delete-output-path false --source-map=true --plugin ~angular/sourcemaps-plugin.js",
+    "build:tailwind": "tailwindcss -i ./angular/src/tailwind.scss -o ./angular/dist/styles.css --minify",
+    "watch:tailwind": "tailwindcss -i ./angular/src/tailwind.scss -o ./angular/dist/styles.css --watch",
     "build:chrome": "(cd chrome && rollup -c)",
     "watch:chrome": "(cd chrome && rollup -c --watch)",
-    "build": "npm run clean && npm run build:angular && npm run build:chrome",
-    "build:production": "npm run build:angular-production && npm run build:chrome && npm run pack",
+    "build": "npm run clean && npm run build:angular && npm run build:tailwind && npm run build:chrome",
+    "build:production": "npm run build:angular-production && npm run build:tailwind && npm run build:chrome && npm run pack",
     "watch": "npm run clean && npm-run-all --parallel watch:*",
     "clean": "rimraf angular/dist",
     "pack": "cd angular/dist && bestzip ../../extension-build.zip *"
@@ -27,19 +29,25 @@
     "@angular/platform-browser": "^18.0.1",
     "@angular/platform-browser-dynamic": "^18.0.1",
     "@angular/router": "^18.0.1",
-    "ngx-build-plus": "^17.0.0",
+    "ngx-build-plus": "^18.0.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
     "zone.js": "~0.14.6"
   },
   "devDependencies": {
+    "@angular-devkit/architect": "^0.1802.0",
     "@angular-devkit/build-angular": "^18.0.2",
     "@angular/cli": "~18.0.2",
     "@angular/compiler-cli": "^18.0.1",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/chrome": "^0.0.268",
     "bestzip": "^2.2.1",
     "npm-run-all": "^4.1.5",
     "rimraf": "^5.0.7",
+    "tailwindcss": "^3.4.10",
     "typescript": "5.4.5"
   }
 }
