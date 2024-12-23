@@ -1,0 +1,105 @@
+
+
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened class="sidebar">
+    <!-- Action List Sidebar -->
+    <div class="text-xl font-semibold mb-4">Actions</div>
+    <div cdkDropList class="  grid grid-cols-1 gap-4 p-4">
+      <div *ngFor="let action of actions"    [dndDraggable]="action"
+      [dndEffectAllowed]="'copyMove'"
+      (dndStart)="onDragStart($event)"
+      (dndEnd)="onDragEnd($event)" class="action-item bg-gray-200 p-4 rounded cursor-pointer">
+        {{ action.label }}
+      </div>
+    </div>
+  </mat-drawer>
+  
+  <mat-drawer-content>
+    <div class="p-6 bg-gray-100 min-h-screen flex flex-col space-y-6">
+
+      <div class="flex space-x-6">
+  
+          <!-- Khu vực Flowchart -->
+          <div class="flex-1 bg-white p-6 rounded-lg shadow-lg">
+              <div
+                  class="flowchart-area h-full w-full"
+                  dndDropzone
+               >
+              <ngx-graph
+              [view]="[1024, 500]"
+              [links]="links"
+              [nodes]="nodes"
+              [curve]="curve"
+              [layout]="layout"
+              [nodeWidth]="150"
+              [autoCenter]="true"
+              [draggingEnabled]="true"
+              [panningEnabled]="true"
+              [nodeHeight]="100"
+              [update$]="update$"
+              [layoutSettings]="layoutSettings"
+              [enableZoom]="true"
+              [autoZoom]="true"
+            >
+            
+              <ng-template #defsTemplate>
+                <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+                  <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+                </svg:marker>
+              </ng-template>
+              
+              <ng-template #nodeTemplate let-node  (click)="onNodeClick($event)">
+                <svg:g class="relative node" xmlns="http://www.w3.org/2000/svg" width="150" [attr.height]="node.dimension.height">
+                  <svg:rect 
+                    width="150" 
+                    [attr.height]="node.dimension.height" 
+                    rx="10" 
+                    [attr.fill]="node.color || 'white'" 
+                    stroke="transparent" 
+                    stroke-width="2" 
+                  />
+                  <svg:foreignObject width="150" [attr.height]="node.dimension.height">
+                    <xhtml:div class=" flex flex-row items-center justify-center h-full p-2 rounded-lg" [ngStyle]="getStyles(node)" xmlns="http://www.w3.org/1999/xhtml">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                      </svg>
+                      <label class="font-semibold text-white">{{ node.label }}</label>
+                    </xhtml:div>
+                  </svg:foreignObject>
+                  <!-- Add Yes and No buttons for condition nodes -->
+                    <svg:foreignObject x="40" [attr.y]="node.dimension.height - 40" width="70" height="30" *ngIf="node.isCondition">
+                      <xhtml:div class="flex justify-between">
+                        <button (click)="onYesClick(node)" class="bg-green-500 text-white px-2 rounded">Yes</button>
+                        <button (click)="onNoClick(node)" class="bg-red-500 text-white px-2 rounded">No</button>
+                      </xhtml:div>
+                    </svg:foreignObject>
+  
+                  <svg:foreignObject x="63" [attr.y]="node.dimension.height - 12" width="24" height="24" *ngIf="!node.data.isCondition">
+                    <xhtml:div (click)="insertNode(node,'condition')" class="relative">
+                      <svg  class="cursor-pointer absolute top-0 left-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="green">
+                        <circle cx="12" cy="12" r="10" stroke="green" stroke-width="2" fill="white"/>
+                        <line x1="12" y1="8" x2="12" y2="16" stroke="green" stroke-width="2"/>
+                        <line x1="8" y1="12" x2="16" y2="12" stroke="green" stroke-width="2"/>
+                      </svg>
+                    </xhtml:div>
+                  </svg:foreignObject>
+                  
+                </svg:g>
+              </ng-template>
+            
+              <ng-template #linkTemplate let-link>
+                <svg:g class="edge">
+                  <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
+                </svg:g>
+              </ng-template>
+            </ngx-graph>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+    
+  </mat-drawer-content>
+</mat-drawer-container>
+
+

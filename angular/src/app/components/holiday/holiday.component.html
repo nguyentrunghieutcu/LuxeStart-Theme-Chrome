@@ -1,0 +1,82 @@
+<!-- <div class="holiday-list">
+    <div class="flex flex-row gap-2 items-center">
+        <mat-form-field
+            class="w-full"
+            floatLabel="always"
+        >
+            <mat-label>Tên sự kiện</mat-label>
+            <input
+                matInput
+                [(ngModel)]="newHolidayName"
+                placeholder="Nhập tên sự kiện"
+            >
+        </mat-form-field>
+        <mat-form-field
+            floatLabel="always"
+            class="w-full flex-auto"
+        >
+            <mat-label>
+                {{'commons.form_builder.date' | transloco}}
+            </mat-label>
+            <input
+                matInput
+                [(ngModel)]="newHolidayDate"
+                [ngxMatDatetimePicker]="picker"
+                readonly
+                placeholder="{{'notification.create_notify.choose_date'| transloco}}"
+            >
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+            ></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker>
+                <ng-template>
+                    <span>{{'commons.buttons.ok' | transloco}}</span>
+                </ng-template>
+            </ngx-mat-datetime-picker>
+        </mat-form-field>
+
+        <button
+            mat-icon-button
+            matTooltip="Thêm sự kiện"
+            color="accent"
+            (click)="addHoliday()"
+            class="h-10 rounded-full px-2 "
+        >
+            <mat-icon svgIcon="lucide:calendar-plus"></mat-icon>
+
+        </button>
+
+    </div>
+
+    <mat-checkbox (change)="toggleShowHolidays($event)">Hiển thị các ngày lễ Việt Nam</mat-checkbox>
+
+    <mat-list
+        class="mt-4"
+    >
+        <mat-list-item
+            *ngFor="let holiday of  getFilteredHolidays()"
+            class="mb-2 rounded bg-white"
+        >
+            <mat-checkbox
+                class="mr-2" [(ngModel)]="holiday.checked"
+                (change)="onHolidayChecked(holiday, $event)"
+            ></mat-checkbox>
+
+            <div
+                mat-line
+                class="text-base"
+            >
+                {{ holiday.name }} - {{ holiday.date | date: 'dd/MM/yyyy' }}
+            </div>
+            <button *ngIf="!holiday.isFixed"
+                mat-icon-button
+                color="warn"
+                (click)="deleteHoliday(holiday.id,holiday.isFixed)"
+            >
+                <mat-icon svgIcon="heroicons_outline:minus-circle"></mat-icon>
+            </button>
+        </mat-list-item>
+    </mat-list>
+
+</div> -->

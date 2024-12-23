@@ -1,13 +1,16 @@
-import { DatePipe } from "@angular/common";
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
+import { CommonModule, DatePipe } from "@angular/common";
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, ElementRef, Output, EventEmitter } from "@angular/core";
 import { Subscription, timer } from "rxjs";
 import { map, share } from "rxjs/operators";
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { PromodoroComponent } from "../promodoro/promodoro.component";
+import { fuseAnimations } from "src/app/animations";
 
 @Component({
   selector: 'app-clock',
-  imports: [DatePipe, FormsModule],
+  animations:[fuseAnimations],
+  imports: [DatePipe, CommonModule, FormsModule, PromodoroComponent],
   standalone: true,
   templateUrl: './app-clock.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,8 +19,12 @@ export class AppClockComponent implements OnInit, OnDestroy {
   time = new Date();
   rxTime: Date = new Date();
   subscription: Subscription = new Subscription();
-  constructor(private cdr: ChangeDetectorRef) {}
+  show: boolean = true;
+  showClock: boolean = true;
+  @Output() valueChanged = new EventEmitter<any>();
+  constructor(private cdr: ChangeDetectorRef, private elementRef: ElementRef) { }
 
+  
   ngOnInit() {
     // Using RxJS Timer
     this.subscription = timer(0, 1000)
@@ -35,6 +42,18 @@ export class AppClockComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  openMenu() {
+    this.show = true;
+    this.cdr.markForCheck()
+  }
+
+  valueChange() {
+    this.show = !this.show;
+    this.showClock = !this.showClock;
+    this.valueChanged.emit(  this.show)
+    this.cdr.markForCheck()
   }
 
 }

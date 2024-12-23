@@ -1,7 +1,9 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: [
     './angular/src/**/*.{html,js}',
-     './index.html',
+    './index.html',
   ],
   theme: {
     darkMode: 'class',
@@ -25,6 +27,11 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     },
     extend: {
+      colors: {
+        accent: '#5A46D7',
+        default: '#5A46D7',
+        warn: colors.red[600]
+      },
       animation: {
         fadein: 'fadein 1s linear 1s forwards',
       },
@@ -40,4 +47,4 @@ module.exports = {
     extend: {},
   },
   plugins: [require("./plugin")],
-};
+}

@@ -10,7 +10,7 @@ import { GeminiService } from 'src/app/services/gemini.service';
 })
 export class FooterComponent implements OnInit {
   currentGreeting: string = 'Loading...';
-  text: string = 'Tạo 1 quote ngắn  ';
+  text: string = 'Tạo 1 quote ngắn chủ đề cuộc sống tích cực dưới 60 chữ ';
 
   constructor(private geminiService: GeminiService, private cdr: ChangeDetectorRef) { }
 

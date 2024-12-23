@@ -4,57 +4,61 @@
     'visible': !isLoading
   }"
     [ngStyle]="{'background-image': 'url(' + selectedBackground +')'}"
-    class="absolute inset-0 z-30 grid grid-cols-[0px_minmax(auto,_1fr)_0px] grid-rows-[79px_minmax(0,_190px)_auto_minmax(auto,_1fr)_auto]   md:grid-rows-[79px_minmax(0,_258px)_auto_minmax(auto,_1fr)_auto] overflow-hidden transition-opacity duration-300 bg-cover h-screen  flex-col items-center justify-center bg-afternoon  ease-in-out "
+    class="absolute inset-0 z-30 grid grid-cols-[0px_minmax(auto,_1fr)_0px] grid-rows-[60px_minmax(0,_190px)_auto_minmax(auto,_1fr)_auto] md:grid-rows-[60px_minmax(0,_190px)_auto_minmax(auto,_1fr)_auto]    lg:grid-rows-[60px_minmax(0,_150px)_auto_minmax(auto,_1fr)_auto] overflow-hidden transition-opacity duration-300 bg-cover h-screen  flex-col items-center justify-center bg-afternoon  ease-in-out "
 >
 
     <div class="col-span-full row-start-1 row-span-1 grid grid-cols-[minmax(auto,max-content)_auto] grid-rows-1">
         <div class="col-start-2 col-span-1 row-start-2 row-span-1 min-w-0 flex flex-row-reverse pr-4 ">
             <app-current-weather></app-current-weather>
+
         </div>
     </div>
 
     <div class="col-start-2 col-span-1 row-start-3 row-span-1 m-auto w-full relative flex-col justify-center">
         <div class="-mx-4 flex col-start-2">
             <div class="w-full text-center px-4">
-                <app-clock></app-clock>
-                <div class="greeting releative grid items-center grid-cols-[minmax(40px,1fr)_minmax(0,auto)_minmax(40px,1fr)] ">
-                    <div></div>
-                    <div
-                        id="greeting"
-                        class="relative mb-2 text-6xl font-medium leading-none text-white sm:text-[30px] md:text-[54px]"
-                    >
-                        <span>{{ greeting }}, </span>
-                        <span class="input-wrapper relative inline">
-                            <span
-                                *ngIf="!isEditing()"
-                                (dblclick)="enableEditing()"
-                            >
-                                {{ name() }}
+                <app-clock  (valueChanged)="valueChanged($event)" ></app-clock>
+                @if (show) {
+                    <div  [class.opacity-0]="!show" [class.opacity-100]="show"
+                    [class.scale-0]="!show" [class.scale-100]="show"  class="greeting releative grid items-center grid-cols-[minmax(40px,1fr)_minmax(0,auto)_minmax(40px,1fr)] ">
+                        <div></div>
+                         <div
+                            id="greeting"
+                            class="relative mb-2 text-4xl lg:text-6xl font-medium leading-none text-white sm:text-[30px] md:text-[54px]"
+                        >
+                            <span>{{ greeting }},</span>
+    
+                            <span class="input-wrapper relative inline">
+                                <span
+                                    *ngIf="!isEditing()"
+                                    (dblclick)="enableEditing()"
+                                >
+                                    {{ name() }}
+                                </span>
+    
+                                <input
+                                    *ngIf="isEditing()"
+                                    (input)="updateName($event)"
+                                    [value]="name()"
+                                    (keydown.enter)="disableEditing()"
+                                    spellcheck="false"
+                                    class="name editing  min-w-6  "
+                                    data-test="name-input"
+                                    autofocus
+                                >
+                                <span
+                                    *ngIf="isEditing()"
+                                    class="name   hidden-span "
+                                >
+                                    {{ name() }}
+                                </span>
                             </span>
-                            
-                            <input
-                                *ngIf="isEditing()"
-                                (input)="updateName($event)"
-                                [value]="name()"
-                                (keydown.enter)="disableEditing()"
-                                spellcheck="false"
-                                class="name editing  min-w-6  "
-                                data-test="name-input"
-                                autofocus
-                            >
-                            <span
-                                *ngIf="isEditing()"
-                                class="name   hidden-span "
-                            >
-                                {{ name() }}
-                            </span>
-                        </span>
-                    </div>
-
-                    <div></div>
-
-                </div>
-
+                        </div>
+    
+                        <div></div>
+    
+                    </div>   
+                } 
             </div>
         </div>
 
@@ -103,3 +107,5 @@
         </g>
     </svg>
 </div>
+<!-- <app-flow></app-flow> -->
+  

@@ -1,7 +1,8 @@
 ## LuxeStart - Mang lại cảm giác sang trọng và đơn giản cho tab chrome
 
 LuxeStart là một extension Chrome dành cho tab chrome , mang đến cho người dùng một trải nghiệm tối giản nhưng đầy sang trọng. Với LuxeStart, bạn sẽ biến trang bắt đầu của mình thành nơi khai phá tiềm năng và khởi động nhanh chóng, giúp bạn chuyển từ ý tưởng đến hành động một cách hiệu quả.
-![Uploading Screen Shot 2024-12-23 at 9.29.09 AM.png…]()
+
+ ![Alt text](./images/main.png)
 
 ### Mục tiêu
 

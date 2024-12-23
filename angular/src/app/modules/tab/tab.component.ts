@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, HostBinding, Signal, ViewEncapsulation, effect, inject, signal } from '@angular/core'
+import { Component, HostBinding, Signal, ViewChild, ViewEncapsulation, effect, inject, signal } from '@angular/core'
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { AppClockComponent } from 'src/app/components/app-clock/app-clock.component';
@@ -8,45 +8,120 @@ import { Backgrounds } from './tab.model';
 import { CurrentWeatherComponent } from 'src/app/components/current-weather/current-weather.component';
 import { FormsModule } from '@angular/forms';
 import { LocalStorageService } from 'src/app/services/storage/local-storage.service';
+import { CircleProgressComponent, CircleProgressOptions, NgCircleProgressModule } from 'ng-circle-progress';
+import { PromodoroComponent } from 'src/app/components/promodoro/promodoro.component';
+import { MatButtonModule } from '@angular/material/button';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FlowComponent } from 'src/app/components/flow/flow.component';
+import { PipComponent } from 'src/app/components/pip/pip.component';
 
 @Component({
   selector: 'app-tab',
   standalone: true,
-  imports: [RouterLink, RouterOutlet,NgOptimizedImage, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent],
+  providers: [{
+    provide: CircleProgressOptions, useValue: {
+      percent: 85,
+      radius: 60,
+      showBackground: false,
+      outerStrokeWidth: 10,
+      innerStrokeWidth: 5,
+      startFromZero: false,
+      outerStrokeColor: null,
+      showSubtitle: false,
+    }
+  }
+  ],
+  imports: [FlowComponent,
+    NgCircleProgressModule, MatButtonModule,DragDropModule,
+    RouterLink, RouterOutlet, NgOptimizedImage, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
+
+  ],
   templateUrl: 'tab.component.html',
   styleUrls: ['tab.component.scss'],
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class TabComponent {
   public currentTime: string;
   private timeSubscription: Subscription;
   public greeting: string;
   public isLoading: boolean = true;
+  public show: boolean = true;
   selectedBackground: any;
   public backgrounds = Backgrounds;
+  @ViewChild('circleProgress') circleProgress: CircleProgressComponent;
 
   name = signal('Hieu');
+  options = new CircleProgressOptions();
+
+  optionsE = {
+    percent: 75,
+    radius: 60,
+    outerStrokeWidth: 10,
+    innerStrokeWidth: 10,
+    space: -10,
+    outerStrokeColor: "#4882c2",
+    innerStrokeColor: "#e7e8ea",
+    showBackground: false,
+    title: 'UI',
+    animateTitle: false,
+    showUnits: false,
+    clockwise: false,
+    animationDuration: 1000,
+    startFromZero: false,
+    outerStrokeGradient: true,
+    outerStrokeGradientStopColor: '#53a9ff',
+    lazy: true,
+    subtitleFormat: (percent: number): string => {
+      return `${percent}%`;
+    }
+  }
+  _timer = null;
+
   isEditing = signal(false);
+  showPromo = signal(false);
   private localStorageService = inject(LocalStorageService);
 
-  constructor( ) {
+  constructor() {
     effect(() => {
       const userName = this.localStorageService.getItem<string>('user');
-      this.name.set( userName || 'Hieu') ;
+      this.name.set(userName || 'Hieu');
     }, {
       allowSignalWrites: true, // Enable writing to signals inside this effect
     });
-   }
 
+    
+  }
+  
   ngOnInit(): void {
     this.updateBackground();
     this.updateTime();
     this.loadBackgroundBasedOnTime();
-  
+
     setTimeout(() => {
       this.isLoading = false;
     }, 100);
     setInterval(() => this.updateTime(), 1000); // Update the time every second 
+  }
+
+  valueChanged(event) {
+    this.show = event
+    this.showPromo.set(true)
+  }
+
+  start = () => {
+    if (this._timer !== null) {
+      clearInterval(this._timer);
+    }
+    this._timer = window.setInterval(() => {
+      this.options.percent = (Math.round(Math.random() * 100));
+    }, 1000);
+  }
+
+  stop = () => {
+    if (this._timer !== null) {
+      clearInterval(this._timer);
+      this._timer = null;
+    }
   }
 
   ngOnDestroy(): void {
@@ -103,7 +178,10 @@ export class TabComponent {
 
     // Randomly select a background based on the time range
     const backgroundsForTime = this.getBackgroundsForTime(selectedRange);
-    this.selectedBackground = backgroundsForTime[0].url;
+    if (backgroundsForTime.length > 0) {
+      const randomIndex = Math.floor(Math.random() * backgroundsForTime.length);
+      this.selectedBackground = backgroundsForTime[randomIndex].url;  // Select randomly
+    }
   }
 
   getBackgroundsForTime(time: string) {
@@ -119,4 +197,6 @@ export class TabComponent {
     const seconds = now.getSeconds().toString().padStart(2, '0');
     this.currentTime = `${hours}:${minutes}:${seconds}`;
   }
+
+  
 }

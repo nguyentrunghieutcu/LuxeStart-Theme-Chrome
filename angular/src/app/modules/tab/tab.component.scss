@@ -66,3 +66,18 @@ input.name {
      max-width:min(100%,12em); 
      display:inline-block;  
 }
+
+ngx-graph {
+    width: 100%;
+    height: 500px;
+  }
+  
+  .node {
+    fill: #3b82f6; /* Cool-toned color */
+    stroke: #2563eb;
+  }
+  
+  .link {
+    stroke: #1e3a8a;
+  }
+  

@@ -34,7 +34,16 @@
               "angular/src/side_panel.html",
               "angular/src/side_panel.js"
             ],
-            "styles": ["angular/src/styles.scss","angular/src/tailwind.scss"  ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "angular/src/styles"
+              ]
+            },
+            "styles": [
+              "angular/src/styles.scss",
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "angular/src/tailwind.scss"
+            ],
             "scripts": []
           },
           "configurations": {
