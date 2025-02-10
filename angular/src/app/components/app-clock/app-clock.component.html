@@ -1,7 +1,7 @@
 <div class="grid grid-cols-3 grid-rows-1 gap-4 group items-center"  @fadeInOut>
     <!-- Left side icon -->
     <div class="flex justify-end items-center">
-        <svg
+        <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -12,7 +12,7 @@
                 d="M13.2 2.24a.75.75 0 0 0 .04 1.06l2.1 1.95H6.75a.75.75 0 0 0 0 1.5h8.59l-2.1 1.95a.75.75 0 1 0 1.02 1.1l3.5-3.25a.75.75 0 0 0 0-1.1l-3.5-3.25a.75.75 0 0 0-1.06.04Zm-6.4 8a.75.75 0 0 0-1.06-.04l-3.5 3.25a.75.75 0 0 0 0 1.1l3.5 3.25a.75.75 0 1 0 1.02-1.1l-2.1-1.95h8.59a.75.75 0 0 0 0-1.5H4.66l2.1-1.95a.75.75 0 0 0 .04-1.06Z"
                 clip-rule="evenodd"
             ></path>
-        </svg>
+        </svg> -->
     </div>
     @if(!show){
         <div  @fadeInOut>
@@ -29,62 +29,4 @@
         
     }
 
-    <!-- Right side menu -->
-    <div class="relative w-fit inline-block text-left justify-start items-center cursor-pointer ml-4">
-        <button
-            (click)="valueChange()"
-            class="flex items-center justify-center w-8 h-8 p-1 rounded-full hover:bg-gray-500/50"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                class="switch-menu text-white size-6 hidden group-hover:block"
-            >
-                <path
-                    fill-rule="evenodd"
-                    d="M13.2 2.24a.75.75 0 0 0 .04 1.06l2.1 1.95H6.75a.75.75 0 0 0 0 1.5h8.59l-2.1 1.95a.75.75 0 1 0 1.02 1.1l3.5-3.25a.75.75 0 0 0 0-1.1l-3.5-3.25a.75.75 0 0 0-1.06.04Zm-6.4 8a.75.75 0 0 0-1.06-.04l-3.5 3.25a.75.75 0 0 0 0 1.1l3.5 3.25a.75.75 0 1 0 1.02-1.1l-2.1-1.95h8.59a.75.75 0 0 0 0-1.5H4.66l2.1-1.95a.75.75 0 0 0 .04-1.06Z"
-                    clip-rule="evenodd"
-                ></path>
-            </svg>
-        </button>
-
-        <!-- Menu with Tailwind transition -->
-        <!-- <div
-            [ngClass]="{
-              'block opacity-100 scale-100': show,
-              'hidden opacity-0 scale-95': !show
-            }"
-            class="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-black/80 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all duration-300 ease-out transform"
-        >
-            <div class="py-1" role="none">
-                <div class="flex flex-row items-center gap-1 px-4 py-2">
-                    <svg 
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="size-6 text-white"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                        ></path>
-                    </svg>
-                    <a
-                        (click)="valueChange()"
-                        href="#"
-                        class="block text-sm text-white"
-                        role="menuitem"
-                        tabindex="-1"
-                        id="menu-item-0"
-                    >
-                        Promodoro
-                    </a>
-                </div>
-            </div>
-        </div> -->
-    </div>
 </div>
