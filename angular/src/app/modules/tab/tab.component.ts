@@ -13,7 +13,11 @@ import { PromodoroComponent } from 'src/app/components/promodoro/promodoro.compo
 import { MatButtonModule } from '@angular/material/button';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FlowComponent } from 'src/app/components/flow/flow.component';
-import { PipComponent } from 'src/app/components/pip/pip.component';
+import { TodosComponent } from '../todos/todos.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSidenavModule, MatDrawer } from '@angular/material/sidenav';
+import { PopupOverlayComponent } from 'src/app/components/popup-overlay/popup-overlay.component';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-tab',
@@ -31,8 +35,8 @@ import { PipComponent } from 'src/app/components/pip/pip.component';
     }
   }
   ],
-  imports: [FlowComponent,
-    NgCircleProgressModule, MatButtonModule,DragDropModule,
+  imports: [FlowComponent, PopupOverlayComponent, TodosComponent, MatSidenavModule,
+    NgCircleProgressModule, MatButtonModule, DragDropModule,OverlayModule,
     RouterLink, RouterOutlet, NgOptimizedImage, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
 
   ],
@@ -46,9 +50,11 @@ export class TabComponent {
   public greeting: string;
   public isLoading: boolean = true;
   public show: boolean = true;
+  public isDialogOpen: boolean = true;
   selectedBackground: any;
   public backgrounds = Backgrounds;
   @ViewChild('circleProgress') circleProgress: CircleProgressComponent;
+  readonly dialog = inject(MatDialog);
 
   name = signal('Hieu');
   options = new CircleProgressOptions();
@@ -76,6 +82,7 @@ export class TabComponent {
     }
   }
   _timer = null;
+  private _timeInterval: any = null;
 
   isEditing = signal(false);
   showPromo = signal(false);
@@ -89,18 +96,53 @@ export class TabComponent {
       allowSignalWrites: true, // Enable writing to signals inside this effect
     });
 
-    
+
   }
-  
+  @ViewChild('drawer') drawer: MatDrawer;
+  isDrawerOpen = false;
+  @ViewChild(PopupOverlayComponent) popup!: PopupOverlayComponent;
+  showPopup(event: MouseEvent ): void {
+    this.popup.openPopup(event, null);
+  }
+  openDrawer(): void {
+    console.log('object');
+    this.isDrawerOpen = true;
+    this.drawer.open();
+  }
+
+  closeDrawer(): void {
+    this.isDrawerOpen = false;
+    this.drawer.close();
+  }
+
+  onDrawerClosed(): void {
+    console.log('Drawer closed');
+  }
   ngOnInit(): void {
     this.updateBackground();
-    this.updateTime();
     this.loadBackgroundBasedOnTime();
-
     setTimeout(() => {
       this.isLoading = false;
     }, 100);
-    setInterval(() => this.updateTime(), 1000); // Update the time every second 
+    this.startUpdatingTime();
+
+    // Listen for visibility changes
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.startUpdatingTime();
+      } else {
+        this.stopUpdatingTime();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.stopUpdatingTime();
+    this.isDrawerOpen = false;
+
+    if (this.timeSubscription) {
+      this.timeSubscription.unsubscribe();
+    }
   }
 
   valueChanged(event) {
@@ -124,12 +166,6 @@ export class TabComponent {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.timeSubscription) {
-      this.timeSubscription.unsubscribe();
-    }
-  }
-
   enableEditing() {
     this.isEditing.set(true);
 
@@ -146,6 +182,26 @@ export class TabComponent {
 
   }
 
+  startUpdatingTime(): void {
+    if (!this._timeInterval) {
+      this.updateTime(); // Update ngay khi khởi động
+      this.updateBackground(); // Cập nhật greeting ngay lập tức
+
+      this._timeInterval = setInterval(() => {
+        this.updateTime()
+        this.updateBackground();
+      }
+        , 1000);
+    }
+  }
+
+  stopUpdatingTime(): void {
+    if (this._timeInterval) {
+      clearInterval(this._timeInterval);
+      this._timeInterval = null;
+    }
+  }
+
   updateBackground(): void {
     const now = new Date();
     const hours = now.getHours();
@@ -159,6 +215,7 @@ export class TabComponent {
     }
 
   }
+
 
   loadBackgroundBasedOnTime(): void {
     const currentHour = new Date().getHours();
@@ -198,5 +255,5 @@ export class TabComponent {
     this.currentTime = `${hours}:${minutes}:${seconds}`;
   }
 
-  
+
 }

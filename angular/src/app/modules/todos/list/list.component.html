@@ -1,0 +1,9 @@
+@if (todos().length > 0) {
+  <main class="main">
+    <ul class="todo-list">
+      @for (todo of todos(); track todo) {
+        <app-item [todo]="todo" (remove)="removeTodo($event)" />
+      }
+    </ul>
+  </main>
+}

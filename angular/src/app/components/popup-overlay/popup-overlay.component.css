@@ -1,0 +1,46 @@
+.popup-overlay {
+    position: fixed;
+    z-index: 1000;
+    background-color: #1e1e2f;
+    transform: translate(-50%, -50%);
+}
+
+.popup {
+    background-color: hsl(240deg 22.08% 15.1% / 95%);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 300px;
+    position: absolute;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.popup::-webkit-scrollbar {
+    width: 6px; /* Kích thước thanh cuộn nhỏ */
+    height: 6px; /* Kích thước thanh cuộn ngang nếu cần */
+}
+
+.popup::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3); /* Màu của thanh cuộn */
+    border-radius: 10px; /* Bo góc thanh cuộn */
+}
+
+.popup::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5); /* Màu của thanh cuộn khi hover */
+}
+
+.popup::-webkit-scrollbar-track {
+    background: transparent; /* Không có nền cho track */
+}
