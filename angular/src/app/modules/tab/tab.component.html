@@ -1,10 +1,10 @@
 <section [ngClass]="{
     'hidden': isLoading,
     'visible': !isLoading
-  }" [ngStyle]="{'background-image': 'url(' + selectedBackground +')'}"
-    class="absolute inset-0 z-30 grid grid-cols-[0px_minmax(auto,_1fr)_0px] grid-rows-[60px_minmax(0,_190px)_auto_minmax(auto,_1fr)_auto] md:grid-rows-[60px_minmax(0,_190px)_auto_minmax(auto,_1fr)_auto]    lg:grid-rows-[60px_minmax(0,_150px)_auto_minmax(auto,_1fr)_auto] overflow-hidden transition-opacity duration-300 bg-cover h-screen  flex-col items-center justify-center bg-afternoon  ease-in-out ">
+  }" [ngStyle]="{'background-image': 'url(' + selectedBackground()['url'] +')'}"
+    class="absolute inset-0 z-0 grid grid-cols-[0px_minmax(auto,_1fr)_0px] grid-rows-[60px_minmax(0,_190px)_auto_minmax(auto,_1fr)_auto] md:grid-rows-[60px_minmax(0,_190px)_auto_minmax(auto,_1fr)_auto]    lg:grid-rows-[60px_minmax(0,_150px)_auto_minmax(auto,_1fr)_auto] overflow-hidden transition-opacity duration-300 bg-cover h-screen  flex-col items-center justify-center bg-afternoon  ease-in-out ">
 
-    <div class="col-span-full row-start-1 row-span-1 grid grid-cols-[minmax(auto,max-content)_auto] grid-rows-1">
+    <div class="h-[90px] col-span-full row-start-1 row-span-1 grid grid-cols-[minmax(auto,max-content)_auto] grid-rows-1">
         <div class="col-start-2 col-span-1 row-start-2 row-span-1 min-w-0 flex flex-row-reverse pr-4 ">
             <app-current-weather></app-current-weather>
 
@@ -46,8 +46,41 @@
         </div>
 
     </div>
-    <div class="col-span-full row-start-5 row-span-1 grid grid-cols-5 grid-rows-1">
-        <div class="col-start-1 row-start-1"></div>
+    <div class="col-span-full row-start-5 row-span-1 grid grid-cols-5 grid-rows-1 p-3">
+        <div class="flex items-center gap-1 ml-4 ">
+            <div  [matMenuTriggerFor]="settingsMenu"   #menuTrigger="matMenuTrigger" matMenuPosition="below"   class="flex items-center justify-center cursor-pointer min-w-8 min-h-8 text-white rounded-full hover:bg-white/20 hover:backdrop-blur-md  ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-settings-2 hover:scale-110">
+                    <path d="M20 7h-9" />
+                    <path d="M14 17H5" />
+                    <circle cx="17" cy="17" r="3" />
+                    <circle cx="7" cy="7" r="3" />
+                </svg>
+            </div>
+            <div class="relative group cursor-pointer">
+                <!-- Wrapper với nền ẩn -->
+                <div
+                    class="flex items-center gap-1 px-4 py-2 rounded-[625rem] text-white transition-all duration-300 group-hover:bg-black/10 group-hover:backdrop-blur-md">
+                    <!-- Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-book-image transition-transform duration-300 group-hover:scale-110">
+                        <path d="m20 13.7-2.1-2.1a2 2 0 0 0-2.8 0L9.7 17" />
+                        <path
+                            d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 1 0 0-5H20" />
+                        <circle cx="10" cy="8" r="2" />
+                    </svg>
+                    <!-- Location -->
+                    <span *ngIf="selectedBackground()['location'] != null" class="text-base opacity-0 -translate-x-2 scale-95 transition-all duration-300 
+                         group-hover:opacity-100 group-hover:translate-x-0 group-hover:scale-100 whitespace-nowrap">
+                        {{ selectedBackground()['location'] }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
         <div class="col-span-3 col-start-2 row-start-1">
             <app-footer></app-footer>
         </div>
@@ -64,7 +97,9 @@
     </div>
 
 </section>
-<div class="absolute top-0 right-0 bottom-0 left-0 flex flex-col items-center justify-center">
+<div [ngClass]="{
+    'hidden': !isLoading
+}" class="absolute top-0 right-0 bottom-0 left-0 flex flex-col items-center justify-center">
     <svg [ngClass]="{
         'hidden': !isLoading
     }" class="w-20 block opacity-0 animate-fadein delay-1000 duration-1000" xmlns="http://www.w3.org/2000/svg"
@@ -82,3 +117,6 @@
         </g>
     </svg>
 </div>
+<mat-menu  #settingsMenu="matMenu" [hasBackdrop]="false" backdropClass="custom-backdrop" class="custom-menu  bg-gray-900  text-white p-0 ml-2 rounded-lg">
+    <app-settings [settingsMenu]="settingsMenu" ></app-settings>
+</mat-menu>

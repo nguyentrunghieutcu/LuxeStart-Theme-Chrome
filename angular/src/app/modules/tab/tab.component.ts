@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, HostBinding, Signal, ViewChild, ViewEncapsulation, effect, inject, signal } from '@angular/core'
+import { Component, HostBinding, HostListener, Signal, ViewChild, ViewEncapsulation, computed, effect, inject, signal } from '@angular/core'
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { AppClockComponent } from 'src/app/components/app-clock/app-clock.component';
@@ -18,6 +18,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSidenavModule, MatDrawer } from '@angular/material/sidenav';
 import { PopupOverlayComponent } from 'src/app/components/popup-overlay/popup-overlay.component';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { SettingsComponent } from '../settings/settings.component';
+import { WeatherIconPipe } from 'src/app/pipes/weather-icon.pipe';
+import { BackgroundSelectionService } from 'src/app/services/background-selection.service';
 
 @Component({
   selector: 'app-tab',
@@ -36,9 +40,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
   }
   ],
   imports: [FlowComponent, PopupOverlayComponent, TodosComponent, MatSidenavModule,
-    NgCircleProgressModule, MatButtonModule, DragDropModule,OverlayModule,
-    RouterLink, RouterOutlet, NgOptimizedImage, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
-
+    NgCircleProgressModule, MatButtonModule, DragDropModule, OverlayModule,
+    RouterLink, RouterOutlet, SettingsComponent, MatMenuModule, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
+    WeatherIconPipe
   ],
   templateUrl: 'tab.component.html',
   styleUrls: ['tab.component.scss'],
@@ -51,7 +55,6 @@ export class TabComponent {
   public isLoading: boolean = true;
   public show: boolean = true;
   public isDialogOpen: boolean = true;
-  selectedBackground: any;
   public backgrounds = Backgrounds;
   @ViewChild('circleProgress') circleProgress: CircleProgressComponent;
   readonly dialog = inject(MatDialog);
@@ -87,11 +90,16 @@ export class TabComponent {
   isEditing = signal(false);
   showPromo = signal(false);
   private localStorageService = inject(LocalStorageService);
+  private backgroundService = inject(BackgroundSelectionService);
+
+  selectedBackground = computed(() => this.backgroundService.selectedBackground()
+  );
 
   constructor() {
     effect(() => {
       const userName = this.localStorageService.getItem<string>('user');
       this.name.set(userName || 'Hieu');
+
     }, {
       allowSignalWrites: true, // Enable writing to signals inside this effect
     });
@@ -101,9 +109,10 @@ export class TabComponent {
   @ViewChild('drawer') drawer: MatDrawer;
   isDrawerOpen = false;
   @ViewChild(PopupOverlayComponent) popup!: PopupOverlayComponent;
-  showPopup(event: MouseEvent ): void {
+  showPopup(event: MouseEvent): void {
     this.popup.openPopup(event, null);
   }
+
   openDrawer(): void {
     console.log('object');
     this.isDrawerOpen = true;
@@ -118,9 +127,11 @@ export class TabComponent {
   onDrawerClosed(): void {
     console.log('Drawer closed');
   }
+
   ngOnInit(): void {
+    this.backgroundService.loadStoredBackground()
+
     this.updateBackground();
-    this.loadBackgroundBasedOnTime();
     setTimeout(() => {
       this.isLoading = false;
     }, 100);
@@ -130,6 +141,8 @@ export class TabComponent {
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
         this.startUpdatingTime();
+        this.updateBackground();
+
       } else {
         this.stopUpdatingTime();
       }
@@ -214,37 +227,6 @@ export class TabComponent {
       this.greeting = 'Chào Buổi Tối'
     }
 
-  }
-
-
-  loadBackgroundBasedOnTime(): void {
-    const currentHour = new Date().getHours();
-
-    let selectedRange;
-
-    // Define time ranges for morning, noon, afternoon, evening
-    if (currentHour >= 5 && currentHour < 12) {
-      selectedRange = 'morning';
-    } else if (currentHour >= 12 && currentHour < 17) {
-      selectedRange = 'afternoon';
-    } else if (currentHour >= 17 && currentHour < 20) {
-      selectedRange = 'evening';
-    } else {
-      selectedRange = 'night';
-    }
-
-    // Randomly select a background based on the time range
-    const backgroundsForTime = this.getBackgroundsForTime(selectedRange);
-    if (backgroundsForTime.length > 0) {
-      const randomIndex = Math.floor(Math.random() * backgroundsForTime.length);
-      this.selectedBackground = backgroundsForTime[randomIndex].url;  // Select randomly
-    }
-  }
-
-  getBackgroundsForTime(time: string) {
-    // You can customize logic for different times of the day. For now, just return all backgrounds.
-    // You can group images by time or filter based on different logic.
-    return this.backgrounds.filter(background => background.time === time);
   }
 
   updateTime(): void {

@@ -1,3 +1,33 @@
+
+.custom-menu {
+  @apply w-[70vw] min-w-[70vw] max-w-none #{'!important'};
+}
+
+.mat-mdc-menu-panel {
+  background-color: unset !important;
+  box-shadow: unset !important;
+}
+
+.cdk-overlay-pane {
+  > div {
+    height: 90vh !important;
+    overflow: hidden !important;
+  }
+  .mat-mdc-menu-content {
+    height: 100% !important;
+  }
+}
+
+.custom-backdrop {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0); /* Đảm bảo có màu để dễ test */
+  z-index: 1000;
+}
+
 .greeting .content {
   display: inline;
 }

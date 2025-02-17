@@ -1,0 +1,35 @@
+$font-variants: (
+  900: "FZ Poppins-Black.ttf",
+  900i: "FZ Poppins-BlackItalic.ttf",
+  700: "FZ Poppins-Bold.ttf",
+  700i: "FZ Poppins-BoldItalic.ttf",
+  800: "FZ Poppins-ExtraBold.ttf",
+  800i: "FZ Poppins-ExtraBoldItalic.ttf",
+  200: "FZ Poppins-ExtraLight.ttf",
+  200i: "FZ Poppins-ExtraLightItalic.ttf",
+  400: "FZ Poppins-Regular.ttf",
+  400i: "FZ Poppins-Italic.ttf",
+  300: "FZ Poppins-Light.ttf",
+  300i: "FZ Poppins-LightItalic.ttf",
+  500: "FZ Poppins-Medium.ttf",
+  500i: "FZ Poppins-MediumItalic.ttf",
+  600: "FZ Poppins-SemiBold.ttf",
+  600i: "FZ Poppins-SemiBoldItalic.ttf",
+  100: "FZ Poppins-Thin.ttf",
+  100i: "FZ Poppins-ThinItalic.ttf"
+);
+
+@each $weight, $file in $font-variants {
+  @font-face {
+    font-family: "Poppins";
+    src: url("/assets/fonts/#{$file}") format("truetype");
+
+    @if str-index("#{$weight}", "i") {
+      font-weight: #{str-slice("#{$weight}", 1, -1)};
+      font-style: italic;
+    } @else {
+      font-weight: #{$weight};
+      font-style: normal;
+    }
+  }
+}

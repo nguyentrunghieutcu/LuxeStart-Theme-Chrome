@@ -2,11 +2,11 @@ const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
-    './angular/src/**/*.{html,js}',
+    './angular/src/**/*.{html,js,scss}',
     './index.html',
   ],
   theme: {
-    darkMode: 'class',
+    darkMode: ["class", '[data-theme="dark"]'], // Kích hoạt theo class hoặc data-theme
     screens: {
       'xs': '320px',
       // => @media (min-width: 320px) { ... }
@@ -27,9 +27,14 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'], // Font chính
+        poppins: ['Poppins', 'sans-serif'],
+      },
       colors: {
         accent: '#5A46D7',
         default: '#5A46D7',
+        primary: '#5A46D7',
         warn: colors.red[600]
       },
       animation: {
@@ -46,5 +51,8 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("./plugin")],
+  plugins: [
+    require("./plugin"),
+   
+  ],
 }

@@ -3,33 +3,27 @@
 app-todos {
     height: 100%;
     display: block;
+    button {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: none;
+        font-size: 100%;
+        vertical-align: baseline;
+        font-family: inherit;
+        font-weight: inherit;
+        color: inherit;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    
 }
 .mat-drawer-inner-container {
     overflow: hidden !important;
 }
-button {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: none;
-    font-size: 100%;
-    vertical-align: baseline;
-    font-family: inherit;
-    font-weight: inherit;
-    color: inherit;
-    -webkit-appearance: none;
-    appearance: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
 
-body {
-    font:
-        14px "Helvetica Neue",
-        Helvetica,
-        Arial,
-        sans-serif;
-}
 
 .hidden {
     display: none;
