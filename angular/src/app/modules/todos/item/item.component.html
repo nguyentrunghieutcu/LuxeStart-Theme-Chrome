@@ -1,6 +1,6 @@
 <li [class.completed]="todo.status=='completed'">
   <div class="view pl-4 flex flex-row items-center justify-between  hover:bg-slate-500/10  cursor-pointer rounded">
-    <div class="flex flex-row items-center justify-start " [ngClass]=" todo.status=='completed' ? 'text-green-800':'text-white'">
+    <div class="flex flex-row items-center justify-start " [ngClass]=" todo.status=='completed' ? 'text-primary':'text-white'">
       <input (click)="toggleTodo(todo,$event)" class="  cursor-pointer toggle" type="checkbox" [checked]="todo.status=='completed'" />
       @if(todo.status=='completed'){
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -22,7 +22,7 @@
       }
       <div [class.editing]="isEditing"
         class="flex items-center pl-3 outline-1 -outline-offset-1 outline-white has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-        <input #todoInputRef [ngClass]="todo.status=='completed' ? 'line-through text-green-800':' text-white'"
+        <input #todoInputRef [ngClass]="todo.status=='completed' ? 'line-through text-primary':' text-white'"
           class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base placeholder:text-white focus:outline-none font-medium "
           id="edit-todo-input" [(ngModel)]="todo.title" (focus)="handleFocus($event)" (blur)="handleBlur($event)"
           (keyup.enter)="updateTodo($event)" />

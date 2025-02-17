@@ -14,12 +14,14 @@ export interface ICurrentWeather {
   image: string
   temperature: number
   description: string
+  main: string
 }
 export interface ICurrentWeatherData {
   weather: [
     {
       description: string
-      icon: string
+      icon: string,
+      main:string
     },
   ]
   main: {
@@ -39,6 +41,7 @@ export const defaultWeather: ICurrentWeather = {
   image: '',
   temperature: 0,
   description: '',
+  main: ''
 }
 
 export interface IWeatherService {
@@ -131,7 +134,6 @@ export class WeatherService implements IWeatherService {
   }
 
   private transformToICurrentWeather(data: ICurrentWeatherData): ICurrentWeather {
-    console.log(data);
     return {
       city: data.name,
       country: data.sys.country,
@@ -139,6 +141,7 @@ export class WeatherService implements IWeatherService {
       image: `${environment.baseUrl}openweathermap.org/img/w/${data.weather[0].icon}.png`,
       temperature: this.kelvinToCelsius(data.main.temp),
       description: data.weather[0].description,
+      main: data.weather[0].main,
     }
   }
 
