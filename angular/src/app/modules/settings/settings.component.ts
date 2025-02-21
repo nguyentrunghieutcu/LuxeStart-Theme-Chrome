@@ -55,6 +55,7 @@ export class SettingsComponent implements OnInit {
       .subscribe((config: FuseConfig) => {
         // Store the config
         this.config = config;
+        this.darkMode = this.darkModeService.isDarkMode();
       });
   }
 

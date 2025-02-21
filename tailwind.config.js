@@ -76,12 +76,13 @@ const themes = {
 }
 
 module.exports = {
+  darkMode: 'class',
   content: [
-    './angular/src/**/*.{html,js,scss}',
-    './index.html',
+    './angular/src/**/*.{html,ts,scss}',
+    './angular/src/index.html',
   ],
+  important: true,
   theme: {
-    darkMode: ['class'], // Kích hoạt theo class hoặc data-theme
     screens: {
       'xs': '320px',
       // => @media (min-width: 320px) { ... }
@@ -124,6 +125,15 @@ module.exports = {
   },
   variants: {
     extend: {},
+  },
+  corePlugins: {
+    appearance: false,
+    container: false,
+    float: false,
+    clear: false,
+    placeholderColor: false,
+    placeholderOpacity: false,
+    verticalAlign: false,
   },
   plugins: [
     // require("./plugin"),
