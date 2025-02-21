@@ -5,7 +5,7 @@ import { map, share } from "rxjs/operators";
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { PromodoroComponent } from "../promodoro/promodoro.component";
-import { fuseAnimations } from "src/app/animations";
+import { fuseAnimations } from "src/@luxstart/animations";
 
 @Component({
   selector: 'app-clock',

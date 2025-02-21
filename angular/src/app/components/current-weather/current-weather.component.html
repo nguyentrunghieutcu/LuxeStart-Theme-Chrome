@@ -3,13 +3,13 @@
   class="mt-4 p-2 flex flex-col justify-center  transition duration-300 ease-in-out transform rounded-md hover:bg-white/10  hover:backdrop-blur-[15px]">
   <div class="flex flex-row gap-1 justify-end items-center">
     <app-weather-icon [weatherMain]="current.main"></app-weather-icon>
-    <p class="leading-5 font-sans text-xl text-white font-medium space-x-0">
+    <p class="leading-5   text-xl text-white font-medium space-x-0">
       {{ current.temperature | number: '1.0-0' }}
       <span>°</span>
     </p>
   </div>
   <div class="flex flex-col">
-    <span class="text-xs font-sans text-white opacity-85 font-medium">{{currentCity}}</span>
+    <span class="text-xs  text-white opacity-85 font-medium">{{currentCity}}</span>
   </div>
 
 </div>

@@ -1,5 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { Backgrounds } from '../modules/tab/tab.model';
+import { Backgrounds } from '../modules/home/tab.model';
 import { IndexedDBService } from './indexed-db.service';
 
 @Injectable({
