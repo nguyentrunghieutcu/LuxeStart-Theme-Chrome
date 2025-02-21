@@ -36,7 +36,8 @@ export const appConfig = (tabId: number): ApplicationConfig => {
       { provide: TAB_ID, useValue: tabId },
       provideFuse({
         fuse: {
-          scheme: 'dark'
+          scheme: 'light',
+          theme: 'theme-default',
         }
       }),
       provideHttpClient(),

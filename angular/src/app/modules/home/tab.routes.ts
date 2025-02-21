@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router'
 import { TabComponent } from './tab.component'
 
-export const routes: Routes = [
+export default [
   {
-    path: '',
-    pathMatch: 'full',
-    component: TabComponent
-  }
-]
+      path     : '',
+      component: TabComponent
+  },
+] as Routes;

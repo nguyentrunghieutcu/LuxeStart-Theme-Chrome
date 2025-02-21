@@ -80,7 +80,6 @@ module.exports = {
     './angular/src/**/*.{html,js,scss}',
     './index.html',
   ],
-  important: true,
   theme: {
     darkMode: ['class'], // Kích hoạt theo class hoặc data-theme
     screens: {

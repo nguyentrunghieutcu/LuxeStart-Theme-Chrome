@@ -40,7 +40,7 @@
               ]
             },
             "styles": [
-              "angular/src/@luxstart/styles/tailwind.scss",
+              "angular/src/@luxstart/styles/tailwind.css",
               "angular/src/@luxstart/styles/main.scss",
               "angular/src/styles/styles.scss",
               "angular/src/styles/tailwind.scss"

@@ -17,5 +17,5 @@ export type MenuTextColors = { id: string; name: string, hex: string }[];
  */
 export interface FuseConfig {
     scheme: Scheme;
-
+    theme: Theme;
 }

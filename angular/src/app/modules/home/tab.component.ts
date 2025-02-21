@@ -8,8 +8,7 @@ import { Backgrounds } from './tab.model';
 import { CurrentWeatherComponent } from 'src/app/components/current-weather/current-weather.component';
 import { FormsModule } from '@angular/forms';
 import { LocalStorageService } from 'src/app/services/storage/local-storage.service';
-import { CircleProgressComponent, CircleProgressOptions, NgCircleProgressModule } from 'ng-circle-progress';
-import { PromodoroComponent } from 'src/app/components/promodoro/promodoro.component';
+import { CircleProgressOptions, NgCircleProgressModule } from 'ng-circle-progress';
 import { MatButtonModule } from '@angular/material/button';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TodosComponent } from '../todos/todos.component';
@@ -19,7 +18,6 @@ import { PopupOverlayComponent } from 'src/app/components/popup-overlay/popup-ov
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { SettingsComponent } from '../settings/settings.component';
-import { WeatherIconPipe } from 'src/app/pipes/weather-icon.pipe';
 import { BackgroundSelectionService } from 'src/app/services/background-selection.service';
 
 @Component({
@@ -40,8 +38,7 @@ import { BackgroundSelectionService } from 'src/app/services/background-selectio
   ],
   imports: [PopupOverlayComponent, TodosComponent, MatSidenavModule,
     NgCircleProgressModule, MatButtonModule, DragDropModule, OverlayModule,
-    RouterLink, RouterOutlet, SettingsComponent, MatMenuModule, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
-    WeatherIconPipe
+    SettingsComponent, MatMenuModule, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
   ],
   templateUrl: 'tab.component.html',
   styleUrls: ['tab.component.scss'],
@@ -55,7 +52,8 @@ export class TabComponent {
   public show: boolean = true;
   public isDialogOpen: boolean = true;
   public backgrounds = Backgrounds;
-  @ViewChild('circleProgress') circleProgress: CircleProgressComponent;
+  @ViewChild(PopupOverlayComponent) popup!: PopupOverlayComponent;
+
   readonly dialog = inject(MatDialog);
 
   name = signal('Hieu');
@@ -105,26 +103,8 @@ export class TabComponent {
 
 
   }
-  @ViewChild('drawer') drawer: MatDrawer;
-  isDrawerOpen = false;
-  @ViewChild(PopupOverlayComponent) popup!: PopupOverlayComponent;
   showPopup(event: MouseEvent): void {
     this.popup.openPopup(event, null);
-  }
-
-  openDrawer(): void {
-    console.log('object');
-    this.isDrawerOpen = true;
-    this.drawer.open();
-  }
-
-  closeDrawer(): void {
-    this.isDrawerOpen = false;
-    this.drawer.close();
-  }
-
-  onDrawerClosed(): void {
-    console.log('Drawer closed');
   }
 
   ngOnInit(): void {
@@ -150,7 +130,6 @@ export class TabComponent {
 
   ngOnDestroy(): void {
     this.stopUpdatingTime();
-    this.isDrawerOpen = false;
 
     if (this.timeSubscription) {
       this.timeSubscription.unsubscribe();

@@ -1,0 +1,6 @@
+@import "angular-material";
+@import "themes";
+@import "user-themes";
+@import "../../styles/genfont";
+
+@import "tailwindcss";
