@@ -4,7 +4,10 @@
   "short_name": "Luxe start",
   "version": "1.0.0",
   "description": "Luxe start scaffold project",
-  "permissions": ["tabs", "sidePanel"],
+  "permissions": [
+    "tabs",
+    "sidePanel"
+  ],
   "action": {
     "default_popup": "index.html?#/popup",
     "default_title": "Luxe start"
@@ -21,5 +24,7 @@
     "48": "assets/logo.png",
     "128": "assets/logo.png"
   },
-  "content_security_policy": { "extension_pages": "script-src 'self'; object-src 'self'" }
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }

@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -22,6 +23,9 @@
       "ES2022",
       "dom"
     ],
+    "paths": {
+      "src/@luxstart": ["@luxstart"]
+    },
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {

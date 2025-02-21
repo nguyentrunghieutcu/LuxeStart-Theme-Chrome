@@ -23,7 +23,7 @@ import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
     </div>
   </div>
 `,
-  styleUrls: ['./popup-overlay.component.css'],
+  styleUrls: ['./popup-overlay.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class PopupOverlayComponent {

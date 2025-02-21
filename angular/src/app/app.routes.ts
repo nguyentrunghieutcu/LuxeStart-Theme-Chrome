@@ -8,11 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'tab',
-    loadChildren: () => import('./modules/tab/tab.routes').then((c) => c.routes),
-  },
-  {
-    path: 'options',
-    loadChildren: () => import('./modules/options/options.routes').then((c) => c.routes)
+    loadChildren: () => import('./modules/home/tab.routes').then((c) => c.routes),
   },
   {
     path: 'side-panel',

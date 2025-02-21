@@ -10,7 +10,7 @@ import { WeatherIconModule } from '../weather-icon/weather-icon.module'
   standalone: true,
   imports: [CommonModule, WeatherIconModule],
   templateUrl: './current-weather.component.html',
-  styleUrls: ['./current-weather.component.css'],
+  styleUrls: ['./current-weather.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentWeatherComponent {

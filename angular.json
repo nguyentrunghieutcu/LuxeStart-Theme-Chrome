@@ -36,14 +36,14 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "angular/src/styles"
+                "angular/src/@luxstart/styles"
               ]
             },
             "styles": [
-              "angular/src/tailwind.scss",
-              "angular/src/styles.scss",
-              "angular/src/styles/themes.scss",
-              "@angular/material/prebuilt-themes/azure-blue.css"
+              "angular/src/@luxstart/styles/tailwind.scss",
+              "angular/src/@luxstart/styles/main.scss",
+              "angular/src/styles/styles.scss",
+              "angular/src/styles/tailwind.scss"
             ],
             "scripts": []
           },

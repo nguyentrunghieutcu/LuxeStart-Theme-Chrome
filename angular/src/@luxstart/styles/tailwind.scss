@@ -1,0 +1,16 @@
+// Import các file SCSS khác
+@import 'angular-material';
+@import 'themes';
+@import 'user-themes';
+@import '../../styles/genfont';
+
+/* This injects Tailwind's base styles and any base styles registered by plugins. */
+@tailwind base;
+
+/* This injects Tailwind's component classes and any component classes registered by plugins. */
+@tailwind components;
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Main Tailwind file for injecting utilities.
+/* ----------------------------------------------------------------------------------------------------- */
+@tailwind utilities;
+

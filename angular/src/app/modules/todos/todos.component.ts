@@ -18,7 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   imports: [OverlayModule, TodoListComponent, MatTooltipModule, CommonModule, HeaderComponent, FooterComponent, MatDialogModule, MatIconModule, MatButtonModule, MatMenuModule],
   templateUrl: './todos.component.html',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./todos.component.css']
+  styleUrls: ['./todos.component.scss']
 })
 export class TodosComponent implements OnInit {
   mobileMenuOpen = false;

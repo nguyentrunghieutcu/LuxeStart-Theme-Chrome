@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { DarkModeService } from 'src/app/services/darkmode.service';
 import { LucideAngularModule } from 'lucide-angular';
 import { PhotosComponent } from './photos/photos.component';
+import { FuseConfig, Scheme, Theme, Themes } from 'src/@luxstart/config/config.types';
+import { FuseConfigService } from 'src/@luxstart/config/config.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -15,7 +18,7 @@ import { PhotosComponent } from './photos/photos.component';
     LucideAngularModule,
     MatListModule, MatSidenavModule],
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
   settings = {
@@ -29,25 +32,40 @@ export class SettingsComponent implements OnInit {
   tabs: string[] = ['General', 'Photos'];
   selectedTab: number = 0;
   darkMode: boolean;
+  config: FuseConfig;
+  layout: string;
+  scheme: 'dark' | 'light';
+  theme: string;
+  themes: Themes;
 
   @Input() settingsMenu: any;
-  constructor(private darkModeService: DarkModeService) {
-    effect(() => {
-      window.localStorage.setItem('darkMode', JSON.stringify(this.darkModeSig()));
-    });
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
+
+  constructor(
+    private darkModeService: DarkModeService,
+    private _fuseConfigService: FuseConfigService,
+  ) {
+
   }
 
   ngOnInit() {
+    // Subscribe to config changes
+    this._fuseConfigService.config$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((config: FuseConfig) => {
+        // Store the config
+        this.config = config;
+      });
   }
 
-  darkModeSig = signal<boolean>(
-    !window.localStorage.getItem('dark-mode')? true : JSON.parse(window.localStorage.getItem('dark-mode'))['mode'] == 'dark' ? true : false
-  );
-
-  @HostBinding('class.dark') get mode() {
-    return this.darkModeSig();
+  /**
+      * Set the scheme on the config
+      *
+      * @param scheme
+      */
+  setScheme(scheme: Scheme): void {
+    this._fuseConfigService.config = { scheme };
   }
-
 
   selectTab(index: number): void {
     this.selectedTab = index;
@@ -59,6 +77,6 @@ export class SettingsComponent implements OnInit {
 
   toggleDarkMode(): void {
     this.darkMode = !this.darkMode
-    this.darkModeService.toggleDarkMode(this.darkMode);
+    this.darkModeService.toggleDarkMode(this.darkMode )
   }
 }

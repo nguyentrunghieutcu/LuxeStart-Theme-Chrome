@@ -2,7 +2,7 @@ import { Component, OnInit, Signal, signal, effect, ViewEncapsulation } from '@a
 import { CircleProgressOptions, NgCircleProgressModule } from 'ng-circle-progress';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { fuseAnimations } from 'src/app/animations';
+import { fuseAnimations } from 'src/@luxstart/animations';
 
 @Component({
   selector: 'app-promodoro',
