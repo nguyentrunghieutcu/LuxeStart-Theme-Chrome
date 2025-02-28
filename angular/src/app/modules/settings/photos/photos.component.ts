@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, computed, inject } from '@angular/core';
+import { ChangeDetectorRef, ChangeDetectionStrategy, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, computed, inject } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
 import { Subject, debounceTime, switchMap } from 'rxjs';
 
@@ -12,14 +12,15 @@ import { UnsplashService } from 'src/app/services/unsplash.service';
   selector: 'app-photos',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './photos.component.html'
 })
 export class PhotosComponent implements OnInit {
   @ViewChildren('imageRef') imageElements!: QueryList<ElementRef>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-  tabs = ['HISTORY', 'MY PHOTOS', 'UNSPLASH'];
-  activeTab = 'HISTORY';
+  tabs = [{ id: 'FAVORITES', name: 'Yêu thích' }, { id: 'my_photos', name: 'Ảnh của tôi' }, { id: 'UNSPLASH', name: 'Unsplash' }];
+  activeTab = 'FAVORITES';
   photos = Backgrounds;
   myPhotos: any[] = [];
   imagesUnsplash: string[] = [];
@@ -59,18 +60,18 @@ export class PhotosComponent implements OnInit {
   }
 
   getFilteredPhotos() {
-    return this.activeTab === 'MY PHOTOS' ? this.myPhotos : this.photos;
+    return this.activeTab === 'my_photos' ? this.myPhotos : this.photos;
   }
 
   onImageLoad(event: Event, index: number) {
     const img = event.target as HTMLImageElement;
     img.classList.remove('opacity-0', 'blur-md');
     this.loadedImages[index] = true;
-
+    this.changeDetectorRef.markForCheck();
   }
 
-  toggleSelection(photo) {
-    this.backgroundService.toggleSelection(photo);
+  toggleSelection(photo, type: string = 'library') {
+    this.backgroundService.toggleSelection(photo, type);
   }
 
   async onUploadImage(event: Event) {
@@ -89,7 +90,7 @@ export class PhotosComponent implements OnInit {
       };
 
       this.myPhotos.push(newImage);
-      this.changeDetectorRef.detectChanges();
+      this.changeDetectorRef.markForCheck();
 
       try {
         await this.indexedDBService.addImage(newImage);
@@ -123,6 +124,8 @@ export class PhotosComponent implements OnInit {
       next: async (urls: string[]) => {
         this.imagesUnsplash = urls;
         await this.saveImagesToDB(urls);
+    this.changeDetectorRef.markForCheck();
+
       },
       error: err => console.error('Lỗi khi lấy ảnh Unsplash:', err)
     });
@@ -145,8 +148,7 @@ export class PhotosComponent implements OnInit {
 
   private async loadSavedImages() {
     try {
-      this.savedImages = await this.indexedDBService.getImages();
-      this.myPhotos = [...this.savedImages];
+      this.savedImages = await this.indexedDBService.getUnsplashImages();
     } catch (error) {
       console.error('Lỗi khi tải ảnh từ IndexedDB:', error);
     }
@@ -169,5 +171,18 @@ export class PhotosComponent implements OnInit {
     });
 
     this.imageElements.forEach(img => observer.observe(img.nativeElement));
+  }
+
+  suggestions = ['rain in leaf', 'mountain afternoon','forest in the morning', 'snowy mountain peak', 'river in the forest', 'night sky with stars', 'desert landscape', 'waterfall in the mountains', 'sunset over the sea'];
+  selectedItem: string | null = null; 
+
+  toggleSelectionSuggestion(item: string) {
+    this.selectedItem = this.selectedItem === item ? null : item;
+
+    this.onSuggestionClick(item);
+  }
+
+  onSuggestionClick(item: string) {
+    this.searchSubject.next(item);
   }
 }

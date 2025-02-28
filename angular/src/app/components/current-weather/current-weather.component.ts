@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
 import { effect } from '@angular/core'
 import { merge, Observable } from 'rxjs'
 import { ICurrentWeather, WeatherService } from 'src/app/services/weather.service'
-import { WeatherIconModule } from '../weather-icon/weather-icon.module'
+import { WeatherIconComponent } from '../weather-icon/weather-icon.component'
 
 @Component({
   selector: 'app-current-weather',
   standalone: true,
-  imports: [CommonModule, WeatherIconModule],
+  imports: [CommonModule, WeatherIconComponent],
   templateUrl: './current-weather.component.html',
   styleUrls: ['./current-weather.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

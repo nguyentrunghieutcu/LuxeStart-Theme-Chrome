@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, ViewEncapsulation, HostListener, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-popup-overlay',
@@ -11,7 +11,7 @@ import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
     *ngIf="isVisible"
     [ngStyle]="popupStyle"
   >
-    <div class="popup"
+    <div #popup class="popup"
       [ngStyle]="{ 'max-height': maxHeight ? maxHeight + 'px' : 'auto',
         'overflow-y': maxHeight ? 'auto' : 'visible' }"
     >
@@ -29,7 +29,9 @@ import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
 export class PopupOverlayComponent {
   @Input() isVisible = false;
   @Input() popupData: any = null;
-  @Input() maxHeight: number | null = null; // Tùy chọn giới hạn chiều cao
+  @Input() maxHeight: number | null = null;
+
+  @ViewChild('popup') popup!: ElementRef;
 
   popupStyle = {
     top: 'auto',
@@ -43,42 +45,49 @@ export class PopupOverlayComponent {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    const popupWidth = 300; // Chiều rộng popup giả định
-    const popupHeight = this.maxHeight || 150; // Chiều cao tối đa popup (dựa vào maxHeight hoặc mặc định 150px)
+    const popupWidth = 300;
+    const popupHeight = this.maxHeight || 150;
 
     let top = buttonRect.top - popupHeight;
     let left = buttonRect.left;
 
-    // Kiểm tra nếu popup vượt quá trên màn hình, điều chỉnh lại
     if (top < 0) {
-      top = buttonRect.bottom; // Đưa popup xuống dưới nút
+      top = buttonRect.bottom;
     }
 
-    // Kiểm tra nếu popup vượt quá dưới màn hình, điều chỉnh lại
     if (top + popupHeight > viewportHeight) {
-      top = viewportHeight - popupHeight - 10; // Đặt popup gần đáy màn hình
+      top = viewportHeight - popupHeight - 10;
     }
 
-    // Điều chỉnh lại left nếu popup vượt quá bên phải màn hình
     if (left + popupWidth > viewportWidth) {
       left = viewportWidth - popupWidth - 10;
     }
 
-    // Điều chỉnh lại left nếu popup vượt quá bên trái màn hình
     if (left < 0) {
       left = 10;
     }
 
-    // Cập nhật vị trí của popup
     this.popupStyle = {
-      top: `${top + window.scrollY}px`, // Cộng thêm scrollY nếu có
-      left: `${left + window.scrollX}px`, // Cộng thêm scrollX nếu có
+      top: `${top + window.scrollY}px`,
+      left: `${left + window.scrollX}px`,
     };
 
     this.popupData = data || null;
     this.isVisible = true;
+    
   }
 
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent): void {
+    if (!this.popup?.nativeElement || !this.elementRef?.nativeElement) {
+      return;
+    }
+    const clickedInsidePopup = this.popup.nativeElement.contains(event.target);
+    const clickedInsideOverlay = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInsidePopup && !clickedInsideOverlay) {
+      this.closePopup();
+    }
+  }
 
   closePopup(): void {
     this.isVisible = false;

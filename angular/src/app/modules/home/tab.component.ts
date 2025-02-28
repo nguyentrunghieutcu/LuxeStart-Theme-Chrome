@@ -21,6 +21,7 @@ import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { SettingsComponent } from '../settings/settings.component';
 import { WeatherIconPipe } from 'src/app/pipes/weather-icon.pipe';
 import { BackgroundSelectionService } from 'src/app/services/background-selection.service';
+import { fuseAnimations } from 'src/@luxstart/animations';
 
 @Component({
   selector: 'app-tab',
@@ -38,10 +39,10 @@ import { BackgroundSelectionService } from 'src/app/services/background-selectio
     }
   }
   ],
+  animations:[fuseAnimations],
   imports: [PopupOverlayComponent, TodosComponent, MatSidenavModule,
     NgCircleProgressModule, MatButtonModule, DragDropModule, OverlayModule,
-    RouterLink, RouterOutlet, SettingsComponent, MatMenuModule, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
-    WeatherIconPipe
+   SettingsComponent, MatMenuModule, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
   ],
   templateUrl: 'tab.component.html',
   styleUrls: ['tab.component.scss'],
@@ -60,29 +61,8 @@ export class TabComponent {
 
   name = signal('Hieu');
   options = new CircleProgressOptions();
-
-  optionsE = {
-    percent: 75,
-    radius: 60,
-    outerStrokeWidth: 10,
-    innerStrokeWidth: 10,
-    space: -10,
-    outerStrokeColor: "#4882c2",
-    innerStrokeColor: "#e7e8ea",
-    showBackground: false,
-    title: 'UI',
-    animateTitle: false,
-    showUnits: false,
-    clockwise: false,
-    animationDuration: 1000,
-    startFromZero: false,
-    outerStrokeGradient: true,
-    outerStrokeGradientStopColor: '#53a9ff',
-    lazy: true,
-    subtitleFormat: (percent: number): string => {
-      return `${percent}%`;
-    }
-  }
+  private intervalSubscription!: Subscription;
+ 
   _timer = null;
   private _timeInterval: any = null;
 
@@ -112,25 +92,16 @@ export class TabComponent {
     this.popup.openPopup(event, null);
   }
 
-  openDrawer(): void {
-    console.log('object');
-    this.isDrawerOpen = true;
-    this.drawer.open();
-  }
-
-  closeDrawer(): void {
-    this.isDrawerOpen = false;
-    this.drawer.close();
-  }
-
-  onDrawerClosed(): void {
-    console.log('Drawer closed');
+  closePopup(): void {
+    // this.popup.closePopup();
   }
 
   ngOnInit(): void {
     this.backgroundService.loadStoredBackground()
 
     this.updateBackground();
+    this.intervalSubscription = interval(60000).subscribe(() => this.updateBackground());
+
     setTimeout(() => {
       this.isLoading = false;
     }, 100);
@@ -155,6 +126,10 @@ export class TabComponent {
     if (this.timeSubscription) {
       this.timeSubscription.unsubscribe();
     }
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe(); // Hủy interval khi component bị destroy
+    }
+
   }
 
   valueChanged(event) {
@@ -225,7 +200,6 @@ export class TabComponent {
     else {
       this.greeting = 'Chào Buổi Tối'
     }
-
   }
 
   updateTime(): void {

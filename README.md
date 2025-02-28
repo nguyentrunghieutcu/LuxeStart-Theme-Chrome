@@ -1,8 +1,8 @@
-## LuxeStart - Mang lại cảm giác sang trọng và đơn giản cho tab chrome
+## LuxeStart - Extension Theme Chrome
 
-LuxeStart là một extension Chrome dành cho tab chrome , mang đến cho người dùng một trải nghiệm tối giản nhưng đầy sang trọng. Với LuxeStart, bạn sẽ biến trang bắt đầu của mình thành nơi khai phá tiềm năng và khởi động nhanh chóng, giúp bạn chuyển từ ý tưởng đến hành động một cách hiệu quả.
+LuxeStart là một extension Chrome open source, mang đến cho người dùng một trải nghiệm tối giản nhưng đầy sang trọng. Với LuxeStart, bạn sẽ biến trang bắt đầu của mình thành nơi khai phá tiềm năng và khởi động nhanh chóng, giúp bạn chuyển từ ý tưởng đến hành động một cách hiệu quả.
 
- ![Alt text](./images/main.png)
+![Alt text](./images/main.png)
 
 ### Mục tiêu
 
@@ -14,23 +14,33 @@ LuxeStart được xây dựng nhằm:
 
 ### Tính năng chính
 
-- hiết kế tối giản: LuxeStart tập trung vào sự đơn giản, giúp loại bỏ sự lộn xộn và mang lại trải nghiệm tinh tế.
-- Tùy chỉnh nội dung: Dễ dàng tùy chỉnh thông tin hiển thị trên trang tab mới, giúp bạn có thể tùy biến theo sở thích và nhu cầu cá nhân.
-- Hiệu suất tối ưu: LuxeStart được thiết kế để tải nhanh chóng mà không làm chậm trình duyệt của bạn.
-- Hỗ trợ chế độ sáng/tối: Chuyển đổi dễ dàng giữa chế độ sáng và tối để phù hợp với điều kiện ánh sáng của bạn.
+- **Thiết kế tối giản**: LuxeStart tập trung vào sự đơn giản, giúp loại bỏ sự lộn xộn và mang lại trải nghiệm tinh tế.
+- **Tùy chỉnh nội dung**: Dễ dàng tùy chỉnh thông tin hiển thị trên trang tab mới, bao gồm khả năng thay đổi hình ảnh nền theo sở thích cá nhân.
+- **Hỗ trợ hình ảnh**: Người dùng có thể tải lên và chọn hình ảnh riêng để làm hình nền cho tab mới, tạo ra một trải nghiệm cá nhân hóa hơn.
+- **Hiệu suất tối ưu**: LuxeStart được thiết kế để tải nhanh chóng mà không làm chậm trình duyệt của bạn.
+- **Hỗ trợ chế độ sáng/tối**: Chuyển đổi dễ dàng giữa chế độ sáng và tối để phù hợp với điều kiện ánh sáng của bạn.
 
-### Cài đặt
+### Cài đặt và cấu hình
 
-1. Tải xuống dự án LuxeStart từ kho lưu trữ.
-2. Mở Chrome, đi đến phần Extensions bằng cách nhập chrome://extensions/ vào thanh địa chỉ.
-3. Bật Developer mode ở góc phải trên cùng.
-4. Nhấp vào nút Load unpacked và chọn thư mục chứa dự án LuxeStart đã giải nén.
-5. LuxeStart sẽ xuất hiện trong danh sách extension của bạn, và trang tab mới sẽ được thay đổi ngay lập tức.
+1. **Tải xuống dự án**: Clone hoặc tải xuống dự án LuxeStart từ kho lưu trữ.
+2. **Cài đặt phụ thuộc**: Chạy lệnh sau trong thư mục dự án để cài đặt các phụ thuộc:
+   ```bash
+   npm install
+   ```
+3. **Cấu hình Vite**: Nếu cần, bạn có thể chỉnh sửa file `vite.config.ts` để thay đổi cấu hình build.
+4. **Build dự án**: Chạy lệnh sau để build dự án:
+   ```bash
+   npm run build
+   ```
+5. **Cài đặt trên Chrome**:
+   - Mở Chrome, đi đến phần Extensions bằng cách nhập `chrome://extensions/` vào thanh địa chỉ.
+   - Bật Developer mode ở góc phải trên cùng.
+   - Nhấp vào nút Load unpacked và chọn thư mục chứa dự án LuxeStart đã giải nén.
+   - LuxeStart sẽ xuất hiện trong danh sách extension của bạn, và trang tab mới sẽ được thay đổi ngay lập tức.
 
 ### Hướng dẫn sử dụng
 
-Sau khi cài đặt, mỗi lần mở tab mới, bạn sẽ thấy giao diện LuxeStart.
-Bạn có thể tùy chỉnh các mục hiển thị (nếu có tùy chọn này) bằng cách vào phần cài đặt của extension.
+Sau khi cài đặt, mỗi lần mở tab mới, bạn sẽ thấy giao diện LuxeStart. Bạn có thể tùy chỉnh các mục hiển thị (nếu có tùy chọn này) bằng cách vào phần cài đặt của extension.
 
 ### Đóng góp
 

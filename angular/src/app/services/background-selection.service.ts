@@ -1,7 +1,7 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { Backgrounds } from '../modules/home/tab.model';
 import { IndexedDBService } from './indexed-db.service';
-
+import { v4 as uuidv4 } from 'uuid';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,14 +14,25 @@ export class BackgroundSelectionService {
     return this.selectedBackgroundSignal() || this.getBackgroundBasedOnTime();
   });
 
-  async toggleSelection(image) {
+  async toggleSelection(image, type: string = 'library') {
+    if (type === 'unsplash') {
+      image = {
+        id: this.generateId(image),
+        url: image,
+        location: 'Unknown Location',
+        photographer: 'Unknown Photographer',
+      }
+    }
     this.selectedBackgroundSignal.set(image);
-    await this.indexedDBService.saveSelectedBackground(image); // Lưu riêng ảnh nền
+    await this.indexedDBService.saveSelectedBackground(image);
+  }
+
+  private generateId(url: string): string {
+    return url.split('/').pop() || uuidv4();
   }
 
   async loadStoredBackground() {
     const storedBackground = await this.indexedDBService.getSelectedBackground();
-    console.log(storedBackground);
     if (storedBackground) {
       this.selectedBackgroundSignal.set(storedBackground);
     }

@@ -1,16 +1,19 @@
-<div class="p-4">
+<div class="p-4 pt-0 mb-28">
+  <p class="text-2xl font-bold mb-1 dark:text-white">Ảnh nền</p>
+  <p class="text-gray-500 dark:text-white/90 mb-4">Chọn ảnh bạn muốn sử dụng làm nền cho trang của bạn</p>
+  <hr class="my-4">
   <!-- Tabs -->
   <div class="flex flex-wrap space-x-4 items-center mb-4">
-    <button *ngFor="let tab of tabs" (click)="activeTab = tab"
-      [ngClass]="{'font-bold border-b border-b-white ': activeTab === tab}"
-      class=" text-xs md:text-base relative line-clamp-1 px-4 py-2  hover:bg-gray-100 dark:hover:bg-gray-700">
-      {{ tab }}
+    <button *ngFor="let tab of tabs" (click)="activeTab = tab.id"
+      [ngClass]="{'font-bold text-primary-500 dark:text-white dark:border-none border-b border-b-white ': activeTab === tab.id}"
+      class=" rounded-md p-1 text-xs md:text-sm relative line-clamp-1 py-1  hover:bg-primary-500/20 hover:text-primary-500 dark:hover:text-white dark:hover:bg-gray-700">
+      {{ tab.name }}
     </button>
 
     <!-- Nút thêm ảnh -->
     <input #fileInput type="file" accept="image/*" hidden (change)="onUploadImage($event)" />
-    <button class=" px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700" (click)="openFilePicker()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+    <button class=" px-4 py-2  text-slate-500 dark:text-white rounded-full hover:bg-primary-400/10" (click)="openFilePicker()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
         class="lucide lucide-image-plus">
         <path d="M16 5h6" />
@@ -22,8 +25,10 @@
     </button>
   </div>
 
-  <div *ngIf="activeTab =='UNSPLASH'"
-    class="h-10 min-h-10 mb-4 flex items-center gap-2 bg-white dark:bg-gray-800 shadow-md dark:shadow-lg rounded-lg p-3 w-full max-w-md transition-all">
+
+  @if(activeTab =='UNSPLASH'){
+    <div 
+    class="h-10 min-h-10 mb-4 flex items-center gap-2 bg-white dark:bg-gray-800  border border-slate-300 dark:border-none dark:shadow-lg rounded-lg p-3 w-full max-w-md transition-all">
     <input type="text" #searchQuery placeholder="Mountain afternoon,..." (input)="onSearchChange(searchQuery.value)"
       class="flex-1 p-2 text-gray-700 dark:text-gray-200 bg-transparent outline-none border-none" />
     <button class="p-2 text-gray-500 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-all">
@@ -35,11 +40,24 @@
       </svg>
     </button>
   </div>
+  <div class="flex gap-2 flex-wrap my-4">
+    <button *ngFor="let item of suggestions" 
+        (click)="toggleSelectionSuggestion(item)"
+        [ngClass]="{
+            'text-primary-600 dark:text-primary-400 border-primary-500': selectedItem === item, 
+            'text-gray-400 dark:text-white border-gray-200': selectedItem !== item
+        }"
+        class="  px-3 h-auto py-0 rounded-md border  hover:text-primary-500 hover:border-primary-500  hover:bg-primary-500/20 transition">
+        {{ item }}
+    </button>
+</div>
+  }
+
 
   <!-- Grid ảnh -->
   <div *ngIf="activeTab =='UNSPLASH'" class="space-y-6">
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-      <div *ngFor="let photo of imagesUnsplash;let i = index" (click)="toggleSelection(photo)"
+      <div *ngFor="let photo of imagesUnsplash;let i = index" (click)="toggleSelection(photo,'unsplash')"
         class="h-24 relative group cursor-pointer rounded overflow-hidden">
 
         <!-- Ảnh -->
@@ -52,8 +70,8 @@
     <div *ngIf="savedImages.length > 0" class="mt-8">
       <h2 class="text-xl font-semibold">Ảnh Recents</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-4">
-        <div *ngFor="let savedImage of savedImages" class="h-24 relative group cursor-pointer rounded overflow-hidden">
-          <img [src]="savedImage.url"
+        <div *ngFor="let savedImage of savedImages;let i = index"  (click)="toggleSelection(savedImage)" class="h-24 relative group cursor-pointer rounded overflow-hidden">
+          <img   #imageRef (load)="onImageLoad($event,i)" [src]="savedImage.url"
             class="w-full h-full object-cover opacity-0 blur-md transition-all duration-700" />
         </div>
       </div>

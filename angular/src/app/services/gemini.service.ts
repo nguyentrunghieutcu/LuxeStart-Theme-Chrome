@@ -7,19 +7,10 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class GeminiService {
-  private apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key='; // Replace with actual Gemini AI endpoint
+  private apiUrl = environment.apiUrl;
   private storageKey = 'greetings';
 
-  constructor(private http: HttpClient) { 
-    this.apiUrl =  this.apiUrl + environment.geminiKey
-  }
-
-  // Fetch greetings from the API
-  fetchGreetings(): Observable<string[]> {
-    return this.http.get<{ content: string[] }>(this.apiUrl).pipe(
-      map(response => response.content),
-      catchError(() => of([])) // Return an empty array in case of error
-    );
+  constructor(private http: HttpClient) {
   }
 
   // Save greetings to localStorage
@@ -41,21 +32,23 @@ export class GeminiService {
     const randomIndex = Math.floor(Math.random() * greetings.length);
     return greetings[randomIndex];
   }
-
+  
   getGreeting(text: string): Observable<string> {
-    const storedGreetings = this.getStoredGreetings();
-    // if (storedGreetings.length > 0) {
-    //   // Return a random greeting from localStorage
-    //   return of(this.getRandomGreeting());
-    // }
-    return this.http.post<{ candidates: Array<{ content: { parts: Array<{ text: string }> } }> }>(this.apiUrl,
-      { "contents": [{ "parts": [{ "text": text }] }] }).pipe(map(response => {
-        // Extract the text from the first candidate
-        if (response.candidates && response.candidates.length > 0) {
-          this.saveGreetings([response.candidates[0].content.parts[0].text]);
-          return response.candidates[0].content.parts[0].text;
-        }
-        return 'Default greeting message'; // 
-      }))
-  }
+    return this.http.post<{ choices?: { message: { content: string } }[] }>(
+        `${this.apiUrl}/openai`,
+        { prompt: text } // OpenAI API sử dụng "prompt" thay vì "contents"
+    ).pipe(
+        map(response => {
+            if (response.choices?.length > 0) {
+                const message = response.choices[0].message.content;
+                this.saveGreetings([message]); // Lưu lại kết quả
+                return message;
+            }
+            return 'Default greeting message';
+        }),
+        catchError(() => of('Default greeting message')) // Xử lý lỗi API
+    );
+}
+
+
 }

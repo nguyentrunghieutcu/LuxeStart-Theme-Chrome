@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router'
-import { NotFoundComponent } from './modules/pages/404/404.component'
-
+ 
 export const routes: Routes = [
   {
     path: 'popup',

@@ -51,7 +51,7 @@ export class IndexedDBService {
         }
       },
     });
-    
+
   }
 
   async saveUnsplashImages(images: { id: string; url: string; location: string; photographer: string }[]) {
@@ -61,7 +61,10 @@ export class IndexedDBService {
       const store = transaction.objectStore('unsplashImages');
   
       for (const image of images) {
-        await store.put(image);
+        const existing = await store.get(image.id);
+        if (!existing) {
+          await store.put(image); // Chỉ lưu nếu chưa có
+        }
       }
   
       await transaction.done;
@@ -74,7 +77,19 @@ export class IndexedDBService {
   async getUnsplashImages() {
     try {
       const db = await this.db;
-      return await db.getAll('unsplashImages');
+      const store = db.transaction('unsplashImages', 'readonly').objectStore('unsplashImages');
+  
+      let images = await store.getAll(null, 10);
+  
+      // Dùng Set để loại bỏ ID trùng
+      const seenIds = new Set();
+      const uniqueImages = images.filter(img => {
+        if (seenIds.has(img.id)) return false;
+        seenIds.add(img.id);
+        return true;
+      });
+  
+      return uniqueImages;
     } catch (error) {
       console.error('Lỗi khi lấy ảnh từ Unsplash:', error);
       return [];
@@ -90,7 +105,7 @@ export class IndexedDBService {
       console.error('Lỗi khi xóa ảnh:', error);
     }
   }
-  
+
 
   async addImage(image: { id: string; url: string; location: string; photographer: string }) {
     return (await this.db).put('images', image);

@@ -32,7 +32,6 @@ export class TodosComponent implements OnInit {
 
   ) {
     effect(() => {
-      console.log('Todos changed:', this.todos());
     });
    }
 

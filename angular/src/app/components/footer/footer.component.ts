@@ -1,9 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { fuseAnimations } from 'src/@luxstart/animations';
 import { GeminiService } from 'src/app/services/gemini.service';
 
 @Component({
   selector: 'app-footer',
+  animations:[fuseAnimations],
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
