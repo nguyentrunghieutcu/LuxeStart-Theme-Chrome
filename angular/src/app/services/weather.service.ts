@@ -61,6 +61,7 @@ export class WeatherService implements IWeatherService {
   readonly reactivityMode: WritableSignal<'signal' | 'subject' | 'ngrx'> =
     signal('subject')
   private nominatimUrl = 'https://nominatim.openstreetmap.org/reverse';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private httpClient: HttpClient,
@@ -123,11 +124,10 @@ export class WeatherService implements IWeatherService {
   }
 
   private getCurrentWeatherHelper(uriParams: HttpParams): Observable<ICurrentWeather> {
-    uriParams = uriParams.set('appid', environment.appId)
-
+ 
     return this.httpClient
       .get<ICurrentWeatherData>(
-        `${environment.baseUrl}api.openweathermap.org/data/2.5/weather?lang=vi`,
+        `${this.apiUrl}/weather`,
         { params: uriParams }
       )
       .pipe(map((data) => this.transformToICurrentWeather(data)))

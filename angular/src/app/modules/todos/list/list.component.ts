@@ -17,7 +17,6 @@ export class TodoListComponent {
 
   constructor() {
     effect(() => {
-      console.log('Todos changed:', this.todos());
     });
   }
 

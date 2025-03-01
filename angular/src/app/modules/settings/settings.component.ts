@@ -29,7 +29,7 @@ export class SettingsComponent implements OnInit {
     showWeather: true,
     enableTasks: false
   };
-  tabs: string[] = ['General', 'Photos'];
+  tabs: { id: string; name: string }[] = [{ id: 'general', name: 'Chung' }, { id: 'photos', name: 'Ảnh' }];
   selectedTab: number = 0;
   darkMode: boolean;
   config: FuseConfig;

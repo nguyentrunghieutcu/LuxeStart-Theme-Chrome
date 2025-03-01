@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { WEATHER_ICONS } from '../components/weather-icon/weather-icon.module';
+import { WEATHER_ICONS } from '../app.config';
  
 @Pipe({
   name: 'weatherIcon',

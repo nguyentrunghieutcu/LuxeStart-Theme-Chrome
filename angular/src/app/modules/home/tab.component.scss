@@ -1,6 +1,6 @@
 
 .custom-menu {
-  @apply w-[70vw] min-w-[70vw] max-w-none #{'!important'};
+  @apply w-[90vw] md:max-w-[720px] max-w-none #{'!important'};
 }
 
 .mat-mdc-menu-panel {
@@ -85,7 +85,8 @@ input.name {
   border: none;
   font-weight: 500;
   text-align: center;
-  border-bottom: 3px solid white;
+  letter-spacing: normal;
+  border-bottom: 0px solid white;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   cursor: auto;

@@ -91,7 +91,7 @@ const fadeInBottom = trigger('fadeInBottom',
         transition('void => *', animate('{{timings}}'),
             {
                 params: {
-                    timings: `${FuseAnimationDurations.entering} ${FuseAnimationCurves.deceleration}`
+                    timings: `${FuseAnimationDurations.complex} ${FuseAnimationCurves.deceleration}`
                 }
             }
         )
