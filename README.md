@@ -1,3 +1,11 @@
+# LuxeStart - Task Manager
+
+LuxeStart is a simple and elegant task manager Chrome extension designed to help you stay organized and productive. It allows you to:
+
+- Add, edit, and delete tasks.
+- Mark tasks as completed.
+- Stay focused on your daily goals.
+
 ## LuxeStart - Extension Theme Chrome
 
 LuxeStart là một extension Chrome open source, mang đến cho người dùng một trải nghiệm tối giản nhưng đầy sang trọng. Với LuxeStart, bạn sẽ biến trang bắt đầu của mình thành nơi khai phá tiềm năng và khởi động nhanh chóng, giúp bạn chuyển từ ý tưởng đến hành động một cách hiệu quả.

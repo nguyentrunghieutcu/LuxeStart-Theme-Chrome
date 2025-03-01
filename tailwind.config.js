@@ -80,9 +80,9 @@ module.exports = {
     './angular/src/**/*.{html,js,scss}',
     './index.html',
   ],
+  darkMode: ['class'], // Kích hoạt theo class hoặc data-theme
   important: true,
   theme: {
-    darkMode: ['class'], // Kích hoạt theo class hoặc data-theme
     screens: {
       'xs': '320px',
       // => @media (min-width: 320px) { ... }

@@ -1,12 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Luxe start",
+  "name": "LuxeStart - Each photo is a story",
   "short_name": "Luxe start",
   "version": "1.0.0",
-  "description": "Luxe start scaffold project",
+  "description": "A simple and elegant task manager to help you stay organized and productive.",
   "permissions": [
     "tabs",
-    "sidePanel"
+    "sidePanel",
+    "storage"
   ],
   "action": {
     "default_popup": "index.html?#/popup",

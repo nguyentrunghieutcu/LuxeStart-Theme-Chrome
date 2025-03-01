@@ -1,6 +1,7 @@
 import { handleWeather } from "./weather";
 import { handleGemini } from "./gemini";
 import { handleOpenAI } from "./openai";
+import { handlePrivacy } from "privacy";
 
 export interface Env {
 	OPENWEATHER_API_KEY: string;
@@ -42,19 +43,19 @@ export default {
 		}
 
 		let response: Response;
-		if (path.startsWith('/weather')) {
+		if (path === "/privacy") {
+			response = await handlePrivacy();
+		} else if (path.startsWith('/weather')) {
 			response = await handleWeather(request, env);
 		} else if (path.startsWith('/gemini')) {
 			response = await handleGemini(request, env);
-		}
-		else if (path.startsWith('/openai')) {
+		} else if (path.startsWith('/openai')) {
 			response = await handleOpenAI(request, env);
 		} else {
 			response = new Response(JSON.stringify({ error: "API không hợp lệ" }), {
 				status: 400, headers: { "Content-Type": "application/json" }
 			});
 		}
-
 		// ✅ Đảm bảo CORS headers luôn có
 		return addCorsHeaders(response);
 	}
