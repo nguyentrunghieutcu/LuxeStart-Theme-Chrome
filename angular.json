@@ -1,0 +1,110 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "luxestart": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "angular",
+      "sourceRoot": "angular/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "angular/dist",
+            "index": "angular/src/index.html",
+            "main": "angular/src/main.ts",
+            "polyfills": [],
+            "tsConfig": "angular/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "angular/src/favicon.ico",
+              "angular/src/assets",
+              "angular/src/assets/images",
+              "angular/src/manifest.json",
+              "angular/src/side_panel.html",
+              "angular/src/side_panel.js"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "angular/src/@luxstart/styles",
+                "angular/src/@luxstart/styles/angular-material"
+              ]
+            },
+            "styles": [
+              "angular/src/@luxstart/styles/tailwind.scss",
+              "angular/src/@luxstart/styles/main.scss",
+              "angular/src/styles/styles.scss",
+              "angular/src/styles/tailwind.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "optimization": {
+                "styles": {
+                  "inlineCritical": false
+                }
+              },
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kb",
+                  "maximumError": "6kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "angular/src/environments/environment.ts",
+                  "with": "angular/src/environments/environment.development.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "luxestart:build:production"
+            },
+            "development": {
+              "buildTarget": "luxestart:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "ngx-build-plus:extract-i18n",
+          "options": {
+            "browserTarget": "luxestart:build"
+          }
+        }
+      }
+    }
+  }
+}

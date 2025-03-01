@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "LuxeStart - Each photo is a story",
+  "short_name": "Luxe start",
+  "version": "1.0.0",
+  "description": "A simple and elegant task manager to help you stay organized and productive.",
+  "permissions": [
+    "tabs",
+    "sidePanel",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "index.html?#/popup",
+    "default_title": "Luxe start"
+  },
+  "options_page": "index.html?#/options",
+  "side_panel": {
+    "default_path": "side_panel.html"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html?#/tab"
+  },
+  "icons": {
+    "16": "assets/logo.png",
+    "48": "assets/logo.png",
+    "128": "assets/logo.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

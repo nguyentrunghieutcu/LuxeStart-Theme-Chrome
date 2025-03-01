@@ -1,0 +1,96 @@
+<div (click)="keepMenuOpen($event)"
+  class="w-full h-screen rounded-lg flex-col md:flex  overflow-auto overflow-x-hidden custom-scrollbar 
+  after:content-[''] after:absolute after:left-4 after:bottom-3 after:w-4 after:h-4 
+  after:bg-slate-100  after:dark:bg-slate-900/90  after:rotate-45 after:shadow-md after:translate-y-1/2
+  ">
+  <div class=" w-full h-full  flex flex-col md:flex-row justify-start">
+
+    <div class="bg-slate-100 dark:bg-slate-900/90 md:min-w-[200px] w-full md:w-1/4 flex flex-row md:flex-col">
+      <div class="w-full p-2 pt-5">
+        <div class="relative right-0">
+          <ul
+            class=" min-h-9 h-9 relative flex flex-wrap px-1.5 py-1.5 list-none rounded-md dark:bg-gray-950 bg-slate-300 "
+            role="list">
+            <li class="flex justify-center items-center z-10 flex-auto text-center min-w-14"
+              *ngFor="let tab of tabs; let i = index">
+              <a [ngClass]="{'text-slate-500  dark:text-white rounded-[4px] dark:bg-gray-500 bg-white shadow-md': selectedTab === i}"
+                class="h-6 z-30 line-clamp-1 flex items-center justify-center w-full px-0 py-2 text-xs mb-0 transition-all ease-in-out border-0 rounded-md cursor-pointer"
+                role="tab" [attr.aria-selected]="selectedTab === i" (click)="selectTab(i)">
+                {{ tab.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Menu bên trái -->
+      <div class=" p-2 text-white text-start justify-start flex flex-col gap-2  ">
+        <div class="rounded p-2 hover:bg-slate-100/10 justify-start flex  text-base dark:text-white text-slate-500 text-start" *ngIf="selectedTab ==0">
+          <span class="inline-flex items-center gap-2 p-0 text-base dark:text-white text-slate-500 text-start">
+          <lucide-icon  [name]="'sun-moon'" class="icon-size-4 dark:text-white text-slate-500 "></lucide-icon>
+            Appearance</span>
+        </div>
+
+        <!-- <div class="rounded p-2 hover:bg-slate-100/10 justify-start flex  text-base dark:text-white text-slate-500 text-start" *ngIf="selectedTab == 1">
+          <span class="text-base dark:text-white text-slate-500 text-start">Tasks</span>
+        </div>
+
+        <div class=" rounded p-2 hover:bg-slate-100/10 justify-start flex text-base dark:text-white text-slate-500 text-start"  >
+          <span class="inline-flex items-center gap-2 p-0 text-base dark:text-white text-slate-500 text-start">
+            <lucide-icon  [name]="'log-in'" class="icon-size-4 dark:text-white text-slate-500 "></lucide-icon>
+            Sign in</span>
+        </div> -->
+      </div>
+
+    </div>
+
+    <div class="w-full overflow-auto  custom-scrollbar scroll-mb-16  flex-1  text-slate-700 bg-white dark:bg-slate-950/90   dark:text-white p-4">
+      <div class="flex flex-row justify-between items-center" *ngIf="selectedTab === 0">
+        <h3 class="text-slate-700  dark:text-white text-lg font-semibold ">Appearance</h3>
+        <button (click)="toggleDarkMode()"
+          class="relative w-12 h-6 bg-gray-300 dark:bg-gray-700 rounded-full flex items-center transition-all group"
+          role="switch" [attr.aria-checked]="darkMode">
+
+          <!-- Nút trượt -->
+          <span
+            class="absolute w-5 h-5  bg-white dark:bg-gray-900 rounded-full shadow-md transform transition-all group-hover:scale-105"
+            [class.translate-x-6]="darkMode" [class.translate-x-1]="!darkMode">
+            <!-- Icon Sun (Light Mode) -->
+            <div
+              class="flex justify-center items-center w-5 h-5 text-slate-700  dark:text-white absolute  transition-all"
+              [class.opacity-0]="darkMode" [class.opacity-100]="!darkMode">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4" />
+                <path d="M12 2v2" />
+                <path d="M12 20v2" />
+                <path d="m4.93 4.93 1.41 1.41" />
+                <path d="m17.66 17.66 1.41 1.41" />
+                <path d="M2 12h2" />
+                <path d="M20 12h2" />
+                <path d="m6.34 17.66-1.41 1.41" />
+                <path d="m19.07 4.93-1.41 1.41" />
+              </svg>
+            </div>
+
+            <!-- Icon Moon (Dark Mode) -->
+            <div
+              class="flex justify-center items-center w-5 h-5 text-slate-700  dark:text-white absolute  transition-all"
+              [class.opacity-0]="!darkMode" [class.opacity-100]="darkMode">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+              </svg>
+            </div>
+          </span>
+        </button>
+      </div>
+
+      <div *ngIf="selectedTab === 1">
+        <app-photos></app-photos>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+ 

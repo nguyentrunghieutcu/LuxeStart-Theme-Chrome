@@ -1,0 +1,25 @@
+.pomodoro-container {
+    text-align: center;
+    position: relative;
+}
+
+.circle {
+    position: relative;
+
+}
+
+.countdown-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem; /* Điều chỉnh kích thước phù hợp */
+    color: white;
+}
+
+.settings,
+.buttons {
+    @apply absolute ;
+
+    margin-top: 20px;
+}

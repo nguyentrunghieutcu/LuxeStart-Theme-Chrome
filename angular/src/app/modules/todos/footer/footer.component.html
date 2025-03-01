@@ -1,0 +1,30 @@
+@if (todos.length > 0) {
+  <footer >
+   
+    <!-- Bộ lọc (Filters) -->
+    <ul class="flex flex-row justify-between p-4 ">
+      <li>
+        <a routerLink="/" [class.selected]="filter === 'all'" title="All">
+          <i class="fas fa-list"></i> <!-- Icon đại diện cho All -->
+        </a>
+      </li>
+      <li  >
+        <a routerLink="/active" [class.selected]="filter === 'active'" title="Active">
+          <i class="fas fa-play"></i> <!-- Icon đại diện cho Active -->
+        </a>
+      </li>
+      <li  >
+        <a routerLink="/completed" [class.selected]="filter === 'completed'" title="Completed">
+          <i class="fas fa-check"></i> <!-- Icon đại diện cho Completed -->
+        </a>
+      </li>
+    </ul>
+
+    <!-- Nút xóa công việc đã hoàn thành -->
+    @if (completedTodos.length > 0) {
+      <button type="button" class="clear-completed" (click)="clearCompleted()" title="Clear Completed">
+        <i class="fas text-white fa-trash-alt"></i> <!-- Icon đại diện cho Clear Completed -->
+      </button>
+    }
+  </footer>
+}
