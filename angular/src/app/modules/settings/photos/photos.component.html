@@ -71,7 +71,7 @@
       <h2 class="text-xl font-semibold">Ảnh gần đây</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-4">
         <div *ngFor="let savedImage of savedImages;let i = index"  (click)="toggleSelection(savedImage)" class="h-24 relative group cursor-pointer rounded overflow-hidden">
-          <img   #imageRef (load)="onImageLoad($event,i)" [src]="savedImage.url"
+          <img   #imageRef (load)="onImageLoad($event,i)" [src]="savedImage.url +'?&q=80&w=400&auto=format&fit=crop'"
             class="w-full h-full object-cover opacity-0 blur-md transition-all duration-700" />
         </div>
       </div>
