@@ -112,6 +112,9 @@ module.exports = {
         primary: '#5A46D7',
         warn: colors.red[600]
       },
+      backgroundImage: {
+        'gradient-ai': 'linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899)', // Thêm thủ công nếu cần
+      },
       animation: {
         fadein: 'fadein 1s linear 1s forwards',
       },

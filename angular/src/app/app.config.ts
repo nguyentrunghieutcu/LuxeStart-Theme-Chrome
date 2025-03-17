@@ -1,4 +1,4 @@
-import { ApplicationConfig, EnvironmentProviders, InjectionToken, Provider, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core'
+import { ApplicationConfig, ENVIRONMENT_INITIALIZER, EnvironmentProviders, InjectionToken, Provider, importProvidersFrom, inject, provideExperimentalZonelessChangeDetection } from '@angular/core'
 import { provideRouter, withHashLocation } from '@angular/router'
 
 import { routes } from './app.routes'
@@ -7,8 +7,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { FUSE_CONFIG } from 'src/@luxstart/config/config.constants';
 import { FuseConfig } from 'src/@luxstart/config';
-import { LogIn, SunMoon , CloudLightning, CloudDrizzle, CloudRain, CloudSnow, CloudSun,Cloud, Cloudy, Tornado, CloudFog, Wind, AlarmSmoke } from 'lucide-angular';
+import {
+  LogIn, SunMoon, CloudLightning, CloudDrizzle, Edit, MessageSquare,
+  CloudRain, CloudSnow, CloudSun, Cloud, Cloudy, Tornado, CloudFog, Wind, AlarmSmoke, Plus, Loader, Trash2, X, Check,
+  Quote, Sparkles, Clock, RefreshCcw, Pin
+} from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
+import { FuseSplashScreenService } from './services/splashscreen.service';
 
 export type FuseProviderConfig = {
   fuse?: FuseConfig
@@ -30,7 +35,19 @@ export const WEATHER_ICONS = {
   Ash: Wind,
   Squall: Wind,
   SunMoon: SunMoon,
-  LogIn: LogIn
+  LogIn: LogIn,
+  Check: Check,
+  X: X,
+  Trash2: Trash2,
+  Loader: Loader,
+  Plus: Plus,
+  Edit: Edit,
+  MessageSquare: MessageSquare,
+  Quote: Quote,
+  Sparkles: Sparkles,
+  Clock: Clock,
+  RefreshCcw: RefreshCcw,
+  Pin: Pin
 };
 
 /**
@@ -43,7 +60,11 @@ export const provideFuse = (config: FuseProviderConfig): Array<Provider | Enviro
       provide: FUSE_CONFIG,
       useValue: config?.fuse ?? {},
     },
-
+    {
+      provide : ENVIRONMENT_INITIALIZER,
+      useValue: () => inject(FuseSplashScreenService),
+      multi   : true,
+  },
   ];
   // Return the providers
   return providers;

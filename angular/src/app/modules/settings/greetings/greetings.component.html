@@ -1,0 +1,104 @@
+<!-- Main Container -->
+<div class="p-4 pt-0 mb-28">
+    <!-- Header Section -->
+    <div class="mb-6 sticky top-0 z-10 pt-0  py-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="flex flex-col justify-start items-start">
+            <h3 class="text-slate-700 dark:text-white text-2xl font-semibold">Thông điệp</h3>
+            <p class="text-gray-500 dark:text-white/90 mb-4">Tạo những thông điệp động viên và cảm hứng để tạo động lực
+                cho mỗi ngày của bạn.</p>
+        </div>
+    </div>
+
+    <!-- Add New Greeting Section -->
+    <div class="mb-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4">
+        <div class="flex flex-col sm:flex-row gap-3">
+            <div class="flex-1">
+                <input [(ngModel)]="newGreeting" placeholder="Nhập thông điệp mới"
+                    class="w-full px-4 py-2.5 bg-white dark:bg-slate-900 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:text-white transition-all duration-300">
+            </div>
+            <div class="flex gap-2 sm:flex-none">
+                <button (click)="addGreeting()" [disabled]="isLoading || !newGreeting.trim()"
+                    class="flex-1 sm:flex-none px-4 py-2.5 bg-primary text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transition-all duration-300">
+                    <span class="flex items-center gap-2">
+                        <lucide-icon name="plus" class="w-4 h-4"></lucide-icon>
+                        Thêm
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="isLoading" class="flex justify-center items-center py-4">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    </div>
+    <!-- Footer Actions -->
+    <div class="my-4 flex justify-end border-t border-slate-200 dark:border-slate-700 pt-4 ">
+        <button (click)="resetGreetings()" [disabled]="isLoading"
+            class="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-300">
+            <span class="flex items-center gap-2">
+                <lucide-icon name="refresh-ccw" class="w-4 h-4"></lucide-icon>
+                Đặt lại mặc định
+            </span>
+        </button>
+    </div>
+    <!-- Greetings List -->
+    <div class="space-y-3 mb-4" [class.opacity-50]="isLoading">
+        <div *ngFor="let greeting of greetings"
+            class="group bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-500 transition-all duration-300">
+
+            <div class="flex items-center gap-3 p-3">
+                <!-- Greeting Text -->
+                <div *ngIf="editingIndex !== greetings.indexOf(greeting)" class="flex-1 text-slate-700 dark:text-white">
+                    {{ greeting.text }}
+                </div>
+
+                <!-- Edit Input -->
+                <input *ngIf="editingIndex === greetings.indexOf(greeting)" [(ngModel)]="editingText"
+                    class="flex-1 px-3 py-2 bg-transparent border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 text-slate-700 dark:text-white">
+
+                <!-- Action Buttons -->
+                <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <!-- Select Button -->
+                    <button (click)="selectGreeting(greeting.id)" 
+                        class="p-2 text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all duration-300">
+                        <lucide-icon name="pin" class="w-4 h-4"
+                            [class.text-primary]="selectedGreetingId === greeting.id"></lucide-icon>
+                    </button>
+
+                    <!-- Edit Button -->
+                    <button *ngIf="editingIndex !== greetings.indexOf(greeting)"
+                        (click)="startEditing(greetings.indexOf(greeting))"
+                        class="p-2 text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all duration-300">
+                        <lucide-icon name="edit" class="w-4 h-4"></lucide-icon>
+                    </button>
+
+                    <!-- Save Button -->
+                    <button *ngIf="editingIndex === greetings.indexOf(greeting)" (click)="saveEditing()"
+                        class="p-2 text-gray-500 hover:text-green-500 dark:text-gray-400 dark:hover:text-green-400 rounded-lg hover:bg-green-50 dark:hover:bg-green-500/10 transition-all duration-300">
+                        <lucide-icon name="check" class="w-4 h-4"></lucide-icon>
+                    </button>
+
+                    <!-- Cancel Button -->
+                    <button *ngIf="editingIndex === greetings.indexOf(greeting)" (click)="cancelEditing()"
+                        class="p-2 text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-300">
+                        <lucide-icon name="x" class="w-4 h-4"></lucide-icon>
+                    </button>
+
+                    <!-- Delete Button -->
+                    <button *ngIf="editingIndex !== greetings.indexOf(greeting)" (click)="deleteGreeting(greeting.id)"
+                        class="p-2 text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 transition-all duration-300">
+                        <lucide-icon name="trash-2" class="w-4 h-4"></lucide-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="greetings.length === 0 && !isLoading" class="text-center py-8 text-gray-500 dark:text-gray-400">
+            Không có thông điệp nào. Thêm thông điệp của bạn.
+        </div>
+    </div>
+
+
+</div>
