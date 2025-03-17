@@ -2,6 +2,7 @@
 @use 'themes';
 @use 'user-themes';
 @use '../../styles/genfont';
+@use '../../styles/splash-screen';
 
 /* This injects Tailwind's base styles and any base styles registered by plugins. */
 @tailwind base;

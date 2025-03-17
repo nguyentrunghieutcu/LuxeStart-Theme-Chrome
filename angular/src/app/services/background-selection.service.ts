@@ -11,7 +11,12 @@ export class BackgroundSelectionService {
   constructor(private indexedDBService: IndexedDBService) {
   }
   selectedBackground = computed(() => {
-    return this.selectedBackgroundSignal() || this.getBackgroundBasedOnTime();
+    const selected = this.selectedBackgroundSignal();
+    if (selected) {
+      return selected;
+    } else {
+      return this.getBackgroundBasedOnTime();
+    }
   });
 
   async toggleSelection(image, type: string = 'library') {
@@ -53,9 +58,11 @@ export class BackgroundSelectionService {
 
     const backgroundsForTime = this.backgrounds.filter(bg => bg.time === selectedRange);
     if (backgroundsForTime.length > 0) {
-      return backgroundsForTime[Math.floor(Math.random() * backgroundsForTime.length)];
+      const randomBackground = backgroundsForTime[Math.floor(Math.random() * backgroundsForTime.length)];
+      // Don't save random background to storage
+      return randomBackground;
     }
 
-    return ''; // Trả về rỗng nếu không có ảnh nào phù hợp
+    return this.backgrounds[0]; // Return first background as fallback instead of empty string
   }
 }

@@ -5,19 +5,27 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UnsplashService {
-  private accessKey = environment.unplash.ack; // Thay bằng API Key của bạn
-  private apiUrl = 'https://api.unsplash.com/search/photos';
+  private apiUrl =  environment.apiUrl;
 
   constructor() {
-
   }
 
-  async getImages(query: string, perPage: number = 10): Promise<string[]> {
+  async getImages(query: string, perPage: number = 10): Promise<TypeUrlsUnsplash[]> {
     const response = await fetch(
-      `${this.apiUrl}?query=${query}&per_page=${perPage}&client_id=${this.accessKey}`
+      `${this.apiUrl}/unsplash?query=${encodeURIComponent(query)}&per_page=${perPage}`
     );
 
     const data = await response.json();
-    return data.results.map((photo: any) => photo.urls.regular);
+    return data.results.map((photo: any) => photo.urls); //urls :{full,regular,small,small_s3,raw,thumb}
+
   }
+}
+
+export interface TypeUrlsUnsplash {
+  full: string;
+  regular: string;
+  small: string;
+  small_s3: string;
+  raw: string;
+  thumb: string;
 }

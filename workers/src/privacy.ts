@@ -55,7 +55,7 @@ export async function handlePrivacy(): Promise<Response> {
       <p><strong>Email</strong>: <a href="mailto:nguyentrunghieutcu@gmail.com">nguyentrunghieutcu@gmail.com</a></p>
  
       <p>Bằng cách sử dụng LuxeStart, bạn đồng ý với các điều khoản của Chính sách bảo mật này. Cảm ơn bạn đã tin tưởng và sử dụng LuxeStart!</p>
-  </body>
+       </body>
   </html>`, {
     headers: { "Content-Type": "text/html; charset=UTF-8" }
   });

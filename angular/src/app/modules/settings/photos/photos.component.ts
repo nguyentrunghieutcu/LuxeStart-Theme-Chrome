@@ -7,6 +7,7 @@ import { Backgrounds } from '../../home/tab.model';
 import { IndexedDBService } from 'src/app/services/indexed-db.service';
 import { BackgroundSelectionService } from 'src/app/services/background-selection.service';
 import { UnsplashService } from 'src/app/services/unsplash.service';
+import { TypeUrlsUnsplash } from 'src/app/services/unsplash.service';
 
 @Component({
   selector: 'app-photos',
@@ -23,7 +24,7 @@ export class PhotosComponent implements OnInit {
   activeTab = 'FAVORITES';
   photos = Backgrounds;
   myPhotos: any[] = [];
-  imagesUnsplash: string[] = [];
+  imagesUnsplash: TypeUrlsUnsplash[] = [];
   searchSubject = new Subject<string>();
   savedImages: { id: string; url: string; location: string; photographer: string }[] = [];
   loadedImages: boolean[] = [];
@@ -121,10 +122,10 @@ export class PhotosComponent implements OnInit {
       debounceTime(500),
       switchMap(query => this.unsplashService.getImages(query, 10))
     ).subscribe({
-      next: async (urls: string[]) => {
-        this.imagesUnsplash = urls;
-        await this.saveImagesToDB(urls);
-    this.changeDetectorRef.markForCheck();
+      next: async (urls: TypeUrlsUnsplash[]) => {
+        this.imagesUnsplash = urls 
+        await this.saveImagesToDB(urls.map(url => url.full));
+        this.changeDetectorRef.markForCheck();
 
       },
       error: err => console.error('Lỗi khi lấy ảnh Unsplash:', err)
@@ -173,8 +174,8 @@ export class PhotosComponent implements OnInit {
     this.imageElements.forEach(img => observer.observe(img.nativeElement));
   }
 
-  suggestions = ['rain in leaf', 'mountain afternoon','forest in the morning', 'snowy mountain peak', 'river in the forest', 'night sky with stars', 'desert landscape', 'waterfall in the mountains', 'sunset over the sea'];
-  selectedItem: string | null = null; 
+  suggestions = ['rain in leaf', 'mountain afternoon', 'forest in the morning', 'snowy mountain peak', 'river in the forest', 'night sky with stars', 'desert landscape', 'waterfall in the mountains', 'sunset over the sea'];
+  selectedItem: string | null = null;
 
   toggleSelectionSuggestion(item: string) {
     this.selectedItem = this.selectedItem === item ? null : item;

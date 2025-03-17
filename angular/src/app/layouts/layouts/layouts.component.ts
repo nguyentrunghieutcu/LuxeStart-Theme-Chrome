@@ -29,7 +29,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   theme: string;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   hasBackground: boolean = false;
-  isLoading: boolean = true;
   /**
    * Constructor
    */
@@ -109,9 +108,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
       });
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1000);
+   
   }
 
   /**

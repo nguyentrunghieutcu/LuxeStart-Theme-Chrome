@@ -2,11 +2,13 @@ import { handleWeather } from "./weather";
 import { handleGemini } from "./gemini";
 import { handleOpenAI } from "./openai";
 import { handlePrivacy } from "privacy";
+import { handleUnsplash } from "./unsplash";
 
 export interface Env {
 	OPENWEATHER_API_KEY: string;
 	GEMINI_API_KEY: string;
 	OPENAI_API_KEY: string;
+	UNSPLASH_ACCESS_KEY: string;
 }
 
 // ✅ Hàm thêm CORS Headers
@@ -51,7 +53,11 @@ export default {
 			response = await handleGemini(request, env);
 		} else if (path.startsWith('/openai')) {
 			response = await handleOpenAI(request, env);
-		} else {
+		}
+		else if (path.startsWith('/unsplash')) {
+			response = await handleUnsplash(request, env);
+		}
+		else {
 			response = new Response(JSON.stringify({ error: "API không hợp lệ" }), {
 				status: 400, headers: { "Content-Type": "application/json" }
 			});
