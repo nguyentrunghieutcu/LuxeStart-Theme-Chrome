@@ -14,8 +14,8 @@ const compilerOptions = {
   skipLibCheck: true
 }
 
-const inputContentPage = './src/contentPage.ts'
-const outputContentPage = '../angular/dist/contentPage.js'
+const inputContentPage = './src/background.ts'
+const outputContentPage = '../angular/dist/background.js'
 
 const inputServiceWorker = './src/serviceWorker.ts'
 const outputServiceWorker = '../angular/dist/serviceWorker.js'

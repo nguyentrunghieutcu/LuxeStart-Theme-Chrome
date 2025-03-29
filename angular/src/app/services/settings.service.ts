@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,8 @@ export class SettingsStateService {
   private _showMantra = signal<boolean>(true);
   private _showFooter = signal<boolean>(true);
   private _showTask = signal<boolean>(true);
-
+  private _showZodiac = signal(true);
+  
   // Expose signals as read-only
   showWeather = this._showWeather.asReadonly();
   showClock = this._showClock.asReadonly();
@@ -62,4 +63,12 @@ export class SettingsStateService {
     this._showFooter.set(JSON.parse(localStorage.getItem('showFooter') || 'true'));
     this._showTask.set(JSON.parse(localStorage.getItem('showTask') || 'true'));
   }
+
+  showZodiac(): Signal<boolean> {
+    return this._showZodiac.asReadonly();
+  }
+
+  toggleZodiac(): void {
+    this._showZodiac.set(!this._showZodiac());
+   }
 }

@@ -118,3 +118,10 @@ ngx-graph {
 .mat-drawer-container {
   background: transparent !important; /* Loại bỏ nền */
 }
+
+.zodiac-widget {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: scale(1.02);
+  }
+}

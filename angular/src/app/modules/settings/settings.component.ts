@@ -10,7 +10,10 @@ import { PhotosComponent } from './photos/photos.component';
 import { GreetingsComponent } from './greetings/greetings.component';
 import { MantrasComponent } from './mantras/mantras.component';
 import { GeneralComponent } from './general/general.component';
-
+import { ZodiacComponent } from './zodiac/zodiac.component';
+import { PipeModule } from 'src/app/pipes/pipe.module';
+import { Tabs } from './settings.model';
+ 
 @Component({
   selector: 'app-settings',
   standalone: true,
@@ -24,7 +27,9 @@ import { GeneralComponent } from './general/general.component';
     MatSidenavModule,
     GreetingsComponent,
     MantrasComponent,
-    GeneralComponent
+    GeneralComponent,
+    ZodiacComponent,
+    PipeModule
   ],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
@@ -32,10 +37,12 @@ import { GeneralComponent } from './general/general.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsComponent {
-  tabs: { id: string; name: string }[] = [{ id: 'general', name: 'Chung' }, { id: 'photos', name: 'Ảnh' }];
+  tabs: { id: string; name: string }[] = [{ id: 'general', name: 'Chung' },
+  { id: 'photos', name: 'Ảnh' } ];
   selectedTab: number = 0;
   selectedTabGeneral: number = 0;
-
+  menus = Tabs;
+  
   constructor(
     private cd: ChangeDetectorRef
   ) { }

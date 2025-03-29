@@ -78,6 +78,21 @@ export class GeminiService {
     return await this.indexedDBService.saveGreetings(this.defaultGreetings);
   }
 
+  getPromtAi(text: string): Observable<string> {
+    return this.http.post<{ choices?: { message: { content: string } }[] }>(
+      `${this.apiUrl}/openai`,
+      { prompt: text } // OpenAI API sử dụng "prompt" thay vì "contents"
+    ).pipe(
+      map(response => {
+        if (response.choices?.length > 0) {
+          const message = response.choices[0].message.content;
+          return message;
+        }
+        return 'Default greeting message';
+      }),
+      catchError(() => of('Default greeting message')) // Xử lý lỗi API
+    );
+  }
   getGreeting(text: string): Observable<string> {
     return this.http.post<{ choices?: { message: { content: string } }[] }>(
       `${this.apiUrl}/openai`,

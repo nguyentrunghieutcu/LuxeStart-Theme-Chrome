@@ -23,6 +23,8 @@ import { MantraService } from 'src/app/services/mantra.service';
 import { CommonModule } from '@angular/common';
 import { CustomOverlayComponent } from 'src/app/components/popover-overlay/popover-overlay.component';
 import { SettingsStateService } from 'src/app/services/settings.service';
+import { ZodiacComponent } from '../settings/zodiac/zodiac.component';
+import { ZodiacWidgetComponent } from './widgets/zodiac-widget.component';
 
 @Component({
   selector: 'app-tab',
@@ -44,7 +46,7 @@ import { SettingsStateService } from 'src/app/services/settings.service';
     PopupOverlayComponent, TodosComponent, MatSidenavModule,
     NgCircleProgressModule, MatButtonModule, DragDropModule, OverlayModule,
     MatMenuModule, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
-    CustomOverlayComponent, SettingsComponent
+    CustomOverlayComponent, SettingsComponent, ZodiacWidgetComponent
   ],
   templateUrl: 'tab.component.html',
   styleUrls: ['tab.component.scss'],

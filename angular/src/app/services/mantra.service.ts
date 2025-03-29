@@ -1,15 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IndexedDBService } from './indexed-db.service';
 
+export interface Mantra {
+  id: number;
+  text: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class MantraService {
-  private apiUrl = environment.apiUrl;
-  private defaultMantras = [
+  private readonly http = inject(HttpClient);
+  private readonly indexedDBService = inject(IndexedDBService);
+  private readonly apiUrl = environment.apiUrl;
+  
+  public defaultMantras = [
     'I am capable of achieving anything I set my mind to',
     'Every day in every way, I am getting better and better',
     'I choose to be confident and self-assured',
@@ -17,16 +25,13 @@ export class MantraService {
     'I create my own opportunities'
   ];
 
-  constructor(
-    private http: HttpClient,
-    private indexedDBService: IndexedDBService
-  ) {
+  constructor() {
     this.initializeMantras();
   }
 
-  private async initializeMantras() {
+  private async initializeMantras(): Promise<void> {
     const mantras = await this.indexedDBService.getMantraTexts();
-    if (mantras.length === 0) {
+    if (!mantras.length) {
       await this.indexedDBService.saveMantras(this.defaultMantras);
     }
   }
@@ -81,18 +86,16 @@ export class MantraService {
   getMantra(prompt: string): Observable<string> {
     return this.http.post<{ choices?: { message: { content: string } }[] }>(
       `${this.apiUrl}/openai`,
-      { prompt: `Tạo ra một khẩu hiệu thần chú chỉ 5 từ để truyền cảm hứng và động viên dựa trên chủ đề này: ${prompt}` }
+      { 
+        prompt: `Tạo ra một khẩu hiệu thần chú chỉ 5 từ để truyền cảm hứng và động viên dựa trên chủ đề này: ${prompt}` 
+      }
     ).pipe(
       map(response => {
-        if (response.choices?.length > 0) {
-          const message = response.choices[0].message.content;
-          // Save the new mantra
-          this.addMantra(message);
-          return message;
-        }
-        return 'Believe in yourself and all that you are';
+        const message = response.choices?.[0]?.message?.content ?? 'Believe in yourself and all that you are';
+        void this.addMantra(message);
+        return message;
       }),
       catchError(() => of('Believe in yourself and all that you are'))
     );
   }
-} 
+}

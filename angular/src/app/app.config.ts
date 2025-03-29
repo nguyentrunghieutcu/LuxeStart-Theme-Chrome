@@ -10,7 +10,15 @@ import { FuseConfig } from 'src/@luxstart/config';
 import {
   LogIn, SunMoon, CloudLightning, CloudDrizzle, Edit, MessageSquare,
   CloudRain, CloudSnow, CloudSun, Cloud, Cloudy, Tornado, CloudFog, Wind, AlarmSmoke, Plus, Loader, Trash2, X, Check,
-  Quote, Sparkles, Clock, RefreshCcw, Pin
+  Quote, Sparkles, Clock, RefreshCcw, Pin,
+  ChevronDown, Brain,
+  ChevronUp,
+  Heart,
+  Share,
+  Maximize,
+  Minimize,
+  Maximize2,
+  Minimize2
 } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 import { FuseSplashScreenService } from './services/splashscreen.service';
@@ -24,7 +32,7 @@ export const WEATHER_ICONS = {
   Rain: CloudRain,
   Snow: CloudSnow,
   Clear: CloudSun,
-  Clouds: Cloud, // Sửa lại từ 'Cloudy' -> 'Cloud'
+  Clouds: Cloud, 
   Tornado: Tornado,
   Mist: CloudFog,
   Smoke: AlarmSmoke,
@@ -47,7 +55,16 @@ export const WEATHER_ICONS = {
   Sparkles: Sparkles,
   Clock: Clock,
   RefreshCcw: RefreshCcw,
-  Pin: Pin
+  Pin: Pin,
+  ChevronDown: ChevronDown,
+  ChevronUp: ChevronUp,
+  Brain: Brain,
+  Heart: Heart,
+  Share: Share,
+  Maximize: Maximize,
+  Maximize2: Maximize2,
+  Minimize2: Minimize2,
+  Minimize: Minimize
 };
 
 /**
@@ -61,10 +78,10 @@ export const provideFuse = (config: FuseProviderConfig): Array<Provider | Enviro
       useValue: config?.fuse ?? {},
     },
     {
-      provide : ENVIRONMENT_INITIALIZER,
+      provide: ENVIRONMENT_INITIALIZER,
       useValue: () => inject(FuseSplashScreenService),
-      multi   : true,
-  },
+      multi: true,
+    },
   ];
   // Return the providers
   return providers;
