@@ -1,4 +1,22 @@
 
+/* Tùy chỉnh thanh cuộn */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px; /* Độ rộng thanh cuộn */
+  opacity: .5;
+
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  opacity: .5;
+  background-color: rgba(255, 255, 255, 0.5); /* Màu thanh kéo */
+  border-radius: 10px; /* Bo tròn góc */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2); /* Màu nền thanh cuộn */
+  opacity: .5;
+}
+
 .custom-menu {
   @apply w-[90vw] md:max-w-[720px] max-w-none #{'!important'};
 }

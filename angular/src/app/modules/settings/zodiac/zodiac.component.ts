@@ -9,10 +9,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ZodiacStorageService } from './zodiac.service';
  
 export interface ZodiacInfo {
-  overview: string;
-  career: string;
-  love: string;
-  money: string;
+  overview?: string;
+  career?: string;
+  love?: string;
+  money?: string;
 }
 
 @Component({

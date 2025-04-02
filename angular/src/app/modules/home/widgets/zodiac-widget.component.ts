@@ -27,6 +27,7 @@ export class ZodiacWidgetComponent implements OnInit {
     hasZodiacInfo = false;
     showSetupForm = false;
     setupForm: FormGroup;
+    isLoading = false;  
 
     // Use computed signals from service
     readonly selectedSign = this.zodiacStorage.selectedSign;
@@ -44,6 +45,8 @@ export class ZodiacWidgetComponent implements OnInit {
             if (info) {
                 console.log(info)
                 this.hasZodiacInfo = true;
+                this.isSquareLayout = false;
+                this.isLoading = false;
                 this.cd.markForCheck();
             }
         });
@@ -96,6 +99,7 @@ export class ZodiacWidgetComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
+                this.isLoading = true; 
                 this.zodiacStorage.setSelectedSign(result);
                 this.zodiacStorage.fetchZodiacInfo(result)
                 this.cd.markForCheck();

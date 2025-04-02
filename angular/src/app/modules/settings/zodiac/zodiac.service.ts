@@ -47,32 +47,18 @@ export class ZodiacStorageService {
   }
 
   fetchZodiacInfo(sign: string) {
-    const prompt = `Tạo lời dự đoán tử vi hàng ngày cho cung hoàng đạo ${this.getVietnameseName(sign)} với các khía cạnh sau:
-    1. Tổng quan ngày hôm nay
-    2. Dự đoán về sự nghiệp và công việc
-    3. Tình yêu và các mối quan hệ
-    4. Tài chính và tiền bạc
-    Trả lời dưới dạng JSON với các trường: overview, career, love, money. Viết bằng tiếng Việt.`;
+    const prompt = `Tạo lời dự đoán tử vi hàng ngày tổng quan cho cung hoàng đạo ${this.getVietnameseName(sign)} với các khía cạnh sau:
+   ngắn gọn, không bị ngắt câu và Viết bằng tiếng Việt.`;
 
     this.geminiService.getPromtAi(prompt).subscribe(
       response => {
         const cleanResponse = response
-          .replace(/```json\n|\n```/g, '')
-          .replace(/\n/g, ' ')
-          .replace(/\\/g, '\\\\')
-          .replace(/(?<!\\)"/g, '\\"')
-          .trim();
+          .replace(/\*\*.*?\*\*/g, '')
+          .replace(/Tử vi hàng ngày cho cung.*?:/g, '')
+          .trim(); console.log(cleanResponse)
 
-        const jsonStr = `{"overview":"${cleanResponse['overview'] || ''}","career":"${cleanResponse['career'] || ''}",
-        "love":"${cleanResponse['love'] || ''}","money":"${cleanResponse['money'] || ''}"}`;
-        const parsedResponse = JSON.parse(jsonStr);
-
-        console.log(parsedResponse)
         const zodiacInfo: ZodiacInfo = {
-          overview: parsedResponse.overview || 'Không thể tải thông tin tổng quan',
-          career: parsedResponse.career || 'Không thể tải thông tin sự nghiệp',
-          love: parsedResponse.love || 'Không thể tải thông tin tình yêu',
-          money: parsedResponse.money || 'Không thể tải thông tin tài chính'
+          overview: cleanResponse || 'Không thể tải thông tin tổng quan',
         };
         this.saveZodiacInfo(sign, zodiacInfo);
         return zodiacInfo;

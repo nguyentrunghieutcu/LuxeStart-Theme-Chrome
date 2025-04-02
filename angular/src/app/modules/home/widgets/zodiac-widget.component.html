@@ -1,10 +1,10 @@
 <div class="relative group transition-all duration-300">
     <!-- Background with mystical gradient and blur -->
     <div
-    [class]="isSquareLayout ? 
+        [class]="isSquareLayout ? 
       'w-[200px] h-[200px] origin-top-left' : 
       'w-[320px] h-[200px] origin-top-left'"
-    [ngClass]="isDarkMode ? [
+        [ngClass]="isDarkMode ? [
       'bg-gradient-to-br from-slate-900/80 via-indigo-900/50 to-purple-900/60',
       'text-white',
       'border-white/5'
@@ -13,8 +13,8 @@
       'text-slate-800',
       'border-slate-200'
     ]"
-    class="relative backdrop-blur-xl rounded-xl p-4 shadow-lg border transform transition-all duration-500 ease-in-out"
->
+        class="relative backdrop-blur-xl rounded-xl p-4 shadow-lg border transform transition-all duration-500 ease-in-out"
+    >
         <!-- Mystical overlay effects -->
         <div
             [ngClass]="isDarkMode ? 'from-purple-400/5' : 'from-purple-200/20'"
@@ -51,35 +51,35 @@
                 style="top: 50%; left: 90%"
             ></div>
         </div>
-
+        <button
+            (click)="toggleLayout()"
+            class="absolute right-1 top-1 text-white/70 hover:text-white hover:bg-white/10 rounded-full p-1.5 transition-all duration-300"
+        >
+            <lucide-icon
+                [name]="isSquareLayout ? 'Minimize2' : 'Maximize2'"
+                class="w-4 h-4"
+            ></lucide-icon>
+        </button>
         <!-- Main content container -->
-        <div class="relative z-10 flex flex-col h-full gap-3">
+        <div class="hover:overflow-y-auto overflow-clip custom-scrollbar relative z-10 flex flex-col h-full gap-3">
             <!-- Layout Toggle -->
-            <div class="absolute top-0 right-0">
-                <button
-                    (click)="toggleLayout()"
-                    class="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-1.5 transition-all duration-300"
+            <div class="sticky top-0 right-0 flex justify-start items-start">
+                <h3
+                    class="text-white text-xl font-semibold tracking-wide"
+                    [class.mb-4]="isSquareLayout"
                 >
-                    <lucide-icon
-                        [name]="isSquareLayout ? 'Minimize2' : 'Maximize2'"
-                        class="w-4 h-4"
-                    ></lucide-icon>
-                </button>
+                    Hôm nay, {{ today | date:'d' }} tháng {{ today | date:'M' }}
+                </h3>
+
             </div>
 
             <!-- Rest of the content structure remains the same, updating styles -->
             <div [class]="isSquareLayout ? 'flex-1 flex flex-col' : ''">
                 <!-- Date with enhanced styling -->
-                <h3
-                    class="text-white text-xl font-semibold tracking-wide"
-                    [class.mb-4]="isSquareLayout"
-                >
-                    Hôm nay, {{ today | date:'d MMM' }}
-                </h3>
 
                 <!-- Update form inputs and buttons with mystical styling -->
                 <div
-                    *ngIf="!hasZodiacInfo; else zodiacContent"
+                    *ngIf="!hasZodiacInfo && !isLoading; else (isLoading ? loadingTemplate : zodiacContent)"
                     class="flex flex-col items-center justify-center gap-4 py-1"
                 >
                     <div
@@ -145,39 +145,49 @@
 
                 <!-- Enhanced zodiac content styling -->
                 <ng-template #zodiacContent>
-                    <div [class]="isSquareLayout ? 'flex-1 flex flex-col items-center justify-center gap-6' : 'flex items-start gap-4'">
-                        <div class="relative group">
+                    <div [class]="isSquareLayout ? ' flex-1 flex flex-col items-center justify-center gap-6' : ' flex items-start gap-4'">
+                        <div class="relative group text-center">
                             <div class="absolute -inset-2 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 rounded-full blur-lg group-hover:opacity-75 transition-opacity duration-300"></div>
                             <img
                                 *ngIf="selectedSign"
-                                [src]="'assets/zodiac/' + selectedSign + '.png'"
-                                [class]="isSquareLayout ? 'w-20 h-20' : 'w-12 h-12'"
-                                class="relative z-10"
+                                [src]="'assets/zodiac/photos/' + selectedSign() + '.webp'"
+                                [class]="isSquareLayout ? 'w-14 h-14' : 'w-20 h-20'"
+                                class="relative  rounded-full border-2 border-purple-900/50 shadow-lg shadow-purple-500/20 backdrop-blur-xl transition-all duration-300"
                             >
+                            <p class="text-white italic text-sm items-center">{{getVietnameseName(selectedSign() )}}</p>
                         </div>
 
                         <div
-                            class="flex flex-col gap-2"
+                            class="flex-1 flex flex-col gap-2"
                             [class.w-full]="isSquareLayout"
                         >
-                           
+                            <div
+                                class="italic"
+                                innerHTML="{{ zodiacInfo()?.overview }}"
+                            >
+                            </div>
+
                         </div>
-                        <p>{{ zodiacInfo()?.overview }}</p>
+                    </div>
+                </ng-template>
+
+                <ng-template #loadingTemplate>
+                    <div class="flex flex-col gap-2 animate-pulse">
+                        <div class="h-4 bg-white/10 rounded w-3/4"></div>
+                        <div class="h-4 bg-white/10 rounded w-1/2"></div>
+                        <div class="h-4 bg-white/10 rounded w-2/3"></div>
                     </div>
                 </ng-template>
             </div>
 
             <!-- Enhanced bottom section -->
-            <div
+            <!-- <div
                 *ngIf="hasZodiacInfo"
                 [class.mt-4]="isSquareLayout"
                 [ngClass]="isDarkMode ? 'border-white/5' : 'border-slate-200'"
                 class="border-t border-white/5 pt-4"
             >
-                <p class="text-white/80 text-sm line-clamp-2 italic">
-                    Một chuỗi thành công sắp bắt đầu trong cuộc sống của bạn, và bây giờ là lúc để xây dựng...
-                </p>
-
+                
                 <div class="flex items-center justify-between pt-2">
                     <div class="flex gap-3">
                         <button class="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-1.5 transition-all duration-300">
@@ -200,7 +210,7 @@
                         Xem Thêm
                     </button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
