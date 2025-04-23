@@ -47,15 +47,21 @@ export class ZodiacStorageService {
   }
 
   fetchZodiacInfo(sign: string) {
-    const prompt = `Tạo lời dự đoán tử vi hàng ngày tổng quan cho cung hoàng đạo ${this.getVietnameseName(sign)} với các khía cạnh sau:
-   ngắn gọn, không bị ngắt câu và Viết bằng tiếng Việt.`;
+    const prompt = `Viết lời dự đoán tử vi hôm nay cho cung hoàng đạo ${this.getVietnameseName(sign)}. 
+    Yêu cầu:
+    - Chỉ viết phần tổng quan
+    - Viết bằng tiếng Việt
+    - Ngắn gọn, súc tích (khoảng 2-3 câu)
+    - Không thêm các ký tự đặc biệt hoặc định dạng
+    - Không thêm tiêu đề hoặc phần mở đầu`;
 
     this.geminiService.getPromtAi(prompt).subscribe(
       response => {
         const cleanResponse = response
           .replace(/\*\*.*?\*\*/g, '')
-          .replace(/Tử vi hàng ngày cho cung.*?:/g, '')
-          .trim(); console.log(cleanResponse)
+          .replace(/^[^:]*:/g, '')  // Remove any prefix before colon
+          .replace(/[\n\r]+/g, ' ') // Replace multiple newlines with single space
+          .trim();
 
         const zodiacInfo: ZodiacInfo = {
           overview: cleanResponse || 'Không thể tải thông tin tổng quan',

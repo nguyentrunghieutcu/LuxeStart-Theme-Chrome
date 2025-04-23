@@ -18,7 +18,11 @@ import {
   Maximize,
   Minimize,
   Maximize2,
-  Minimize2
+  Minimize2,
+  Play,
+  ChevronLeft,
+  Pause,
+  Music
 } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 import { FuseSplashScreenService } from './services/splashscreen.service';
@@ -32,7 +36,7 @@ export const WEATHER_ICONS = {
   Rain: CloudRain,
   Snow: CloudSnow,
   Clear: CloudSun,
-  Clouds: Cloud, 
+  Clouds: Cloud,
   Tornado: Tornado,
   Mist: CloudFog,
   Smoke: AlarmSmoke,
@@ -64,7 +68,11 @@ export const WEATHER_ICONS = {
   Maximize: Maximize,
   Maximize2: Maximize2,
   Minimize2: Minimize2,
-  Minimize: Minimize
+  Minimize: Minimize,
+  Play: Play,
+  ChevronLeft: ChevronLeft,
+  Pause: Pause,
+  Music: Music
 };
 
 /**

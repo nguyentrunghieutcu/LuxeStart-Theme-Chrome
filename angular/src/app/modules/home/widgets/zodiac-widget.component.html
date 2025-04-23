@@ -1,20 +1,9 @@
 <div class="relative group transition-all duration-300">
-    <!-- Background with mystical gradient and blur -->
-    <div
-        [class]="isSquareLayout ? 
-      'w-[200px] h-[200px] origin-top-left' : 
-      'w-[320px] h-[200px] origin-top-left'"
-        [ngClass]="isDarkMode ? [
-      'bg-gradient-to-br from-slate-900/80 via-indigo-900/50 to-purple-900/60',
-      'text-white',
-      'border-white/5'
-    ] : [
-      'bg-gradient-to-br from-white/90 via-indigo-50/50 to-purple-100/60',
-      'text-slate-800',
-      'border-slate-200'
-    ]"
-        class="relative backdrop-blur-xl rounded-xl p-4 shadow-lg border transform transition-all duration-500 ease-in-out"
-    >
+    <div class="w-[320px] h-[200px] origin-top-left
+                bg-gradient-to-br from-slate-900/80 via-indigo-900/50 to-purple-900/60
+                text-white border-white/5
+                relative backdrop-blur-xl rounded-xl p-4 shadow-lg border
+                transform transition-all duration-500 ease-in-out">
         <!-- Mystical overlay effects -->
         <div
             [ngClass]="isDarkMode ? 'from-purple-400/5' : 'from-purple-200/20'"
@@ -22,8 +11,8 @@
         >
         </div>
         <div
-            [ngClass]="isDarkMode ? 
-      'from-indigo-500/10 via-purple-500/10 to-pink-500/10' : 
+            [ngClass]="isDarkMode ?
+      'from-indigo-500/10 via-purple-500/10 to-pink-500/10' :
       'from-indigo-200/20 via-purple-200/20 to-pink-200/20'"
             class="absolute -inset-[1px] rounded-xl bg-gradient-to-r blur-sm"
         >
@@ -52,11 +41,11 @@
             ></div>
         </div>
         <button
-            (click)="toggleLayout()"
+            (click)="toggleLayout(); $event.stopPropagation()"
             class="absolute right-1 top-1 text-white/70 hover:text-white hover:bg-white/10 rounded-full p-1.5 transition-all duration-300"
         >
             <lucide-icon
-                [name]="isSquareLayout ? 'Minimize2' : 'Maximize2'"
+                name="X"
                 class="w-4 h-4"
             ></lucide-icon>
         </button>
@@ -93,7 +82,7 @@
                             Khám phá vận mệnh của bạn qua chiêm tinh học
                         </p>
                         <button
-                            (click)="openZodiacSelector()"
+                            (click)="openZodiacSelector($event)"
                             class="px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-full transition-all duration-300 shadow-lg shadow-purple-500/20"
                         >
                             Bắt đầu
@@ -117,8 +106,8 @@
                             <input
                                 type="text"
                                 formControlName="name"
-                                [ngClass]="isDarkMode ? 
-                          'bg-white/5 text-white border-white/10 focus:border-purple-500' : 
+                                [ngClass]="isDarkMode ?
+                          'bg-white/5 text-white border-white/10 focus:border-purple-500' :
                           'bg-slate-100 text-slate-800 border-slate-200 focus:border-purple-400'"
                                 class="px-4 py-2 rounded-lg border outline-none backdrop-blur-xl transition-all duration-300"
                             >
@@ -187,7 +176,7 @@
                 [ngClass]="isDarkMode ? 'border-white/5' : 'border-slate-200'"
                 class="border-t border-white/5 pt-4"
             >
-                
+
                 <div class="flex items-center justify-between pt-2">
                     <div class="flex gap-3">
                         <button class="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-1.5 transition-all duration-300">
@@ -204,7 +193,7 @@
                         </button>
                     </div>
                     <button
-                        (click)="openZodiacSelector()"
+                        (click)="openZodiacSelector($event)"
                         class="text-indigo-400 hover:text-indigo-300 text-sm font-medium hover:bg-white/5 px-3 py-1 rounded-full transition-all duration-300"
                     >
                         Xem Thêm

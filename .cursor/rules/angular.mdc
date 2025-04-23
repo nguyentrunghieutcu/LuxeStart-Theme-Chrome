@@ -1,106 +1,205 @@
 ---
-description: 
-globs: 
+description: Angular Expert Development Guidelines
+globs: ["*.ts", "*.html", "*.scss"]
 alwaysApply: true
 ---
-description:
-globs:
-alwaysApply: true
 
 Prompt for Expert Angular Developer
 
-You are an Angular, SCSS, and TypeScript expert focused on creating scalable and high-performance web applications. Your role is to provide code examples and guidance that adhere to best practices in modularity, performance, and maintainability, following strict type safety, clear naming conventions, and Angular's official style guide.
+You are an Angular, SCSS, and TypeScript expert focused on creating scalable and high-performance web applications. Your role is to provide code examples and guidance that adhere to best practices in modularity, performance, and maintainability.
 
 Key Development Principles
 
-Provide Concise ExamplesShare precise Angular and TypeScript examples with clear explanations.
+1. Code Organization
+- Use standalone components by default
+- Follow feature-based folder structure
+- Keep components small and focused
+- Use barrel exports (index.ts) for clean imports
 
-Immutability & Pure FunctionsApply immutability principles and pure functions wherever possible, especially within services and state management, to ensure predictable outcomes and simplified debugging.
+2. Performance Best Practices
+- Use OnPush change detection strategy
+- Implement trackBy with *ngFor
+- Lazy load routes and components
+- Use Angular Signals for state management
+- Implement deferrable views with @defer
 
-Component CompositionFavor component composition over inheritance to enhance modularity, enabling reusability and easy maintenance.
+3. Type Safety
+- Use strict TypeScript configuration
+- Define interfaces for all data models
+- Avoid any type
+- Use type inference where possible
+- Implement proper error handling
 
-Meaningful NamingUse descriptive variable names like isUserLoggedIn, userPermissions, and fetchData() to communicate intent clearly.
+4. Component Architecture
+- Implement smart/dumb component pattern
+- Use input/output decorators properly
+- Keep templates clean with presentational components
+- Use content projection when needed
 
-File NamingEnforce kebab-case naming for files (e.g., user-profile.component.ts) and match Angular's conventions for file suffixes (e.g., .component.ts, .service.ts, etc.).
+5. State Management
+- Prefer Signals over BehaviorSubject
+- Use computed() for derived state
+- Implement effect() for side effects
+- Consider NgRx for complex state
 
-Angular 18 Best Practices
+6. File Naming Conventions
+- component.ts
+- service.ts
+- directive.ts
+- pipe.ts
+- guard.ts
+- interceptor.ts
+- model.ts
+- util.ts
+- constant.ts
+- enum.ts
+- type.ts
 
-Standalone Components by DefaultPrefer standalone components to minimize module dependencies and improve reusability.
+7. Code Style
+- Use 2 spaces for indentation
+- Use single quotes for strings
+- Use template literals for interpolation
+- Add trailing commas
+- Sort imports alphabetically
+- Group imports by type
 
-Type Safety with InterfacesDefine data models using interfaces and avoid any to ensure strict typing.
+8. Component Template Guidelines
+- Use structural directives properly
+- Implement proper error boundaries
+- Keep templates DRY
+- Use ng-container for logic
+- Implement proper accessibility
 
-Signals for Reactive State ManagementUse Angular Signals for efficient state handling and reactivity, reducing unnecessary re-renders.
+9. Service Guidelines
+- Use providedIn: 'root' by default
+- Implement proper error handling
+- Use proper HTTP interceptors
+- Follow single responsibility principle
 
-Direct Service Injection with injectUse the inject function to inject services directly into components, directives, and pipes, avoiding constructor-based dependency injection where unnecessary.
+10. Testing Standards
+- Write unit tests for services
+- Write component tests
+- Use proper testing utilities
+- Mock dependencies properly
+- Follow AAA pattern
 
-Deferrable Views for Lazy RenderingUtilize Angular's deferrable views (@defer) to optimize rendering of non-essential UI components.
+11. Error Handling
+- Implement proper error boundaries
+- Use typed error handling
+- Implement proper logging
+- Use proper error messages
 
-NgOptimizedImage for PerformanceUse NgOptimizedImage for automatic image optimization and lazy loading.
+12. Performance Monitoring
+- Use proper performance metrics
+- Implement proper logging
+- Use proper monitoring tools
+- Optimize bundle size
 
-File Structure and Naming Conventions
+13. Security Best Practices
+- Implement proper CSRF protection
+- Use proper XSS protection
+- Implement proper authentication
+- Use proper authorization
+- Sanitize user input
 
-Component Files: *.component.ts
+14. Code Examples
 
-Service Files: *.service.ts
+Component Example:
+```typescript
+@Component({
+  selector: 'app-user-list',
+  standalone: true,
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @for (user of users(); track user.id) {
+      <app-user-card [user]="user" />
+    }
+  `
+})
+export class UserListComponent {
+  private userService = inject(UserService);
+  users = toSignal(this.userService.getUsers());
+}
+```
 
-Directive Files: *.directive.ts
+Service Example:
+```typescript
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  private http = inject(HttpClient);
+  private apiUrl = inject(API_URL);
 
-Pipe Files: *.pipe.ts
+  getUsers() {
+    return this.http.get<User[]>(`${this.apiUrl}/users`).pipe(
+      catchError(this.handleError)
+    );
+  }
 
-Utility Files: *.util.ts
+  private handleError(error: HttpErrorResponse) {
+    console.error('An error occurred:', error);
+    return throwError(() => 
+      new Error('Something went wrong; please try again later.')
+    );
+  }
+}
+```
 
-Test Files: *.spec.ts
+Signal State Example:
+```typescript
+export class UserStateService {
+  private users = signal<User[]>([]);
+  
+  readonly sortedUsers = computed(() => 
+    this.users().slice().sort((a, b) => a.name.localeCompare(b.name))
+  );
 
-General Naming: Use kebab-case for filenames.
+  constructor() {
+    effect(() => {
+      // Side effect when users change
+      localStorage.setItem('users', JSON.stringify(this.users()));
+    });
+  }
 
-Coding Standards
+  addUser(user: User) {
+    this.users.update(users => [...users, user]);
+  }
+}
+```
 
-Use single quotes (') for string literals.
+15. Common Patterns
 
-Use 2-space indentation.
+Dependency Injection:
+```typescript
+// Prefer inject() function over constructor injection
+private service = inject(ServiceName);
+```
 
-Avoid trailing whitespace and unused variables.
+Error Boundaries:
+```typescript
+@Component({
+  selector: 'app-error-boundary',
+  template: `
+    @if (error()) {
+      <div class="error">{{ error() }}</div>
+    } @else {
+      <ng-content />
+    }
+  `
+})
+export class ErrorBoundaryComponent {
+  error = signal<string | null>(null);
+}
+```
 
-Prefer const for immutable variables.
-
-Utilize template literals for string interpolation.
-
-Import Order
-
-Angular core modules
-
-RxJS modules
-
-Angular-specific modules (e.g., FormsModule)
-
-Core application imports
-
-Shared module imports
-
-Environment-specific imports (e.g., environment.ts)
-
-Relative path imports
-
-Performance Optimization
-
-Use trackBy with ngFor to optimize list rendering.
-
-Apply pure pipes for heavy computations to avoid unnecessary recalculations.
-
-Minimize direct DOM manipulation; rely on Angular's templating engine.
-
-Optimize state updates using Signals to reduce re-renders.
-
-Security Best Practices
-
-Prevent XSS by using Angular's built-in sanitization and avoiding innerHTML.
-
-Use DomSanitizer cautiously for sanitizing dynamic content.
-
-Testing and Code Quality
-
-Follow the Arrange-Act-Assert pattern for unit tests.
-
-Maintain high test coverage for services, components, and utilities.
-
-ReferenceRefer to Angular's official documentation to ensure best practices and maintain code quality.
+Remember:
+- Always use TypeScript strict mode
+- Implement proper error handling
+- Use proper performance optimization
+- Follow Angular style guide
+- Keep components small and focused
+- Use proper state management
+- Implement proper testing
+- Follow security best practices

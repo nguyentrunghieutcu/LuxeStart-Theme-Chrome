@@ -10,6 +10,33 @@ LuxeStart được xây dựng nhằm:
 - Tăng cường trải nghiệm người dùng thông qua thiết kế tinh tế và sang trọng.
 - Giúp bạn tận dụng tối đa trang bắt đầu để tập trung vào các mục tiêu cá nhân và công việc.
 
+### Công nghệ sử dụng
+
+**Frontend:**
+- 🅰️ Angular 18 (Standalone Components)
+- 🎨 TailwindCSS + Angular Material
+- 💅 SCSS cho styling
+- 📦 Chrome Extension API (Manifest V3)
+
+**Backend & Infrastructure:**
+- ☁️ Cloudflare Workers
+- 🚀 Hono (Backend Framework)
+- 🔄 OpenAPI/Swagger
+- 🗄️ IndexedDB (Local Storage)
+
+**AI & External Services:**
+- 🤖 Google Gemini API
+- 🧠 OpenAI API
+- 🖼️ Unsplash API
+- 🌤️ OpenWeather API
+
+**Development Tools:**
+- 📝 TypeScript
+- 🛠️ Vite
+- 📦 npm/Node.js
+- 🔧 Chrome DevTools
+- 🧪 Jest (Unit Testing)
+
 ### Tính năng hiện có
 
 **Core Features:**

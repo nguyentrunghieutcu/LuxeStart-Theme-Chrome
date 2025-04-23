@@ -1,25 +1,35 @@
-import { Component, ChangeDetectionStrategy, inject, OnInit, ChangeDetectorRef, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit, ChangeDetectorRef, effect, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ZodiacSelectorComponent } from '../../settings/zodiac/zodiac-selector.component';
 import { ZodiacStorageService } from '../../settings/zodiac/zodiac.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { DarkModeService } from '../../../services/darkmode.service';
+import { CustomOverlayComponent } from 'src/app/components/popover-overlay/popover-overlay.component';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-zodiac-widget',
     standalone: true,
-    imports: [CommonModule, LucideAngularModule, MatDialogModule, ReactiveFormsModule],
+    imports: [
+        CommonModule,
+        LucideAngularModule,
+        ReactiveFormsModule,
+        ZodiacSelectorComponent,
+        MatDialogModule
+    ],
     templateUrl: './zodiac-widget.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ZodiacWidgetComponent implements OnInit {
-    private dialog = inject(MatDialog);
     private zodiacStorage = inject(ZodiacStorageService);
     private darkModeService = inject(DarkModeService);
     private cd = inject(ChangeDetectorRef);
-    // Remove cd injection as we'll use signals
+    private elementRef = inject(ElementRef);
+    @ViewChild('zodiacOverlay') zodiacOverlay!: CustomOverlayComponent;
+
+    // We'll rely on the backdrop click handler in the CustomOverlayComponent instead
+    // Remove cd injection as we'll use signals     
     isSquareLayout = true;
     isDarkMode = this.darkModeService.isDarkMode();
 
@@ -27,13 +37,16 @@ export class ZodiacWidgetComponent implements OnInit {
     hasZodiacInfo = false;
     showSetupForm = false;
     setupForm: FormGroup;
-    isLoading = false;  
+    isLoading = false;
 
     // Use computed signals from service
     readonly selectedSign = this.zodiacStorage.selectedSign;
     readonly zodiacInfo = this.zodiacStorage.zodiacInfo;
 
-    constructor(private fb: FormBuilder) {
+    constructor(
+        private fb: FormBuilder,
+        private dialog: MatDialog
+    ) {
         this.setupForm = this.fb.group({
             name: ['', [Validators.required]],
             birthDate: ['', [Validators.required]]
@@ -51,7 +64,7 @@ export class ZodiacWidgetComponent implements OnInit {
             }
         });
     }
-    
+
     ngOnInit() {
         const savedData = this.zodiacStorage.getZodiacInfo();
         if (savedData && this.zodiacStorage.isDataValid(savedData.timestamp)) {
@@ -77,7 +90,7 @@ export class ZodiacWidgetComponent implements OnInit {
             // this.zodiacStorage.saveZodiacInfo(name,
             //     birthDate,
             //     sign);
-             this.hasZodiacInfo = true;
+            this.hasZodiacInfo = true;
         }
     }
 
@@ -88,26 +101,35 @@ export class ZodiacWidgetComponent implements OnInit {
     }
 
     toggleLayout() {
-        this.isSquareLayout = !this.isSquareLayout;
+        // Close the popover when X is clicked
+        this.closePopover();
     }
 
-    openZodiacSelector() {
+    closePopover() {
+        if (this.zodiacOverlay) {
+            this.zodiacOverlay.closeOverlay();
+        }
+    }
+
+    openZodiacSelector(event: MouseEvent) {
         const dialogRef = this.dialog.open(ZodiacSelectorComponent, {
             width: '400px',
-            panelClass: 'custom-dialog'
+            panelClass: ['custom-dialog'],
         });
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.isLoading = true; 
-                this.zodiacStorage.setSelectedSign(result);
-                this.zodiacStorage.fetchZodiacInfo(result)
-                this.cd.markForCheck();
-
+                this.onSignSelected(result);
             }
         });
     }
 
+    onSignSelected(sign: string) {
+        this.isLoading = true;
+        this.zodiacStorage.setSelectedSign(sign);
+        this.zodiacStorage.fetchZodiacInfo(sign);
+        this.cd.markForCheck();
+    }
 
     getVietnameseName(sign: string | null): string {
         if (!sign) return '';

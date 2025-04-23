@@ -22,7 +22,7 @@ export interface ZodiacInfo {
   template: `
     <div class="relative">
       <div class="flex items-center gap-2 cursor-pointer p-2" (click)="isExpanded = !isExpanded">
-        <img *ngIf="selectedSign" [src]="'src/assets/zodiac/' + selectedSign + '.png'" 
+        <img *ngIf="selectedSign" [src]="'assets/zodiac/photos/' + selectedSign + '.webp'" 
           class="w-6 h-6" [alt]="selectedSign">
         <span class="text-white text-sm">{{selectedSign ? getVietnameseName(selectedSign) : 'Tử Vi'}}</span>
         <lucide-icon [name]="isExpanded ? 'chevron-up' : 'chevron-down'" 

@@ -11,13 +11,15 @@ export class SettingsStateService {
   private _showFooter = signal<boolean>(true);
   private _showTask = signal<boolean>(true);
   private _showZodiac = signal(true);
-  
+  private _showSounds = signal<boolean>(true);
+
   // Expose signals as read-only
   showWeather = this._showWeather.asReadonly();
   showClock = this._showClock.asReadonly();
   showMantra = this._showMantra.asReadonly();
   showFooter = this._showFooter.asReadonly();
   showTask = this._showTask.asReadonly();
+  showSounds = this._showSounds.asReadonly();
 
   constructor() {
     // Load saved states from localStorage
@@ -50,6 +52,11 @@ export class SettingsStateService {
     this.saveState('showTask', show);
   }
 
+  toggleSounds(show: boolean): void {
+    this._showSounds.set(show);
+    this.saveState('showSounds', show);
+  }
+
   // Lưu trạng thái vào localStorage
   private saveState(key: string, value: boolean): void {
     localStorage.setItem(key, JSON.stringify(value));
@@ -62,6 +69,7 @@ export class SettingsStateService {
     this._showMantra.set(JSON.parse(localStorage.getItem('showMantra') || 'true'));
     this._showFooter.set(JSON.parse(localStorage.getItem('showFooter') || 'true'));
     this._showTask.set(JSON.parse(localStorage.getItem('showTask') || 'true'));
+    this._showSounds.set(JSON.parse(localStorage.getItem('showSounds') || 'true'));
   }
 
   showZodiac(): Signal<boolean> {
