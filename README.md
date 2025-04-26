@@ -1,14 +1,4 @@
-# LuxeStart - Task Manager
-
-LuxeStart is a simple and elegant task manager Chrome extension designed to help you stay organized and productive. It allows you to:
-
-- Add, edit, and delete tasks.
-- Mark tasks as completed.
-- Stay focused on your daily goals.
-
-## LuxeStart - Extension Theme Chrome
-
-LuxeStart là một extension Chrome open source, mang đến cho người dùng một trải nghiệm tối giản nhưng đầy sang trọng. Với LuxeStart, bạn sẽ biến trang bắt đầu của mình thành nơi khai phá tiềm năng và khởi động nhanh chóng, giúp bạn chuyển từ ý tưởng đến hành động một cách hiệu quả.
+# LuxeStart - Each photo for your day
 
 ![Alt text](./images/main.png)
 
@@ -20,13 +10,68 @@ LuxeStart được xây dựng nhằm:
 - Tăng cường trải nghiệm người dùng thông qua thiết kế tinh tế và sang trọng.
 - Giúp bạn tận dụng tối đa trang bắt đầu để tập trung vào các mục tiêu cá nhân và công việc.
 
-### Tính năng chính
+### Công nghệ sử dụng
 
-- **Thiết kế tối giản**: LuxeStart tập trung vào sự đơn giản, giúp loại bỏ sự lộn xộn và mang lại trải nghiệm tinh tế.
-- **Tùy chỉnh nội dung**: Dễ dàng tùy chỉnh thông tin hiển thị trên trang tab mới, bao gồm khả năng thay đổi hình ảnh nền theo sở thích cá nhân.
-- **Hỗ trợ hình ảnh**: Người dùng có thể tải lên và chọn hình ảnh riêng để làm hình nền cho tab mới, tạo ra một trải nghiệm cá nhân hóa hơn.
-- **Hiệu suất tối ưu**: LuxeStart được thiết kế để tải nhanh chóng mà không làm chậm trình duyệt của bạn.
-- **Hỗ trợ chế độ sáng/tối**: Chuyển đổi dễ dàng giữa chế độ sáng và tối để phù hợp với điều kiện ánh sáng của bạn.
+**Frontend:**
+- 🅰️ Angular 18 (Standalone Components)
+- 🎨 TailwindCSS + Angular Material
+- 💅 SCSS cho styling
+- 📦 Chrome Extension API (Manifest V3)
+
+**Backend & Infrastructure:**
+- ☁️ Cloudflare Workers
+- 🚀 Hono (Backend Framework)
+- 🔄 OpenAPI/Swagger
+- 🗄️ IndexedDB (Local Storage)
+
+**AI & External Services:**
+- 🤖 Google Gemini API
+- 🧠 OpenAI API
+- 🖼️ Unsplash API
+- 🌤️ OpenWeather API
+
+**Development Tools:**
+- 📝 TypeScript
+- 🛠️ Vite
+- 📦 npm/Node.js
+- 🔧 Chrome DevTools
+- 🧪 Jest (Unit Testing)
+
+### Tính năng hiện có
+
+**Core Features:**
+- 🎨 Giao diện tối giản với chế độ sáng/tối tự động
+- 🖼️ Tùy chỉnh hình nền từ Unsplash/upload ảnh cá nhân
+- ⏰ Đồng hồ  
+- 📝 Quản lý công việc (Todo List)
+- 🔮 Dự đoán tử vi hàng ngày theo cung hoàng đạo (đang phát triển)
+- 🌦️ Hiển thị thông tin thời tiết 
+
+**Tính năng hệ thống:**
+- 🛠️ Quản lý cài đặt tập trung
+- 💾 Đồng bộ dữ liệu qua IndexedDB
+- 📦 Hỗ trợ Chrome Extension Manifest v3
+- 🌐 Tích hợp AI Gemini, OpenAi cho nội dung thông minh
+- 🔧 Hệ thống plugin mở rộng (đang phát triển)
+
+### Roadmap phát triển
+
+**Q3/2024 - Tối ưu trải nghiệm người dùng**
+- [ ] Tích hợp thông tin thời tiết theo vị trí
+- [ ] Thêm chế độ động lực với quote hàng ngày
+- [ ] Analytics sử dụng cơ bản
+
+**Q4/2024 - Mở rộng tính năng**
+- [ ] Đồng bộ đám mây (Firebase integration)
+- [ ] Hỗ trợ đa ngôn ngữ
+- [ ] Hệ thống plugin cho bên thứ 3
+- [ ] Tích hợp lịch Google Calendar
+
+**2025 - Hướng tới nền tảng đa dụng**
+- [ ] Phiên bản mobile extension
+- [ ] Hệ thống points/thưởng
+- [ ] Tích hợp AI personal assistant
+- [ ] Social sharing features
 
 ### Cài đặt và cấu hình
 

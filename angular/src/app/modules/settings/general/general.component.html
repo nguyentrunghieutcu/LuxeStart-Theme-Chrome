@@ -24,5 +24,10 @@
       <app-switch-button [isOn]="settingsStateService.showFooter()" type="switch"
         (toggle)="settingsStateService.toggleFooter($event)"></app-switch-button>
     </div>
+    <div class="flex items-center justify-between">
+      <span class="text-sm text-slate-700 dark:text-white">Hiển thị âm nhạc</span>
+      <app-switch-button [isOn]="settingsStateService.showSounds()" type="switch"
+        (toggle)="settingsStateService.toggleSounds($event)"></app-switch-button>
+    </div>
   </div>
 </div>

@@ -1,64 +1,79 @@
-<div (click)="keepMenuOpen($event)" class="w-[720px] h-[85vh] ml-8 rounded-lg flex-col md:flex  overflow-auto overflow-x-hidden custom-scrollbar 
-  ">
-  <div class=" w-full h-full  flex flex-col md:flex-row justify-start">
+<div
+    (click)="keepMenuOpen($event)"
+    class="w-[720px] h-[85vh] ml-8 rounded-lg flex-col md:flex  overflow-auto overflow-x-hidden custom-scrollbar 
+  "
+>
+    <div class=" w-full h-full  flex flex-col md:flex-row justify-start">
 
-    <div class="bg-slate-100 dark:bg-slate-900/90 md:min-w-[200px] w-full md:w-1/4 flex flex-row md:flex-col">
-      <div class="w-full p-2 pt-5">
-        <div class="relative right-0">
-          <ul
-            class=" min-h-9 h-9 relative flex flex-wrap px-1.5 py-1.5 list-none rounded-md dark:bg-gray-950 bg-slate-300 "
-            role="list">
-            <li class="flex justify-center items-center z-10 flex-auto text-center min-w-14"
-              *ngFor="let tab of tabs; let i = index">
-              <a [ngClass]="{'rounded-[4px] dark:bg-gray-500 bg-white shadow-md': selectedTab === i}"
-                class="h-6 z-30 line-clamp-1 text-slate-500 dark:text-white flex items-center justify-center w-full px-0 py-2 text-xs mb-0 transition-all ease-in-out border-0 rounded-md cursor-pointer"
-                role="tab" [attr.aria-selected]="selectedTab === i" (click)="selectTab(i)">
-                {{ tab.name }}
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- Menu bên trái -->
-      <div class=" p-2 text-white text-start justify-start flex flex-col gap-2  ">
-        <div class="tabs" *ngIf="selectedTab === 1">
-          <div (click)="changeTab(0)" [ngClass]="{'bg-slate-200 dark:bg-gray-700': selectedTabGeneral === 0}"
-            class="rounded p-2 hover:bg-slate-100/10 justify-start flex text-base dark:text-white text-slate-500 text-start cursor-pointer">
-            <span class="inline-flex items-center gap-2 p-0 text-base dark:text-white text-slate-500">
-              <lucide-icon [name]="'sun-moon'" class="icon-size-4 dark:text-white text-slate-500"></lucide-icon>
-              Ảnh nền
-            </span>
-          </div>
+        <div class="bg-slate-100 dark:bg-slate-900/90 md:min-w-[200px] w-full md:w-1/4 flex flex-row md:flex-col">
+            <div class="w-full p-2 pt-5">
+                <div class="relative right-0">
+                    <ul
+                        class=" min-h-9 h-9 relative flex flex-wrap px-1.5 py-1.5 list-none rounded-md dark:bg-gray-950 bg-slate-300 "
+                        role="list"
+                    >
+                        <li
+                            class="flex justify-center items-center z-10 flex-auto text-center min-w-14"
+                            *ngFor="let tab of tabs; let i = index"
+                        >
+                            <a
+                                [ngClass]="{'rounded-[4px] dark:bg-gray-500 bg-white shadow-md': selectedTab === i}"
+                                class="h-6 z-30 line-clamp-1 text-slate-500 dark:text-white flex items-center justify-center w-full px-0 py-2 text-xs mb-0 transition-all ease-in-out border-0 rounded-md cursor-pointer"
+                                role="tab"
+                                [attr.aria-selected]="selectedTab === i"
+                                (click)="selectTab(i)"
+                            >
+                                {{ tab.name }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Menu bên trái -->
+            <div class=" p-2 text-white text-start justify-start flex flex-col gap-2  ">
+                <div
+                    class="tabs"
+                    *ngIf="selectedTab === 1"
+                >
+                    <div
+                        (click)="changeTab(0)"
+                        [ngClass]="{'bg-slate-200 dark:bg-gray-700': selectedTabGeneral === 0}"
+                        class="rounded p-2 hover:bg-slate-100/10 justify-start flex text-base dark:text-white text-slate-500 text-start cursor-pointer"
+                    >
+                        <span class="inline-flex items-center gap-2 p-0 text-base dark:text-white text-slate-500">
+                            <lucide-icon
+                                [name]="'sun-moon'"
+                                class="icon-size-4 dark:text-white text-slate-500"
+                            ></lucide-icon>
+                           Ảnh nền
+                        </span>
+                    </div>
 
-        </div>
+                </div>
 
-        <div class="tabs" *ngIf="selectedTab === 0">
-          <div (click)="changeTab(0)" [ngClass]="{'bg-slate-200 dark:bg-gray-700': selectedTabGeneral === 0}"
-            class="rounded p-2 hover:bg-slate-100/10 justify-start flex text-base dark:text-white text-slate-500 text-start cursor-pointer">
-            <span class="inline-flex items-center gap-2 p-0 text-base dark:text-white text-slate-500">
-              <lucide-icon [name]="'sun-moon'" class="icon-size-4 dark:text-white text-slate-500"></lucide-icon>
-              Giao diện
-            </span>
-          </div>
+                <div
+                    class="tabs"
+                    *ngIf="selectedTab === 0"
+                >
+                    <ng-container *ngFor="let menu of menus;let i = index">
+                        <div
+                            (click)="changeTab(i)"
+                            [ngClass]="{'bg-slate-200 dark:bg-gray-700': selectedTabGeneral === i}"
+                            class="rounded p-2 hover:bg-slate-100/10 justify-start flex text-base dark:text-white text-slate-500 text-start cursor-pointer"
+                        >
+                            <span class="inline-flex items-center gap-2 p-0 text-base dark:text-white text-slate-500">
+                                <lucide-icon
+                                    name="{{ menu.icon}}"
+                                    class="icon-size-4 dark:text-white text-slate-500"
+                                ></lucide-icon>
+                                {{ menu.name}}
+                            </span>
+                        </div>
+                    </ng-container>
+ 
+                </div>
 
-          <div (click)="changeTab(1)" [ngClass]="{'bg-slate-200 dark:bg-gray-700': selectedTabGeneral === 1}"
-            class="rounded p-2 hover:bg-slate-100/10 justify-start flex text-base dark:text-white text-slate-500 text-start cursor-pointer">
-            <span class="inline-flex items-center gap-2 p-0 text-base dark:text-white text-slate-500">
-              <lucide-icon [name]="'message-square'" class="icon-size-4 dark:text-white text-slate-500"></lucide-icon>
-              Thông điệp
-            </span>
-          </div>
-
-          <div (click)="changeTab(2)" [ngClass]="{'bg-slate-200 dark:bg-gray-700': selectedTabGeneral === 2}"
-            class="rounded p-2 hover:bg-slate-100/10 justify-start flex text-base dark:text-white text-slate-500 text-start cursor-pointer">
-            <span class="inline-flex items-center gap-2 p-0 text-base dark:text-white text-slate-500">
-              <lucide-icon [name]="'quote'" class="icon-size-4 dark:text-white text-slate-500"></lucide-icon>
-              Thần chú
-            </span>
-          </div>
-        </div>
-
-        <!-- <div class="rounded p-2 hover:bg-slate-100/10 justify-start flex  text-base dark:text-white text-slate-500 text-start" *ngIf="selectedTab == 1">
+                <!-- <div class="rounded p-2 hover:bg-slate-100/10 justify-start flex  text-base dark:text-white text-slate-500 text-start" *ngIf="selectedTab == 1">
           <span class="text-base dark:text-white text-slate-500 text-start">Tasks</span>
         </div>
 
@@ -67,30 +82,34 @@
             <lucide-icon  [name]="'log-in'" class="icon-size-4 dark:text-white text-slate-500"></lucide-icon>
             Sign in</span>
         </div> -->
-      </div>
+            </div>
 
-    </div>
-
-    <div
-      class="w-full overflow-auto custom-scrollbar   flex-1  text-slate-700 bg-white dark:bg-slate-950/90   dark:text-white p-4">
-      <ng-container *ngIf="selectedTab === 0">
-        <!-- Appearance Section -->
-        <div *ngIf="selectedTabGeneral==0" class="mb-8">
-          <app-general></app-general>
         </div>
 
-        <!-- Greetings Section -->
-        <app-greetings *ngIf="selectedTabGeneral==1"></app-greetings>
+        <div class="w-full overflow-auto custom-scrollbar   flex-1  text-slate-700 bg-white dark:bg-slate-950/90   dark:text-white p-4">
+            <ng-container *ngIf="selectedTab === 0">
+                <!-- Appearance Section -->
+                <div
+                    *ngIf="selectedTabGeneral==0"
+                    class="mb-8"
+                >
+                    <app-general></app-general>
+                </div>
 
-        <!-- Mantras Section -->
-        <app-mantras *ngIf="selectedTabGeneral==2"></app-mantras>
-      </ng-container>
+                <!-- Greetings Section -->
+                <app-greetings *ngIf="selectedTabGeneral==1"></app-greetings>
 
-      <ng-container *ngIf="selectedTab === 1">
-        <app-photos></app-photos>
-      </ng-container>
+                <!-- Mantras Section -->
+                <app-mantras *ngIf="selectedTabGeneral==2"></app-mantras>
+                <!-- Mantras Section -->
+                <app-zodiac *ngIf="selectedTabGeneral==3"></app-zodiac>
+            </ng-container>
+
+            <ng-container *ngIf="selectedTab === 1">
+                <app-photos></app-photos>
+            </ng-container>
+         
+        </div>
 
     </div>
-
-  </div>
 </div>

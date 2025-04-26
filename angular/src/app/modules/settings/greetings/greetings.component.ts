@@ -126,20 +126,18 @@ export class GreetingsComponent implements OnInit {
   /**
    * Delete a greeting
    */
-  async deleteGreeting(index: number): Promise<void> {
-    const greeting = this.greetings[index];
-    if (greeting) {
-      this.isLoading = true;
-      try {
-        const success = await this.geminiService.deleteGreeting(greeting.id);
-        if (success) {
-          await this.loadGreetings();
-        }
-      } catch (error) {
-        console.error('Lỗi khi xóa lời chào:', error);
-      } finally {
-        this.isLoading = false;
+  async deleteGreeting(id: number): Promise<void> {
+    this.isLoading = true;
+    try {
+      const success = await this.geminiService.deleteGreeting(id);
+      if (success) {
+        await this.loadGreetings();
       }
+    } catch (error) {
+      console.error('Lỗi khi xóa lời chào:', error);
+    } finally {
+      this.isLoading = false;
+      this.cdr.markForCheck();
     }
   }
 

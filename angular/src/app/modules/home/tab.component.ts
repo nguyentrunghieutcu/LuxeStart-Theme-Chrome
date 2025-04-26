@@ -23,6 +23,14 @@ import { MantraService } from 'src/app/services/mantra.service';
 import { CommonModule } from '@angular/common';
 import { CustomOverlayComponent } from 'src/app/components/popover-overlay/popover-overlay.component';
 import { SettingsStateService } from 'src/app/services/settings.service';
+import { ZodiacWidgetComponent } from './widgets/zodiac-widget.component';
+import { HeaderRightComponent } from './widgets/headers/header-right.component';
+import { ZodiacStorageService } from '../settings/zodiac/zodiac.service';
+import { SoundsComponent } from '../sounds/sounds.component';
+import { MatIconModule } from '@angular/material/icon';
+import { SoundsService } from '../../services/sounds.service';
+import { GlobalMiniPlayerComponent } from '../../components/global-mini-player/global-mini-player.component';
+import { SoundsMiniPlayerComponent } from '../sounds/sounds-mini-player.component';
 
 @Component({
   selector: 'app-tab',
@@ -41,10 +49,13 @@ import { SettingsStateService } from 'src/app/services/settings.service';
   }],
   animations: [fuseAnimations],
   imports: [
-    PopupOverlayComponent, TodosComponent, MatSidenavModule,
+    TodosComponent, MatSidenavModule,
     NgCircleProgressModule, MatButtonModule, DragDropModule, OverlayModule,
-    MatMenuModule, CommonModule, FormsModule, AppClockComponent, FooterComponent, CurrentWeatherComponent,
-    CustomOverlayComponent, SettingsComponent
+    MatMenuModule, CommonModule, FormsModule, AppClockComponent, FooterComponent,
+    CustomOverlayComponent, SettingsComponent, ZodiacWidgetComponent, HeaderRightComponent,
+    SoundsComponent, MatIconModule,
+    GlobalMiniPlayerComponent,
+    SoundsMiniPlayerComponent
   ],
   templateUrl: 'tab.component.html',
   styleUrls: ['tab.component.scss'],
@@ -83,8 +94,12 @@ export class TabComponent {
   private readonly MANTRA_COOLDOWN = 5 * 60 * 1000; // 5 minutes in milliseconds
   private cachedMantra: string | null = null;
   settingsStateService = inject(SettingsStateService);
+  soundsService = inject(SoundsService);
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    public zodiacStorage: ZodiacStorageService
+  ) {
     effect(() => {
       const userName = this.localStorageService.getItem<string>('user');
       this.name.set(userName || 'Hieu');
@@ -97,6 +112,7 @@ export class TabComponent {
   @ViewChild('drawer') drawer: MatDrawer;
   isDrawerOpen = false;
   @ViewChild(PopupOverlayComponent) popup!: PopupOverlayComponent;
+  @ViewChild('soundsOverlay') soundsOverlay!: CustomOverlayComponent;
 
   async ngOnInit() {
     this.loadData();
@@ -301,5 +317,50 @@ export class TabComponent {
     // Update mantra immediately and setup new interval
     this.updateBackground();
     this.setupMantraInterval();
+  }
+
+  @ViewChild('zodiacOverlay') zodiacOverlay!: CustomOverlayComponent;
+
+  openZodiacWidget(event: MouseEvent | CustomEvent) {
+    let targetElement: HTMLElement;
+
+    if (event instanceof CustomEvent && event.detail && event.detail.event) {
+      // If it's a custom event from the HeaderRightComponent
+      targetElement = event.detail.event.currentTarget as HTMLElement;
+    } else {
+      // If it's a direct MouseEvent
+      event.stopPropagation(); // Prevent the click from propagating to document
+      targetElement = (event as MouseEvent).currentTarget as HTMLElement;
+    }
+
+    this.zodiacOverlay.openOverlay(targetElement);
+  }
+
+  closeZodiacWidget() {
+    if (this.zodiacOverlay) {
+      this.zodiacOverlay.closeOverlay();
+    }
+  }
+
+  getVietnameseName(sign: string): string {
+    const signMap: Record<string, string> = {
+      'aries': 'Bạch Dương',
+      'taurus': 'Kim Ngưu',
+      'gemini': 'Song Tử',
+      'cancer': 'Cự Giải',
+      'leo': 'Sư Tử',
+      'virgo': 'Xử Nữ',
+      'libra': 'Thiên Bình',
+      'scorpio': 'Bọ Cạp',
+      'sagittarius': 'Nhân Mã',
+      'capricorn': 'Ma Kết',
+      'aquarius': 'Bảo Bình',
+      'pisces': 'Song Ngư'
+    };
+    return signMap[sign] || sign;
+  }
+
+  openSoundsOverlay(element: HTMLElement) {
+    this.soundsOverlay.openOverlay(element);
   }
 }
