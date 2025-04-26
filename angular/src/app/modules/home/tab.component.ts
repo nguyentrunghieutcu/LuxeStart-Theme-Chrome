@@ -13,7 +13,7 @@ import { TodosComponent } from '../todos/todos.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenavModule, MatDrawer } from '@angular/material/sidenav';
 import { PopupOverlayComponent } from 'src/app/components/popup-overlay/popup-overlay.component';
-import { OverlayModule } from '@angular/cdk/overlay';
+import { Overlay, OverlayModule, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { SettingsComponent } from '../settings/settings.component';
 import { WeatherIconPipe } from 'src/app/pipes/weather-icon.pipe';
@@ -29,8 +29,7 @@ import { ZodiacStorageService } from '../settings/zodiac/zodiac.service';
 import { SoundsComponent } from '../sounds/sounds.component';
 import { MatIconModule } from '@angular/material/icon';
 import { SoundsService } from '../../services/sounds.service';
-import { GlobalMiniPlayerComponent } from '../../components/global-mini-player/global-mini-player.component';
-import { SoundsMiniPlayerComponent } from '../sounds/sounds-mini-player.component';
+import { CdkPortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-tab',
@@ -53,9 +52,7 @@ import { SoundsMiniPlayerComponent } from '../sounds/sounds-mini-player.componen
     NgCircleProgressModule, MatButtonModule, DragDropModule, OverlayModule,
     MatMenuModule, CommonModule, FormsModule, AppClockComponent, FooterComponent,
     CustomOverlayComponent, SettingsComponent, ZodiacWidgetComponent, HeaderRightComponent,
-    SoundsComponent, MatIconModule,
-    GlobalMiniPlayerComponent,
-    SoundsMiniPlayerComponent
+    SoundsComponent, MatIconModule, CdkOverlayOrigin
   ],
   templateUrl: 'tab.component.html',
   styleUrls: ['tab.component.scss'],
@@ -75,7 +72,7 @@ export class TabComponent {
 
   readonly dialog = inject(MatDialog);
 
-  name = signal('Hieu');
+  name = signal('Nhập tên');
   options = new CircleProgressOptions();
 
   _timer = null;
@@ -95,14 +92,22 @@ export class TabComponent {
   private cachedMantra: string | null = null;
   settingsStateService = inject(SettingsStateService);
   soundsService = inject(SoundsService);
+  @ViewChild(CdkPortal) portal!: CdkPortal;
+ 
 
+  @ViewChild('triggerTask') triggerTask!: CdkOverlayOrigin;
+  @ViewChild('triggerSetting') triggerSettings!: CdkOverlayOrigin;
+  public isTaskOverlayOpen = false;
+  public isSettingsOverlayOpen = false;
+ 
   constructor(
+    private overlay: Overlay,
     private cdr: ChangeDetectorRef,
     public zodiacStorage: ZodiacStorageService
   ) {
     effect(() => {
       const userName = this.localStorageService.getItem<string>('user');
-      this.name.set(userName || 'Hieu');
+      this.name.set(userName || 'Nhập tên');
       this.cdr.markForCheck();
     }, {
       allowSignalWrites: true,
@@ -319,6 +324,16 @@ export class TabComponent {
     this.setupMantraInterval();
   }
 
+  toggleTaskOverlay() {
+    this.isTaskOverlayOpen = !this.isTaskOverlayOpen;
+    this.cdr.markForCheck();
+  }
+
+  toggleSettingsOverlay() {
+    this.isSettingsOverlayOpen = !this.isSettingsOverlayOpen;
+    this.cdr.markForCheck();
+  }
+
   @ViewChild('zodiacOverlay') zodiacOverlay!: CustomOverlayComponent;
 
   openZodiacWidget(event: MouseEvent | CustomEvent) {
@@ -362,5 +377,12 @@ export class TabComponent {
 
   openSoundsOverlay(element: HTMLElement) {
     this.soundsOverlay.openOverlay(element);
+  }
+
+ 
+
+  protected openModal() {
+    const overlayRef = this.overlay.create();
+    overlayRef.attach(this.portal);
   }
 }

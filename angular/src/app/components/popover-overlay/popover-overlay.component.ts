@@ -4,14 +4,16 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 
 export type PopoverPlacement = 'top' | 'bottom' | 'left' | 'right';
-
 @Component({
   selector: 'app-custom-overlay',
   standalone: true,
   imports: [OverlayModule, CommonModule],
   template: `
     <ng-template #overlayContent>
-      <ng-content></ng-content>
+      <div class="popover-container">
+        <ng-content select="[popover-content]"></ng-content>
+        <div class="arrow" data-popper-arrow></div>
+      </div>
     </ng-template>
   `,
   styleUrls: ['./popover-overlay.component.scss']
@@ -24,16 +26,16 @@ export class CustomOverlayComponent implements AfterViewInit {
 
   constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef) { }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 
   private getPositions(placement: PopoverPlacement) {
     const positions: any[] = [];
-    
+
     switch (placement) {
       case 'top':
         positions.push(
-          { originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom', offsetY: -this.offset },
-          { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: this.offset }
+          { originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom', offsetY: 0 },
+          { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: 200 }
         );
         break;
       case 'bottom':
@@ -55,7 +57,7 @@ export class CustomOverlayComponent implements AfterViewInit {
         );
         break;
     }
-    
+
     return positions;
   }
 
@@ -67,49 +69,37 @@ export class CustomOverlayComponent implements AfterViewInit {
     const positionStrategy = this.overlay.position()
       .flexibleConnectedTo(origin)
       .withPositions(this.getPositions(this.placement))
-      .withPush(true);
+      .withPush(true)
+      .withViewportMargin(10)
+      .withDefaultOffsetX(0)
+      .withDefaultOffsetY(0);
 
     this.overlayRef = this.overlay.create({
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-transparent-backdrop',
       positionStrategy,
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
-      panelClass: ['cdk-overlay-pane', 'popover-panel', `popover-${this.placement}`]
+      panelClass: ['popover-panel', `popover-${this.placement}`],
     });
 
     const portal = new TemplatePortal(this.overlayContent, this.viewContainerRef);
     this.overlayRef.attach(portal);
 
-    // Handle position changes to update arrow
-    positionStrategy.positionChanges.subscribe(position => {
-      const placement = this.getPlacementFromPosition(position.connectionPair);
-      this.updateArrowPlacement(placement);
+    this.overlayRef.backdropClick().subscribe(() => {
+      this.closeOverlay();
     });
 
-    this.overlayRef.backdropClick().subscribe(() => this.closeOverlay());
-    this.overlayRef.keydownEvents().subscribe(event => {
-      if (event.key === 'Escape') {
-        this.closeOverlay();
+    setTimeout(() => {
+      if (this.overlayRef) {
+        this.overlayRef.updatePosition();
       }
     });
-  }
-
-  private getPlacementFromPosition(position: any): PopoverPlacement {
-    if (position.originY === 'top') return 'bottom';
-    if (position.originY === 'bottom') return 'top';
-    if (position.originX === 'start') return 'right';
-    return 'left';
-  }
-
-  private updateArrowPlacement(placement: PopoverPlacement) {
-    const element = this.overlayRef.overlayElement;
-    element.setAttribute('data-popper-placement', placement);
   }
 
   closeOverlay() {
     if (this.overlayRef) {
       this.overlayRef.dispose();
-      this.overlayRef = undefined!;
+      this.overlayRef = null;
     }
   }
 }
