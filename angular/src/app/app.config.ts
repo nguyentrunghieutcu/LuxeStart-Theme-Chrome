@@ -1,4 +1,4 @@
-import { ApplicationConfig, EnvironmentProviders, InjectionToken, Provider, importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core'
+import { ApplicationConfig, ENVIRONMENT_INITIALIZER, EnvironmentProviders, InjectionToken, Provider, importProvidersFrom, inject, provideExperimentalZonelessChangeDetection } from '@angular/core'
 import { provideRouter, withHashLocation } from '@angular/router'
 
 import { routes } from './app.routes'
@@ -7,8 +7,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { FUSE_CONFIG } from 'src/@luxstart/config/config.constants';
 import { FuseConfig } from 'src/@luxstart/config';
-import { LogIn, SunMoon , CloudLightning, CloudDrizzle, CloudRain, CloudSnow, CloudSun,Cloud, Cloudy, Tornado, CloudFog, Wind, AlarmSmoke } from 'lucide-angular';
+import {
+  LogIn, SunMoon, CloudLightning, CloudDrizzle, Edit, MessageSquare,
+  CloudRain, CloudSnow, CloudSun, Cloud, Cloudy, Tornado, CloudFog, Wind, AlarmSmoke, Plus, Loader, Trash2, X, Check,
+  Quote, Sparkles, Clock, RefreshCcw, Pin,
+  ChevronDown, Brain,
+  ChevronUp,
+  Heart,
+  Share,
+  Maximize,
+  Minimize,
+  Maximize2,
+  Minimize2,
+  Play,
+  ChevronLeft,
+  Pause,
+  Music
+} from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
+import { FuseSplashScreenService } from './services/splashscreen.service';
 
 export type FuseProviderConfig = {
   fuse?: FuseConfig
@@ -19,7 +36,7 @@ export const WEATHER_ICONS = {
   Rain: CloudRain,
   Snow: CloudSnow,
   Clear: CloudSun,
-  Clouds: Cloud, // Sửa lại từ 'Cloudy' -> 'Cloud'
+  Clouds: Cloud,
   Tornado: Tornado,
   Mist: CloudFog,
   Smoke: AlarmSmoke,
@@ -30,7 +47,32 @@ export const WEATHER_ICONS = {
   Ash: Wind,
   Squall: Wind,
   SunMoon: SunMoon,
-  LogIn: LogIn
+  LogIn: LogIn,
+  Check: Check,
+  X: X,
+  Trash2: Trash2,
+  Loader: Loader,
+  Plus: Plus,
+  Edit: Edit,
+  MessageSquare: MessageSquare,
+  Quote: Quote,
+  Sparkles: Sparkles,
+  Clock: Clock,
+  RefreshCcw: RefreshCcw,
+  Pin: Pin,
+  ChevronDown: ChevronDown,
+  ChevronUp: ChevronUp,
+  Brain: Brain,
+  Heart: Heart,
+  Share: Share,
+  Maximize: Maximize,
+  Maximize2: Maximize2,
+  Minimize2: Minimize2,
+  Minimize: Minimize,
+  Play: Play,
+  ChevronLeft: ChevronLeft,
+  Pause: Pause,
+  Music: Music
 };
 
 /**
@@ -43,7 +85,11 @@ export const provideFuse = (config: FuseProviderConfig): Array<Provider | Enviro
       provide: FUSE_CONFIG,
       useValue: config?.fuse ?? {},
     },
-
+    {
+      provide: ENVIRONMENT_INITIALIZER,
+      useValue: () => inject(FuseSplashScreenService),
+      multi: true,
+    },
   ];
   // Return the providers
   return providers;

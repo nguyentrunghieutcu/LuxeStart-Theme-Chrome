@@ -1,3 +1,20 @@
+/* Tùy chỉnh thanh cuộn */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px; /* Độ rộng thanh cuộn */
+  opacity: .5;
+
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  opacity: .5;
+  background-color: rgba(255, 255, 255, 0.5); /* Màu thanh kéo */
+  border-radius: 10px; /* Bo tròn góc */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2); /* Màu nền thanh cuộn */
+  opacity: .5;
+}
 
 .custom-menu {
   @apply w-[90vw] md:max-w-[720px] max-w-none #{'!important'};
@@ -8,14 +25,70 @@
   box-shadow: unset !important;
 }
 
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 1000;
+}
+
 .cdk-overlay-pane {
+  position: fixed !important;
+  z-index: 1001 !important;
+  margin: 0 !important;
+  transform-origin: top right;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+
   > div {
-    height: 90vh !important;
     overflow: hidden !important;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    animation: overlayFadeIn 0.2s ease-out forwards;
   }
+
+  &:not(.cdk-overlay-pane-animating) {
+    opacity: 1;
+    transform: none;
+  }
+
+  &.cdk-overlay-pane-animating {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  &.task-overlay {
+    display: block !important;
+    width: 20% !important;
+    bottom: 1rem;
+    right: 1rem !important;
+    transform: translateY(8px) !important;
+  }
+  &.setting-overlay {
+    display: block !important;
+    width: 100% !important;
+    bottom: 1rem;
+    right: 1rem !important;
+    transform: translateY(8px) !important;
+  }
+
   .mat-mdc-menu-content {
     height: 100% !important;
   }
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cdk-overlay-backdrop {
+  z-index: 999 !important;
 }
 
 .custom-backdrop {
@@ -25,7 +98,7 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0); /* Đảm bảo có màu để dễ test */
-  z-index: 1000;
+  // z-index: 1000;
 }
 
 .greeting .content {
@@ -117,4 +190,11 @@ ngx-graph {
 
 .mat-drawer-container {
   background: transparent !important; /* Loại bỏ nền */
+}
+
+.zodiac-widget {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: scale(1.02);
+  }
 }

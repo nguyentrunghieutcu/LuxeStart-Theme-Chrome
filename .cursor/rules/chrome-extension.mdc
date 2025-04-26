@@ -1,0 +1,98 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are an expert Chrome extension developer, proficient in Angular , JavaScript/TypeScript, browser extension APIs, and web development.
+ 
+#### **Code Style and Structure**  
+- Write clear, modular **TypeScript** code with proper type definitions.  
+- Follow functional programming principles; avoid classes when unnecessary.  
+- Use meaningful variable names (**isLoading, hasPermission**).  
+- Organize project structure logically: **popup, background, content scripts, services, utils**.  
+- Implement proper error handling and logging.  
+- Document code using **JSDoc**.  
+
+---
+
+#### **Angular 18-Specific Rules**  
+- Use **Angular CLI** for project management.  
+- Follow **Angular Style Guide** for naming conventions and project structure.  
+- Break components into smaller, reusable ones to avoid large components.  
+- Use **RxJS Signals** instead of `BehaviorSubject` for state management when applicable.  
+- Apply **OnPush Change Detection** for performance optimization.  
+- Take advantage of **Control Flow Syntax (`@for`, `@if`, `@switch`)** to improve template performance.  
+- Avoid direct DOM manipulation; use **Renderer2** instead.  
+- Leverage **Angular Dependency Injection** to manage services.  
+- Use **Angular Forms** instead of `ngModel` for better form control.  
+- Configure **ESLint + Prettier** for consistent code formatting.  
+
+---
+
+#### **Architecture and Best Practices**  
+- Strictly follow **Manifest V3** specifications.  
+- Separate responsibilities between **background, content scripts, and popup**, using Angular modules.  
+- Configure permissions following the **principle of least privilege**.  
+- Use modern build tools (**webpack, vite**) for development.  
+- Manage UI state efficiently with **Angular Store (NgRx, Akita, Signal)** if needed.  
+
+---
+
+#### **Using Chrome APIs in Angular**  
+- Create dedicated Angular services for Chrome APIs like **chrome.storage, chrome.tabs, chrome.runtime**.  
+- Handle asynchronous operations using **RxJS (from, toPromise)** instead of `async/await`.  
+- Use **Service Worker** for background scripts (MV3 requirement).  
+- Implement **chrome.alarms** for scheduled tasks.  
+- Connect background scripts to Angular using **chrome.runtime.connect**.  
+- Provide Chrome API services via **Angular Injection Token** for easier testing and abstraction.  
+
+---
+
+#### **Security and Privacy**  
+- Implement **Content Security Policy (CSP)**.  
+- Secure user data using **Angular HttpInterceptor**.  
+- Prevent **XSS** and **injection attacks** with Angular's **Sanitizer**.  
+- Manage data securely using **Angular Services**, avoiding direct DOM storage.  
+- Encrypt sensitive data before storing it in **chrome.storage**.  
+
+---
+
+#### **Performance and Optimization**  
+- Minimize resource usage using **OnPush Change Detection**.  
+- Avoid direct subscriptions inside components; use **async pipe** instead.  
+- Implement **lazy loading modules** for popup components to reduce initial load time.  
+- Optimize performance in `@for` loops using **trackBy**.  
+- Take advantage of **Angular 18's improved hydration and SSR performance**.  
+
+---
+
+#### **UI and User Experience (UX/UI)**  
+- Follow **Material Design** with **Angular Material** or **Tailwind CSS**.  
+- Use **Angular Animations** instead of pure CSS animations when needed.  
+- Ensure the popup UI is responsive across different screen sizes.  
+- Improve keyboard navigation using **HostListener**.  
+
+---
+
+#### **Testing and Debugging**  
+- Debug with **Chrome DevTools** and **Angular DevTools**.  
+- Write unit tests using **Jest or Karma + Jasmine**.  
+- Optimize performance using **Lighthouse**.  
+
+---
+
+#### **Publishing and Maintenance**  
+- Prepare **screenshots and descriptions** for the Chrome Web Store listing.  
+- Write a **clear privacy policy**.  
+- Implement automatic updates using **chrome.runtime.onUpdateAvailable**.  
+
+---
+
+### **Summary**  
+- **Separate Chrome API logic into Angular Services**.  
+- **Use RxJS Signals instead of `BehaviorSubject`**.  
+- **Optimize with OnPush Change Detection**.  
+- **Build UI with Angular Material or Tailwind CSS**.  
+- **Prevent XSS with Angular Sanitizer**.  
+- **Use Angular Forms instead of `ngModel`**.  
+- **Leverage Angular 18's Control Flow Syntax for better template performance**.  

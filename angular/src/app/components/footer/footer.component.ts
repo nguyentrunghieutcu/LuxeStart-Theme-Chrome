@@ -5,7 +5,7 @@ import { GeminiService } from 'src/app/services/gemini.service';
 
 @Component({
   selector: 'app-footer',
-  animations:[fuseAnimations],
+  animations: [fuseAnimations],
   standalone: true,
   imports: [CommonModule],
   templateUrl: './footer.component.html',
@@ -19,13 +19,29 @@ export class FooterComponent implements OnInit {
   constructor(private geminiService: GeminiService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.geminiService.getGreeting(this.text).subscribe({
-      next: (greeting) => {
-        this.currentGreeting = greeting;
-        this.cdr.markForCheck()
-      },
-      error: (err) => this.currentGreeting = 'Error loading greeting'
+    // Lắng nghe sự thay đổi từ currentGreetingSubject
+    this.geminiService.getCurrentGreetingObservable().subscribe(greeting => {
+      this.currentGreeting = greeting;
+      this.cdr.markForCheck();
     });
+
+    // Kiểm tra xem có greeting đã chọn trong local storage không
+    const selectedGreetingId = localStorage.getItem('selectedGreetingId');
+    if (selectedGreetingId) {
+      this.geminiService.getGreetingById(parseInt(selectedGreetingId)).then(greeting => {
+        this.currentGreeting = greeting || 'No greeting found';
+        this.cdr.markForCheck();
+      });
+    } else {
+      // Nếu không có, gọi getGreeting từ service
+      this.geminiService.getGreeting(this.text).subscribe({
+        next: (greeting) => {
+          this.currentGreeting = greeting;
+          this.cdr.markForCheck()
+        },
+        error: (err) => this.currentGreeting = 'Error loading greeting'
+      });
+    }
   }
 
 }

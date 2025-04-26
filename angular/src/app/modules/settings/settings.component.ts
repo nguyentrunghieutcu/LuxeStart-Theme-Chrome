@@ -1,82 +1,65 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostBinding, Input, OnInit, ViewChild, effect, signal } from '@angular/core';
+import { Component, HostBinding, Input, OnInit, ViewChild, effect, signal, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
-import { DarkModeService } from 'src/app/services/darkmode.service';
 import { LucideAngularModule } from 'lucide-angular';
 import { PhotosComponent } from './photos/photos.component';
-import { FuseConfig, Scheme, Theme, Themes } from 'src/@luxstart/config/config.types';
-import { FuseConfigService } from 'src/@luxstart/config/config.service';
-import { Subject, takeUntil } from 'rxjs';
-
+ 
+import { GreetingsComponent } from './greetings/greetings.component';
+import { MantrasComponent } from './mantras/mantras.component';
+import { GeneralComponent } from './general/general.component';
+import { ZodiacComponent } from './zodiac/zodiac.component';
+import { PipeModule } from 'src/app/pipes/pipe.module';
+import { Tabs } from './settings.model';
+ 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, MatSlideToggleModule, FormsModule, PhotosComponent,
+  imports: [
+    CommonModule,
+    MatSlideToggleModule,
+    FormsModule,
+    PhotosComponent,
     LucideAngularModule,
-    MatListModule, MatSidenavModule],
+    MatListModule,
+    MatSidenavModule,
+    GreetingsComponent,
+    MantrasComponent,
+    GeneralComponent,
+    ZodiacComponent,
+    PipeModule
+  ],
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SettingsComponent implements OnInit {
-  settings = {
-    showLinks: true,
-    showSearch: true,
-    darkMode: false,
-    transparentBg: false,
-    showWeather: true,
-    enableTasks: false
-  };
-  tabs: { id: string; name: string }[] = [{ id: 'general', name: 'Chung' }, { id: 'photos', name: 'Ảnh' }];
+export class SettingsComponent {
+  tabs: { id: string; name: string }[] = [{ id: 'general', name: 'Chung' },
+  { id: 'photos', name: 'Ảnh' } ];
   selectedTab: number = 0;
-  darkMode: boolean;
-  config: FuseConfig;
-  layout: string;
-  scheme: 'dark' | 'light';
-  theme: string;
-  themes: Themes;
-
-  @Input() settingsMenu: any;
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+  selectedTabGeneral: number = 0;
+  menus = Tabs;
+  
   constructor(
-    private darkModeService: DarkModeService,
-    private _fuseConfigService: FuseConfigService,
-  ) {
-
-  }
-
-  ngOnInit() {
-    // Subscribe to config changes
-    this._fuseConfigService.config$
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((config: FuseConfig) => {
-        // Store the config
-        this.config = config;
-      });
-  }
-
-  /**
-      * Set the scheme on the config
-      *
-      * @param scheme
-      */
-  setScheme(scheme: Scheme): void {
-    this._fuseConfigService.config = { scheme };
-  }
+    private cd: ChangeDetectorRef
+  ) { }
 
   selectTab(index: number): void {
     this.selectedTab = index;
+    this.cd.markForCheck();
+  }
+
+  changeTab(index: number): void {
+    this.selectedTabGeneral = index;
+    this.cd.markForCheck();
   }
 
   keepMenuOpen(event: Event) {
     event.stopPropagation();
   }
 
-  toggleDarkMode(): void {
-    this.darkMode = !this.darkMode
-    this.darkModeService.toggleDarkMode(this.darkMode )
-  }
+
 }

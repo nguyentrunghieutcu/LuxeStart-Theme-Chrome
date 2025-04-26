@@ -1,0 +1,68 @@
+<div class="w-[720px] h-[85vh] ml-8 rounded-lg flex-col md:flex overflow-auto overflow-x-hidden custom-scrollbar">
+  <!-- Mini player (always visible) -->
+  <app-sounds-mini-player></app-sounds-mini-player>
+
+  <!-- Spotify Player (shown when a Spotify track is selected) -->
+  <div *ngIf="showSpotifyPlayer()" class="spotify-player-container">
+    <app-spotify-player
+      [track]="selectedSpotifyTrack()"
+      (goBack)="closeSpotifyPlayer()">
+    </app-spotify-player>
+  </div>
+
+  <!-- Main sounds container (hidden when Spotify player is shown) -->
+  <div class="sounds-container" *ngIf="!showSpotifyPlayer()">
+    <!-- Tabs -->
+    <div class="sounds-tabs">
+      <button class="tab-button" [class.active]="activeTab() === 'recent'" (click)="setActiveTab('recent')">
+        Recent
+      </button>
+      <button class="tab-button" [class.active]="activeTab() === 'soundscapes'" (click)="setActiveTab('soundscapes')">
+        Soundscapes
+      </button>
+      <button class="tab-button" [class.active]="activeTab() === 'spotify'" (click)="setActiveTab('spotify')">
+        Spotify
+      </button>
+      <button class="tab-button" [class.active]="activeTab() === 'youtube'" (click)="setActiveTab('youtube')">
+        Youtube
+      </button>
+    </div>
+
+    <!-- Tracks grid -->
+    <div class="tracks-grid">
+      <div *ngFor="let track of tracks()" class="track-card" [class.active]="currentTrack()?.id === track.id"
+        (click)="playTrack(track)">
+        <div class="track-image">
+          <img [src]="track.imageUrl" [alt]="track.title">
+          <div class="play-overlay">
+            <lucide-icon *ngIf="currentTrack()?.id !== track.id || !isPlaying()" name="play" class="icon-size-6">
+            </lucide-icon>
+            <lucide-icon *ngIf="currentTrack()?.id === track.id && isPlaying()" name="pause" class="icon-size-6">
+            </lucide-icon>
+          </div>
+          <div class="source-badge">
+            <img [src]="getSourceIcon(track.source)" [alt]="track.source">
+          </div>
+        </div>
+        <div class="track-title">{{ track.title }}</div>
+      </div>
+
+      <!-- Custom track option (for future implementation) -->
+      <div *ngIf="activeTab() === 'soundscapes'" class="track-card custom-track">
+        <div class="track-image">
+          <div class="custom-icon">
+            <lucide-icon name="music" class="icon-size-6"></lucide-icon>
+          </div>
+        </div>
+        <div class="track-title">Custom</div>
+      </div>
+    </div>
+
+    <!-- Info text for Spotify -->
+    <div *ngIf="activeTab() === 'spotify'" class="info-text">
+      Listening on Spotify: In order to listen to the full tracks, you will need to be logged into Spotify on the same
+      browser.
+      You do not need a Spotify subscription to listen to the full tracks.
+    </div>
+  </div>
+</div>

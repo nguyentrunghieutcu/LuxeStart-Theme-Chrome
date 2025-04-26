@@ -1,0 +1,23 @@
+<div class="min-w-0 flex flex-row-reverse items-center pr-4 mt-8 gap-4">
+    <!-- Existing weather component -->
+    <app-current-weather @fadeInOut></app-current-weather>
+
+    <!-- Zodiac icon and sign that triggers popup -->
+    <div *ngIf="settingsStateService.showZodiac()"
+         class="flex h-fit items-center gap-2 cursor-pointer hover:bg-white/10 rounded-lg px-3 py-1.5 transition-all duration-300"
+         (click)="openZodiacWidget($event)">
+        <img *ngIf="zodiacStorage.selectedSign()"
+             [src]="'assets/zodiac/photos/' + zodiacStorage.selectedSign() + '.webp'"
+             class="w-6 h-6 rounded-full"
+             [alt]="zodiacStorage.selectedSign()">
+        <div class="flex flex-col items-center gap-1">
+            <svg *ngIf="!zodiacStorage.selectedSign()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            <span class="text-white text-sm">
+                {{zodiacStorage.selectedSign() ? getVietnameseName(zodiacStorage.selectedSign()) : 'Tử Vi'}}
+            </span>
+        </div>
+    </div>
+</div>

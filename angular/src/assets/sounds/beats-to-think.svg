@@ -1,0 +1,9 @@
+
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#009688" />
+  <text x="100" y="100" font-family="Arial" font-size="16" fill="white" text-anchor="middle">beats-to-think</text>
+  <path d="M80 140 Q100 120 120 140" stroke="white" stroke-width="2" fill="none" />
+  <circle cx="70" cy="130" r="10" fill="white" fill-opacity="0.5" />
+  <circle cx="130" cy="130" r="10" fill="white" fill-opacity="0.5" />
+</svg>
+  

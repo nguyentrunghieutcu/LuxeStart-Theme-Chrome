@@ -191,7 +191,7 @@ app-todos {
     display: none;
     position: absolute;
     top: 0;
-    right: 10px;
+    right: 0;
     bottom: 0;
     width: 40px;
     height: 40px;
@@ -324,11 +324,29 @@ html .clear-completed:active {
 
 @media (max-width: 430px) {
     .footer {
-        height: 50px;
+        height: auto;
+        padding: 15px;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
     }
 
     .filters {
-        bottom: 10px;
+        position: relative;
+        margin: 10px 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .todo-count {
+        float: none;
+        text-align: center;
+    }
+
+    .clear-completed {
+        float: none;
     }
 }
 

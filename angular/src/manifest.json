@@ -3,11 +3,9 @@
   "name": "LuxeStart - Each photo is a story",
   "short_name": "Luxe start",
   "version": "1.0.0",
-  "description": "A simple and elegant task manager to help you stay organized and productive.",
+  "description": "A extension to help you start your day with a positive mindset.",
   "permissions": [
-    "tabs",
-    "sidePanel",
-    "storage"
+    "activeTab"
   ],
   "action": {
     "default_popup": "index.html?#/popup",

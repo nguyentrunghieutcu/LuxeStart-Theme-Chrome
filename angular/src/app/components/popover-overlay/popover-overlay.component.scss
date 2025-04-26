@@ -1,0 +1,55 @@
+.popover-panel {
+  z-index: 1000;
+  
+  .popover-container {
+    @apply text-sm text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800;
+    // Remove fixed width
+    animation: fadeIn 0.2s ease-in-out;
+    position: relative;
+    width: 100%;
+  }
+
+  .arrow {
+    @apply absolute w-[10px] h-[10px] bg-white border border-gray-200 dark:border-gray-600 dark:bg-gray-800;
+    transform: rotate(45deg);
+    
+    &[data-popper-placement^='top'] {
+      bottom: -5px;
+      border-top: none;
+      border-left: none;
+    }
+    
+    &[data-popper-placement^='bottom'] {
+      top: -5px;
+      border-bottom: none;
+      border-right: none;
+    }
+    
+    &[data-popper-placement^='left'] {
+      right: -5px;
+      border-left: none;
+      border-bottom: none;
+    }
+    
+    &[data-popper-placement^='right'] {
+      left: -5px;
+      border-right: none;
+      border-top: none;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cdk-overlay-backdrop {
+  background: transparent;
+}

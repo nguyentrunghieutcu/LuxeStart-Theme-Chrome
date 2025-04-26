@@ -44,7 +44,8 @@
               "angular/src/@luxstart/styles/tailwind.scss",
               "angular/src/@luxstart/styles/main.scss",
               "angular/src/styles/styles.scss",
-              "angular/src/styles/tailwind.scss"
+              "angular/src/styles/tailwind.scss",
+              "angular/src/styles/splash-screen.scss"
             ],
             "scripts": []
           },
@@ -106,5 +107,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "a4493b85-03ed-43c4-bfff-d5a63376efc8"
   }
 }
