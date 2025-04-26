@@ -10,8 +10,7 @@
         <!-- Left side header with sounds button or mini player -->
         <div class="col-start-1 col-span-1 row-start-2 row-span-1 flex items-center gap-2">
             <!-- Show sound button when mini player is not visible -->
-            <div *ngIf="settingsStateService.showSounds() && !soundsService.showMiniPlayer()" 
-                #soundsBtn 
+            <!-- <div *ngIf="settingsStateService.showSounds() && !soundsService.showMiniPlayer()" #soundsBtn
                 (click)="openSoundsOverlay(soundsBtn)"
                 class="flex items-center justify-center cursor-pointer min-w-8 min-h-8 text-white rounded-full hover:bg-white/20 hover:backdrop-blur-md">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -21,14 +20,14 @@
                     <circle cx="6" cy="18" r="3"></circle>
                     <circle cx="18" cy="16" r="3"></circle>
                 </svg>
-            </div>
+            </div> -->
 
             <!-- Show mini player when active -->
-            <app-sounds-mini-player *ngIf="soundsService.showMiniPlayer()"></app-sounds-mini-player>
+            <!-- <app-sounds-mini-player *ngIf="soundsService.showMiniPlayer()"></app-sounds-mini-player> -->
         </div>
         <!-- Use the new HeaderRightComponent -->
-        <app-header-right class="col-start-2 col-span-1 row-start-2 row-span-1 "
-            (openWidget)="openZodiacWidget($event)"></app-header-right>
+        <!-- <app-header-right class="col-start-2 col-span-1 row-start-2 row-span-1 "
+            (openWidget)="openZodiacWidget($event)"></app-header-right> -->
     </div>
     <div class="col-start-2 col-span-1 row-start-2 row-span-1"></div>
     <!-- Center content show clock,mantra -->
@@ -78,7 +77,7 @@
 
         <!-- Footer: Show setting -->
         <div class="flex items-center gap-1 ml-4 ">
-            <div #triggerBtn (click)="overlay.openOverlay(triggerBtn)"
+            <div #triggerSettings="cdkOverlayOrigin" cdkOverlayOrigin (click)="toggleSettingsOverlay()" 
                 class="flex items-center justify-center cursor-pointer min-w-8 min-h-8 text-white rounded-full hover:bg-white/20 hover:backdrop-blur-md  ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -90,8 +89,15 @@
                 </svg>
             </div>
 
+            <ng-template cdkConnectedOverlay 
+                [cdkConnectedOverlayOrigin]="triggerSettings" 
+                [cdkConnectedOverlayOpen]="isSettingsOverlayOpen"
+                cdkConnectedOverlayPanelClass="setting-overlay"
+                (overlayOutsideClick)="toggleSettingsOverlay()">
+                <app-settings></app-settings>
+            </ng-template>
+
             <div class="relative group cursor-pointer">
-                <!-- Wrapper với nền ẩn -->
                 <div
                     class="flex items-center gap-1 px-4 py-2 rounded-[625rem] text-white transition-all duration-300 group-hover:bg-black/10 group-hover:backdrop-blur-md">
                     <!-- Icon -->
@@ -117,11 +123,20 @@
         <div *ngIf="settingsStateService.showFooter()" class="col-span-3 col-start-2 row-start-1">
             <app-footer></app-footer>
         </div>
-        <div class="col-start-5 text-end items-end justify-end  min-w-0 p-2">
-            <button *ngIf="settingsStateService.showTask()" #triggerBtnTodo
-                (click)="overlayTodo.openOverlay(triggerBtnTodo)">
-                <span class="text-white text-lg font-medium">Tasks</span>
+        <div class="col-start-5 row-start-1 flex justify-end items-center  z-10">
+            <!-- Task button and overlay -->
+            <button *ngIf="settingsStateService.showTask()" #triggerTask="cdkOverlayOrigin" cdkOverlayOrigin (click)="toggleTaskOverlay()" 
+                class="min-w-[100px] min-h-[40px] px-4 py-2   rounded-lg text-white z-20">
+                <span class="text-lg font-medium">Tasks</span>
             </button>
+
+            <ng-template cdkConnectedOverlay 
+                [cdkConnectedOverlayOrigin]="triggerTask" 
+                [cdkConnectedOverlayOpen]="isTaskOverlayOpen"
+                cdkConnectedOverlayPanelClass="task-overlay"
+                (overlayOutsideClick)="toggleTaskOverlay()">
+                <app-todos></app-todos>
+            </ng-template>
         </div>
     </div>
 
@@ -132,14 +147,6 @@
         <img src="assets/logo.png" alt="logo" class="w-20 h-20">
     </div>
 </section>
-
-<app-custom-overlay #overlay placement="top" >
-    <app-settings></app-settings>
-</app-custom-overlay>
-
-<app-custom-overlay #overlayTodo>
-    <app-todos></app-todos>
-</app-custom-overlay>
 
 <app-custom-overlay #zodiacOverlay>
     <div (click)="$event.stopPropagation()">

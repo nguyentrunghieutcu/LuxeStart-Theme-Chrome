@@ -126,17 +126,7 @@ export class SoundsMiniPlayerComponent {
   embedUrl = signal<SafeResourceUrl | null>(null);
 
   constructor() {
-    effect(() => {
-      const track = this.currentTrack();
-      if (track?.source === 'spotify' && track.externalUrl) {
-        this.updateEmbedUrl(track.externalUrl);
-      }
-    });
-
-    effect(() => {
-      const isPlaying = this.isPlaying();
-      this.controlSpotifyPlayer(isPlaying);
-    });
+   
   }
 
   private updateEmbedUrl(externalUrl: string): void {
